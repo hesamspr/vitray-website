@@ -81,7 +81,7 @@ export function ContactPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-3xl border border-border/60 bg-card p-8 flex flex-col justify-between space-y-8"
+            className="rounded-3xl border border-border/60 bg-gradient-to-br from-primary/5 via-transparent to-transparent p-8 flex flex-col justify-between space-y-8"
           >
             <div className="space-y-6">
               <img src="/Vitray.png" alt="Vitray" className="h-7 w-auto" />
@@ -130,7 +130,7 @@ export function ContactPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-3xl border border-border/60 bg-card p-8"
+            className="rounded-3xl border border-border/60 bg-gradient-to-br from-primary/5 via-transparent to-transparent p-8"
           >
             {submitted ? (
               <div className="flex flex-col items-center justify-center h-full space-y-4 text-center py-12">

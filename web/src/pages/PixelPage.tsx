@@ -448,7 +448,7 @@ export function PixelPage() {
           className="flex flex-col items-center gap-5 text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
-            ... و هر KPI که برای کسب‌وکار شما اهمیت دارد
+            اطلاعات درست، در لحظه درست، برای تصمیم درست
           </h2>
           <a
             href="#"

@@ -142,7 +142,7 @@ const dataSources = [
   {
     id: 1,
     title: 'ERP',
-    date: 'SAP / Dynamics',
+    date: 'همکاران٬ رایورز و سایر',
     content: 'اتصال مستقیم به سیستم‌های ERP نظیر SAP، Microsoft Dynamics و سیستم‌های بومی برای استخراج داده‌های مالی، تولید و زنجیره تأمین.',
     category: 'Enterprise',
     icon: Building2,
@@ -153,7 +153,7 @@ const dataSources = [
   {
     id: 2,
     title: 'CRM',
-    date: 'Salesforce / HubSpot',
+    date: 'مایکروسافت / پیام گستر و سایر',
     content: 'یکپارچه‌سازی با پلتفرم‌های مدیریت ارتباط با مشتری برای تحلیل فروش، رفتار مشتری و پیش‌بینی درآمد.',
     category: 'Sales',
     icon: Users,
@@ -307,7 +307,7 @@ export function BiSolutionPage() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="rounded-2xl border border-border/60 bg-black overflow-hidden"
+          className="rounded-2xl bg-black overflow-hidden"
         >
           <RadialOrbitalTimeline timelineData={dataSources} />
         </motion.div>
