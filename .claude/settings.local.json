@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(node -e \"const p = require\\(''./package.json''\\); console.log\\(JSON.stringify\\({...p.dependencies,...p.devDependencies}, null, 2\\)\\)\")",
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "Bash(brew install:*)",
+      "Bash(pdftotext '/Users/hesamsaeidpour/Documents/Website/Main Catalogue v3.1.pdf' -)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:polarisinsights.tech)",
+      "Bash(npx vite:*)",
+      "Bash(grep -n \"GraduationCap\\\\|from ''lucide-react''\" /Users/hesamsaeidpour/Documents/Website/web/src/App.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/BiSolutionPage.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/PlexPage.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/PixelPage.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/PulsePage.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/AboutPage.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/ContactPage.tsx)",
+      "Bash(sed -i '' \"s/name: ''راهکار هوش تجاری''/name: ''هوش تجاری''/g\" App.tsx pages/AboutPage.tsx pages/PulsePage.tsx pages/PlexPage.tsx pages/ContactPage.tsx pages/BiSolutionPage.tsx pages/PixelPage.tsx)",
+      "Bash(sed -i '' \"s/title: ''راهکار هوش تجاری''/title: ''هوش تجاری''/g\" components/ui/footer-section.tsx)",
+      "Bash(find /Users/hesamsaeidpour/Documents/Website -name *.svg -type f)",
+      "Bash(find /Users/hesamsaeidpour/Documents/Website/web/src -type f \\\\\\(-name *.tsx -o -name *.ts -o -name *.jsx -o -name *.js \\\\\\))",
+      "Bash(git -C /Users/hesamsaeidpour/Documents/Website status)"
+    ]
+  }
+}
