@@ -98,12 +98,22 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, curren
 
 interface LogoCarouselProps {
   columnCount?: number;
+  mobileColumnCount?: number;
   logos: Logo[];
 }
 
-export function LogoCarousel({ columnCount = 2, logos }: LogoCarouselProps) {
+export function LogoCarousel({ columnCount = 2, mobileColumnCount = 3, logos }: LogoCarouselProps) {
   const [logoSets, setLogoSets] = useState<Logo[][]>([]);
   const [currentTime, setCurrentTime] = useState(0);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const activeColumnCount = isMobile ? mobileColumnCount : columnCount;
 
   const updateTime = useCallback(() => {
     setCurrentTime((prevTime) => prevTime + 100);
@@ -115,9 +125,9 @@ export function LogoCarousel({ columnCount = 2, logos }: LogoCarouselProps) {
   }, [updateTime]);
 
   useEffect(() => {
-    const distributedLogos = distributeLogos(logos, columnCount);
+    const distributedLogos = distributeLogos(logos, activeColumnCount);
     setLogoSets(distributedLogos);
-  }, [logos, columnCount]);
+  }, [logos, activeColumnCount]);
 
   return (
     <div className="flex gap-4">

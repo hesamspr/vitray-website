@@ -4,7 +4,7 @@ import { CallToAction } from '@/components/ui/cta-3';
 import { PixelHero } from '@/components/ui/pixel-hero';
 import { WarpCard } from '@/components/ui/warp-card';
 import { AnimatedBackground } from '@/components/ui/animated-background';
-import { GradientButton } from '@/components/ui/gradient-button';
+import { LampContainer } from '@/components/ui/lamp';
 import { motion } from 'motion/react';
 import {
   BarChart3,
@@ -434,25 +434,37 @@ export function PixelPage() {
               })}
             </AnimatedBackground>
 
-            {/* Closing card */}
-            <div className="rounded-2xl border border-border/60 bg-gradient-to-r from-primary/5 via-transparent to-transparent p-6 flex flex-col items-center gap-4 text-center">
-              <p className="text-lg font-bold tracking-tight text-foreground">
-                ... و هر KPI که برای کسب‌وکار شما اهمیت دارد
-              </p>
-              <GradientButton asChild>
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                  مشاهده دمو
-                </a>
-              </GradientButton>
-              <p className="text-xs text-muted-foreground" dir="ltr">
-                user: <span className="font-medium text-foreground/70">user</span>
-                {' '}|{' '}
-                pass: <span className="font-medium text-foreground/70">user</span>
-              </p>
-            </div>
           </div>
         </motion.div>
       </div>
+
+      {/* Closing lamp section */}
+      <LampContainer color="cyan" className="min-h-[44rem] mb-[-14rem]">
+        <motion.div
+          initial={{ opacity: 0.5, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-5 text-center"
+        >
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
+            ... و هر KPI که برای کسب‌وکار شما اهمیت دارد
+          </h2>
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
+          >
+            مشاهده دمو
+          </a>
+          <p className="text-xs text-white/40" dir="ltr">
+            user: <span className="text-white/60">user</span>
+            {' '}|{' '}
+            pass: <span className="text-white/60">user</span>
+          </p>
+        </motion.div>
+      </LampContainer>
 
       <div className="h-8" />
 

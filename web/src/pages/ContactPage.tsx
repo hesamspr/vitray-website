@@ -78,7 +78,7 @@ export function ContactPage() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground mb-0.5">تلفن</p>
-                  <p className="text-sm font-medium" dir="ltr">۲۲۸۶۵۶۱۹</p>
+                  <a href="tel:+982122865619" className="text-sm font-medium hover:text-primary transition-colors" dir="ltr">2286 5619</a>
                 </div>
               </div>
 

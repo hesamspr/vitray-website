@@ -84,7 +84,7 @@ export function Footer() {
           <div className="space-y-3 pt-2">
             <div className="flex items-start gap-2">
               <Phone size={13} className="text-muted-foreground mt-0.5 shrink-0" />
-              <span className="text-muted-foreground text-sm" dir="ltr">۲۲۸۶۵۶۱۹</span>
+              <a href="tel:+982122865619" className="text-muted-foreground text-sm hover:text-foreground transition-colors" dir="ltr">2286 5619</a>
             </div>
             <div className="flex items-start gap-2">
               <MapPin size={13} className="text-muted-foreground mt-0.5 shrink-0" />

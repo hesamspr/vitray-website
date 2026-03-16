@@ -1,5 +1,12 @@
 {
   "buildCommand": "cd web && npm install && npm run build",
   "outputDirectory": "web/dist",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/blog/:path*", "destination": "https://blog.vitrayco.com/:path*" }
+  ],
+  "redirects": [
+    { "source": "/old-post-slug-1", "destination": "/blog/old-post-slug-1", "permanent": true },
+    { "source": "/old-post-slug-2", "destination": "/blog/old-post-slug-2", "permanent": true }
+  ]
 }

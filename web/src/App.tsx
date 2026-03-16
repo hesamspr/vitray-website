@@ -178,10 +178,8 @@ export function App() {
             </p>
           </motion.div>
 
-          <div className="w-full overflow-x-auto">
-            <div className="mx-auto w-fit py-2">
-              <LogoCarousel columnCount={5} logos={customerLogosLoop} />
-            </div>
+          <div className="flex justify-center py-2">
+            <LogoCarousel columnCount={5} mobileColumnCount={3} logos={customerLogosLoop} />
           </div>
         </section>
 

@@ -25,6 +25,13 @@ const colorMap = {
     inner: 'bg-purple-700',
     line: 'bg-purple-700',
   },
+  cyan: {
+    conic: 'from-cyan-700 via-transparent to-transparent',
+    conicRight: 'from-transparent via-transparent to-cyan-700',
+    glow: 'bg-cyan-700',
+    inner: 'bg-cyan-600',
+    line: 'bg-cyan-600',
+  },
 };
 
 export const LampContainer = ({
