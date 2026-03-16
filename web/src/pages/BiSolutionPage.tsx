@@ -33,6 +33,8 @@ import {
 import RadialOrbitalTimeline from '@/components/ui/radial-orbital-timeline';
 import { usePageTitle } from '@/lib/usePageTitle';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
+import { ConsultationModal } from '@/components/ui/consultation-modal';
 
 const navItems = [
   { name: 'خانه', url: '/', icon: Home },
@@ -229,6 +231,7 @@ const deliverables = [
 
 export function BiSolutionPage() {
   usePageTitle('راهکار هوش تجاری');
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -506,12 +509,12 @@ export function BiSolutionPage() {
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
             هوش تجاری، سرمایه‌گذاری با بازده واقعی
           </h2>
-          <a
-            href="/contact"
+          <button
+            onClick={() => setModalOpen(true)}
             className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
           >
             درخواست مشاوره رایگان
-          </a>
+          </button>
         </motion.div>
       </LampContainer>
 
@@ -522,6 +525,8 @@ export function BiSolutionPage() {
       </div>
 
       <Footer />
+
+      <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
 }

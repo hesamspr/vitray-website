@@ -26,12 +26,31 @@ const navItems = [
 export function ContactPage() {
   usePageTitle('تماس با ما');
 
-  const [form, setForm] = useState({ name: '', email: '', company: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', mobile: '', company: '', details: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    try {
+      await fetch('https://n8n.vitray.ir/webhook/contact-us-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(form),
+        mode: 'no-cors',
+        signal: controller.signal,
+      });
+      setSubmitted(true);
+    } catch {
+      // still show success — request was fired
+      setSubmitted(true);
+    } finally {
+      clearTimeout(timer);
+      setLoading(false);
+    }
   };
 
   return (
@@ -135,17 +154,30 @@ export function ContactPage() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs text-muted-foreground">ایمیل</label>
+                    <label className="text-xs text-muted-foreground">شماره موبایل</label>
                     <input
                       required
-                      type="email"
-                      value={form.email}
-                      onChange={e => setForm({ ...form, email: e.target.value })}
+                      type="tel"
+                      value={form.mobile}
+                      onChange={e => setForm({ ...form, mobile: e.target.value })}
                       className="w-full rounded-xl border border-border/60 bg-background/60 px-4 py-2.5 text-sm outline-none focus:border-primary/60 transition-colors placeholder:text-muted-foreground/50"
-                      placeholder="ali@company.com"
+                      placeholder="09123456789"
                       dir="ltr"
                     />
                   </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs text-muted-foreground">ایمیل</label>
+                  <input
+                    required
+                    type="email"
+                    value={form.email}
+                    onChange={e => setForm({ ...form, email: e.target.value })}
+                    className="w-full rounded-xl border border-border/60 bg-background/60 px-4 py-2.5 text-sm outline-none focus:border-primary/60 transition-colors placeholder:text-muted-foreground/50"
+                    placeholder="ali@company.com"
+                    dir="ltr"
+                  />
                 </div>
 
                 <div className="space-y-1.5">
@@ -162,9 +194,9 @@ export function ContactPage() {
                   <label className="text-xs text-muted-foreground">پیام</label>
                   <textarea
                     required
-                    rows={5}
-                    value={form.message}
-                    onChange={e => setForm({ ...form, message: e.target.value })}
+                    rows={4}
+                    value={form.details}
+                    onChange={e => setForm({ ...form, details: e.target.value })}
                     className="w-full rounded-xl border border-border/60 bg-background/60 px-4 py-2.5 text-sm outline-none focus:border-primary/60 transition-colors placeholder:text-muted-foreground/50 resize-none"
                     placeholder="چطور می‌توانیم کمک کنیم؟"
                   />
@@ -172,10 +204,11 @@ export function ContactPage() {
 
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-60"
                 >
                   <Send size={14} />
-                  ارسال پیام
+                  {loading ? 'در حال ارسال...' : 'ارسال پیام'}
                 </button>
               </form>
             )}
