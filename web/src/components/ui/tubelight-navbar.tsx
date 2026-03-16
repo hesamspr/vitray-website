@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 interface NavSubItem {
   name: string
   url: string
-  icon?: LucideIcon
+  icon?: React.ComponentType<{ className?: string }>
 }
 
 interface NavItem {
@@ -145,7 +145,7 @@ export function NavBar({ items, className }: NavBarProps) {
                             onClick={() => { setActiveTab(item.name); setOpenDropdown(null) }}
                             className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-foreground/80 hover:text-primary hover:bg-muted/50 transition-colors"
                           >
-                            {sub.icon && <sub.icon size={14} className="shrink-0" />}
+                            {sub.icon && <sub.icon className="h-3.5 w-3.5 shrink-0 object-contain" />}
                             {sub.name}
                           </SubComp>
                         )

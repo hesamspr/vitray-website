@@ -224,7 +224,26 @@ transition={{ delay, duration: 0.8 }}
 
 ---
 
-## ۱۰. آیکون‌ها (Icons)
+## ۱۰. لوگوهای محصولات (Product Logos)
+
+همه لوگوهای محصولات در پوشه `web/public/product logos/` قرار دارند. هر محصول دو نسخه دارد:
+
+| محصول | لوگو اصلی | لوگو مربعی (fav) |
+|---|---|---|
+| پلکس | `/product logos/plex W.png` | `/product logos/plex fav white.png` |
+| پیکسل | `/product logos/Pixel W.svg` | `/product logos/Pixel Fav W.png` |
+| پالس | `/product logos/Pulse White.png` | `/product logos/Pulse Fav W.png` |
+| آکادمی | `/product logos/Academy White v2.png` | `/product logos/Academy FAV White.png` |
+
+**لوگوهای هوش تجاری (ویترای):**
+- لوگو اصلی: `web/public/Vitray.png`
+- لوگو مربعی (fav): `web/public/fav.png`
+
+**نکته:** فایل‌های لوگو سفید هستند و روی پس‌زمینه تاریک استفاده می‌شوند. در URL باید فضاها را با `%20` کد کنید (مثال: `/product%20logos/plex%20W.png`).
+
+---
+
+## ۱۱. آیکون‌ها (Icons)
 
 فقط از **`lucide-react`** برای آیکون‌ها استفاده کنید.
 
@@ -241,7 +260,7 @@ transition={{ delay, duration: 0.8 }}
 
 ---
 
-## ۱۱. کامپوننت‌های موجود
+## ۱۲. کامپوننت‌های موجود
 
 همه کامپوننت‌های UI در `web/src/components/ui/` قرار دارند:
 

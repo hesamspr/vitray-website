@@ -5,15 +5,16 @@ import {
   InstagramIcon,
   LinkedinIcon,
   YoutubeIcon,
-  BarChart3,
-  Cloud,
-  GraduationCap,
-  Layers3,
-  Share2,
   Phone,
   MapPin,
   Mail,
 } from 'lucide-react';
+
+const BiFooterIcon = ({ className }: { className?: string }) => <img src="/fav.png" alt="هوش تجاری" className={className} />;
+const PlexFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/plex%20fav%20white.png" alt="پلکس" className={className} />;
+const PixelFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pixel%20Fav%20W.png" alt="پیکسل" className={className} />;
+const PulseFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pulse%20Fav%20W.png" alt="پالس" className={className} />;
+const AcademyFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Academy%20FAV%20White.png" alt="آکادمی" className={className} />;
 
 function AparatIcon({ className }: { className?: string }) {
   return (
@@ -38,11 +39,11 @@ const footerLinks: FooterSection[] = [
   {
     label: 'راهکارها',
     links: [
-      { title: 'هوش تجاری', href: '/bi-solution', icon: BarChart3 },
-      { title: 'پیکسل', href: '/pixel', icon: Cloud },
-      { title: 'پالس', href: '/pulse', icon: Share2 },
-      { title: 'پلکس', href: '/plex', icon: Layers3 },
-      { title: 'آکادمی', href: 'https://academy.vitrayco.com', icon: GraduationCap },
+      { title: 'هوش تجاری', href: '/bi-solution', icon: BiFooterIcon },
+      { title: 'پلکس', href: '/plex', icon: PlexFooterIcon },
+      { title: 'پالس', href: '/pulse', icon: PulseFooterIcon },
+      { title: 'پیکسل', href: '/pixel', icon: PixelFooterIcon },
+      { title: 'آکادمی', href: 'https://academy.vitrayco.com', icon: AcademyFooterIcon },
     ],
   },
   {

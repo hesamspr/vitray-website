@@ -1,7 +1,7 @@
 import { PremiumHero } from '@/components/ui/hero';
 import { Button } from '@/components/ui/button';
 import { GlowCard } from '@/components/ui/spotlight-card';
-import { BarChart3, Briefcase, Cloud, GraduationCap, Home, Info, Layers3, Lightbulb, Mail, Package, Share2, Target, TrendingUp } from 'lucide-react';
+import { Briefcase, Home, Info, Lightbulb, Mail, Package, Target, TrendingUp } from 'lucide-react';
 import { LogoCarousel } from '@/components/ui/logo-carousel';
 import { NavBar } from '@/components/ui/tubelight-navbar';
 import { CallToAction } from '@/components/ui/cta-3';
@@ -11,6 +11,12 @@ import { motion } from 'motion/react';
 import { usePageTitle } from '@/lib/usePageTitle';
 import { BentoGrid, type BentoItem } from '@/components/ui/bento-grid';
 
+const BiNavIcon = ({ className }: { className?: string }) => <img src="/fav.png" alt="هوش تجاری" className={className} />;
+const PlexNavIcon = ({ className }: { className?: string }) => <img src="/product%20logos/plex%20fav%20white.png" alt="پلکس" className={className} />;
+const PixelNavIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pixel%20Fav%20W.png" alt="پیکسل" className={className} />;
+const PulseNavIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pulse%20Fav%20W.png" alt="پالس" className={className} />;
+const AcademyNavIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Academy%20FAV%20White.png" alt="آکادمی" className={className} />;
+
 const navItems = [
   { name: 'خانه', url: '#home', icon: Home },
   {
@@ -18,11 +24,11 @@ const navItems = [
     url: '#products',
     icon: Package,
     subItems: [
-      { name: 'هوش تجاری', url: '/bi-solution', icon: BarChart3 },
-      { name: 'پیکسل', url: '/pixel', icon: Cloud },
-      { name: 'پالس', url: '/pulse', icon: Share2 },
-      { name: 'پلکس', url: '/plex', icon: Layers3 },
-      { name: 'آکادمی', url: 'https://academy.vitrayco.com', icon: GraduationCap },
+      { name: 'هوش تجاری', url: '/bi-solution', icon: BiNavIcon },
+      { name: 'پلکس', url: '/plex', icon: PlexNavIcon },
+      { name: 'پالس', url: '/pulse', icon: PulseNavIcon },
+      { name: 'پیکسل', url: '/pixel', icon: PixelNavIcon },
+      { name: 'آکادمی', url: 'https://academy.vitrayco.com', icon: AcademyNavIcon },
     ],
   },
   { name: 'درباره ما', url: '/about', icon: Info },
@@ -205,33 +211,12 @@ export function App() {
           </motion.div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <GlowCard customSize className="h-[360px] w-full">
-              <div className="flex items-start justify-between">
-                <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
-                  بدون کد
-                </div>
-                <Layers3 className="h-5 w-5 text-muted-foreground" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-xl">پلکس (Plex)</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                  ابزار توسعه اپلیکیشن بدون کدنویسی برای ساخت سریع پنل‌ها، فرم‌ها و گردش‌کارها—مناسب برای تیم‌هایی که سرعت اجرای
-                  ایده برایشان حیاتی است.
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
-                  <Button variant="outline" size="sm" asChild>
-                    <a href="/plex">بیشتر بدانید</a>
-                  </Button>
-                </div>
-              </div>
-            </GlowCard>
-
             <GlowCard customSize glowColor="purple" className="h-[360px] w-full">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   هوش تجاری
                 </div>
-                <BarChart3 className="h-5 w-5 text-muted-foreground" />
+                <img src="/fav.png" alt="هوش تجاری ویترای" className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-xl">هوش تجاری</h3>
@@ -247,22 +232,22 @@ export function App() {
               </div>
             </GlowCard>
 
-            <GlowCard customSize glowColor="green" className="h-[360px] w-full">
+            <GlowCard customSize className="h-[360px] w-full">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
-                  ابری
+                  بدون کد
                 </div>
-                <Cloud className="h-5 w-5 text-muted-foreground" />
+                <img src="/product%20logos/plex%20fav%20white.png" alt="پلکس" className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl">پیکسل (Pixel)</h3>
+                <h3 className="text-xl">پلکس (Plex)</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                  راهکار اقتصادی و میزبانی‌شده در فضای ابری برای کسب‌وکارهای کوچک؛ با راه‌اندازی سریع، هزینه نگهداری پایین و داشبوردهای
-                  آماده برای تصمیم‌گیری روزانه.
+                  ابزار توسعه اپلیکیشن بدون کدنویسی برای ساخت سریع پنل‌ها، فرم‌ها و گردش‌کارها—مناسب برای تیم‌هایی که سرعت اجرای
+                  ایده برایشان حیاتی است.
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
                   <Button variant="outline" size="sm" asChild>
-                    <a href="/pixel">بیشتر بدانید</a>
+                    <a href="/plex">بیشتر بدانید</a>
                   </Button>
                 </div>
               </div>
@@ -273,7 +258,7 @@ export function App() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   اشتراک گذاری
                 </div>
-                <Share2 className="h-5 w-5 text-muted-foreground" />
+                <img src="/product%20logos/Pulse%20Fav%20W.png" alt="پالس" className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-xl">پالس (Pulse)</h3>
@@ -289,13 +274,34 @@ export function App() {
               </div>
             </GlowCard>
 
+            <GlowCard customSize glowColor="green" className="h-[360px] w-full">
+              <div className="flex items-start justify-between">
+                <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
+                  ابری
+                </div>
+                <img src="/product%20logos/Pixel%20Fav%20W.png" alt="پیکسل" className="h-8 w-8 object-contain" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl">پیکسل (Pixel)</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+                  راهکار اقتصادی و میزبانی‌شده در فضای ابری برای کسب‌وکارهای کوچک؛ با راه‌اندازی سریع، هزینه نگهداری پایین و داشبوردهای
+                  آماده برای تصمیم‌گیری روزانه.
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
+                  <Button variant="outline" size="sm" asChild>
+                    <a href="/pixel">بیشتر بدانید</a>
+                  </Button>
+                </div>
+              </div>
+            </GlowCard>
+
             <div className="col-span-1 md:col-span-2 flex justify-center">
               <GlowCard customSize glowColor="blue" className="h-[360px] w-full md:w-[calc(50%-8px)]">
                 <div className="flex items-start justify-between">
                   <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                     آموزش
                   </div>
-                  <GraduationCap className="h-5 w-5 text-muted-foreground" />
+                  <img src="/product%20logos/Academy%20FAV%20White.png" alt="آکادمی ویترای" className="h-8 w-8 object-contain" />
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-xl">آکادمی ویترای</h3>
