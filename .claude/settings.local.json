@@ -15,7 +15,10 @@
       "Bash(sed -i '' \"s/title: ''راهکار هوش تجاری''/title: ''هوش تجاری''/g\" components/ui/footer-section.tsx)",
       "Bash(find /Users/hesamsaeidpour/Documents/Website -name *.svg -type f)",
       "Bash(find /Users/hesamsaeidpour/Documents/Website/web/src -type f \\\\\\(-name *.tsx -o -name *.ts -o -name *.jsx -o -name *.js \\\\\\))",
-      "Bash(git -C /Users/hesamsaeidpour/Documents/Website status)"
+      "Bash(git -C /Users/hesamsaeidpour/Documents/Website status)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
