@@ -3,7 +3,8 @@
   "outputDirectory": "web/dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/blog/:path*", "destination": "https://blog.vitrayco.com/:path*" }
+    { "source": "/blog/:path*", "destination": "https://blog.vitrayco.com/:path*" },
+    { "source": "/((?!blog/).*)", "destination": "/index.html" }
   ],
   "redirects": [
     { "source": "/old-post-slug-1", "destination": "/blog/old-post-slug-1", "permanent": true },

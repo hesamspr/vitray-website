@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { PremiumHero } from '@/components/ui/hero';
 import { Button } from '@/components/ui/button';
 import { GlowCard } from '@/components/ui/spotlight-card';
@@ -226,7 +227,7 @@ export function App() {
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
                   <Button variant="outline" size="sm" asChild>
-                    <a href="/bi-solution">بیشتر بدانید</a>
+                    <Link to="/bi-solution">بیشتر بدانید</Link>
                   </Button>
                 </div>
               </div>
@@ -247,7 +248,7 @@ export function App() {
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
                   <Button variant="outline" size="sm" asChild>
-                    <a href="/plex">بیشتر بدانید</a>
+                    <Link to="/plex">بیشتر بدانید</Link>
                   </Button>
                 </div>
               </div>
@@ -268,7 +269,7 @@ export function App() {
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
                   <Button variant="outline" size="sm" asChild>
-                    <a href="/pulse">بیشتر بدانید</a>
+                    <Link to="/pulse">بیشتر بدانید</Link>
                   </Button>
                 </div>
               </div>
@@ -289,7 +290,7 @@ export function App() {
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
                   <Button variant="outline" size="sm" asChild>
-                    <a href="/pixel">بیشتر بدانید</a>
+                    <Link to="/pixel">بیشتر بدانید</Link>
                   </Button>
                 </div>
               </div>
