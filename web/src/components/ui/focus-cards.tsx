@@ -27,7 +27,7 @@ function Lightbox({ card, onClose }: { card: CardType; onClose: () => void }) {
         <X className="w-7 h-7" />
       </button>
       <img
-        src={card.src.normalize('NFD')}
+        src={card.src.normalize('NFC')}
         alt={card.title}
         className="max-h-[90vh] max-w-[90vw] rounded-xl shadow-2xl object-contain"
         onClick={(e) => e.stopPropagation()}
@@ -43,7 +43,7 @@ function CarouselCard({ card, onClick }: { card: CardType; onClick: () => void }
       className="relative rounded-xl overflow-hidden cursor-pointer group bg-neutral-900 aspect-[4/5] w-full select-none"
     >
       <img
-        src={card.src.normalize('NFD')}
+        src={card.src.normalize('NFC')}
         alt={card.title}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         draggable={false}
@@ -71,7 +71,7 @@ export function FocusCards({ cards }: { cards: CardType[] }) {
   useEffect(() => {
     cards.forEach((card) => {
       const img = new Image();
-      img.src = card.src.normalize('NFD').normalize('NFD');
+      img.src = card.src.normalize('NFC').normalize('NFC');
     });
   }, [cards]);
 
@@ -147,7 +147,7 @@ export function FocusCards({ cards }: { cards: CardType[] }) {
             style={{ gap: GAP, transform: `translateX(-${translateX}px)` }}
           >
             {cards.map((card) => (
-              <div key={card.src.normalize('NFD')} style={{ width: cardWidth, flexShrink: 0 }}>
+              <div key={card.src.normalize('NFC')} style={{ width: cardWidth, flexShrink: 0 }}>
                 <CarouselCard card={card} onClick={() => setSelected(card)} />
               </div>
             ))}
