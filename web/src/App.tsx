@@ -37,14 +37,26 @@ const navItems = [
 ];
 
 const customerSuccessCards = [
-  {
-    title: "شرکت هرار",
-    src: "/customer success/SCR-20260315-lfys.png",
-  },
-  {
-    title: "پوشاک گراد",
-    src: "/customer success/SCR-20260315-lgbx.png",
-  },
+  { title: "آب معدنی دماوند",           src: "/customer success/آب معدنی دماوند.webp" },
+  { title: "بهداشتی پاکناز",            src: "/customer success/بهداشتی پاکناز.webp" },
+  { title: "بهین پخش",                  src: "/customer success/بهین پخش.webp" },
+  { title: "تلاونگ",                    src: "/customer success/تلاونگ.webp" },
+  { title: "دانا پخش",                  src: "/customer success/دانا پخش.webp" },
+  { title: "رسانا کابل",                src: "/customer success/رسانا کابل.webp" },
+  { title: "غذایی 202",                 src: "/customer success/غذایی 202.webp" },
+  { title: "غذایی خوشگوار",             src: "/customer success/غذایی خوشگوار.webp" },
+  { title: "لبنیات هراز",               src: "/customer success/لبنیات هراز.webp" },
+  { title: "لبنیات پاک",                src: "/customer success/لبنیات پاک.webp" },
+  { title: "لوازم خانگی پاکشوما",       src: "/customer success/لوازم خانگی پاکشوما.webp" },
+  { title: "مارال چرم",                 src: "/customer success/مارال چرم.webp" },
+  { title: "معدنی و صنعتی چادرملو",     src: "/customer success/معدنی و صنعتی چادرملو.webp" },
+  { title: "نوشیدنی بهنوش ایران",       src: "/customer success/نوشیدنی بهنوش ایران.webp" },
+  { title: "هلدینگ صبا انرژی",          src: "/customer success/هلدینگ صبا انرژی.webp" },
+  { title: "هلدینگ میدکو",              src: "/customer success/هلدینگ میدکو.webp" },
+  { title: "پخش آیسان تکنام پویا",      src: "/customer success/پخش آیسان تکنام پویا.webp" },
+  { title: "پوشاک گراد",                src: "/customer success/پوشاک گراد.webp" },
+  { title: "پیشرو فرآیند بدر",          src: "/customer success/پیشرو فرآیند بدر.webp" },
+  { title: "کایل سیمیا",                src: "/customer success/کایل سیمیا.webp" },
 ];
 
 const whyItems: BentoItem[] = [
@@ -79,81 +91,60 @@ function imgLogo(src: string, alt: string) {
 }
 
 const customerLogos = [
-  { name: '202 Food',               id:  1, img: imgLogo('/logos/202 Food.png',               '202 Food') },
-  { name: 'A U X',                  id:  2, img: imgLogo('/logos/A U X.png',                  'A U X') },
-  { name: 'Abadan',                 id:  3, img: imgLogo('/logos/Abadan (1).png',              'Abadan') },
-  { name: 'Alima',                  id:  4, img: imgLogo('/logos/Alima.png',                  'Alima') },
-  { name: 'Alis',                   id:  5, img: imgLogo('/logos/Alis.png',                   'Alis') },
-  { name: 'Ani Pakhsh',             id:  6, img: imgLogo('/logos/Ani Pakhsh.png',             'Ani Pakhsh') },
-  { name: 'Behnoosh',               id:  7, img: imgLogo('/logos/Behnoosh.png',               'Behnoosh') },
-  { name: 'Candy',                  id:  8, img: imgLogo('/logos/Candy.png',                  'Candy') },
-  { name: 'Chador Maloo',           id:  9, img: imgLogo('/logos/Chador Maloo.png',           'Chador Maloo') },
-  { name: 'Coca Cola',              id: 10, img: imgLogo('/logos/Coca Cola.png',              'Coca Cola') },
-  { name: 'Coral',                  id: 11, img: imgLogo('/logos/Coral.png',                  'Coral') },
-  { name: 'Damavand',               id: 12, img: imgLogo('/logos/Damavand.png',               'Damavand') },
-  { name: 'Delester',               id: 13, img: imgLogo('/logos/Delester.png',               'Delester') },
-  { name: 'Depoint',                id: 14, img: imgLogo('/logos/Depoint.png',                'Depoint') },
-  { name: 'Doogh Abali',            id: 15, img: imgLogo('/logos/Doogh Abali.png',            'Doogh Abali') },
-  { name: 'Efes',                   id: 16, img: imgLogo('/logos/Efes.png',                   'Efes') },
-  { name: 'Fazl Azabayjan',         id: 17, img: imgLogo('/logos/Fazl Azabayjan.png',         'Fazl Azabayjan') },
-  { name: 'GFT',                    id: 18, img: imgLogo('/logos/GFT.png',                    'GFT') },
-  { name: 'Gemco',                  id: 19, img: imgLogo('/logos/Gemco.png',                  'Gemco') },
-  { name: 'Gerad',                  id: 20, img: imgLogo('/logos/Gerad.png',                  'Gerad') },
-  { name: 'Ghadir',                 id: 21, img: imgLogo('/logos/Ghadir.png',                 'Ghadir') },
-  { name: 'Goloomak Sazeh',         id: 22, img: imgLogo('/logos/Goloomak Sazeh.png',         'Goloomak Sazeh') },
-  { name: 'Haraz',                  id: 23, img: imgLogo('/logos/Haraz.png',                  'Haraz') },
-  { name: 'JTI',                    id: 24, img: imgLogo('/logos/JTI.png',                    'JTI') },
-  { name: 'KhavarDasht',            id: 25, img: imgLogo('/logos/KhavarDasht.png',            'KhavarDasht') },
-  { name: 'Khoshgovar',             id: 26, img: imgLogo('/logos/Khoshgovar.png',             'Khoshgovar') },
-  { name: 'Kowsar Saba',            id: 27, img: imgLogo('/logos/Kowsar Saba.png',            'Kowsar Saba') },
-  { name: 'Leefood',                id: 28, img: imgLogo('/logos/Leefood.png',                'Leefood') },
-  { name: 'Maral',                  id: 29, img: imgLogo('/logos/Maral.png',                  'Maral') },
-  { name: 'Midia',                  id: 30, img: imgLogo('/logos/Midia.png',                  'Midia') },
-  { name: 'Paak',                   id: 31, img: imgLogo('/logos/Paak.png',                   'Paak') },
-  { name: 'Paknaz',                 id: 32, img: imgLogo('/logos/Paknaz.png',                 'Paknaz') },
-  { name: 'Pakshoma',               id: 33, img: imgLogo('/logos/Pakshoma.png',               'Pakshoma') },
-  { name: 'Parmidaa',               id: 34, img: imgLogo('/logos/Parmidaa.png',               'Parmidaa') },
-  { name: 'Sara tel',               id: 35, img: imgLogo('/logos/Sara tel.png',               'Sara tel') },
-  { name: 'Shahab',                 id: 36, img: imgLogo('/logos/Shahab.png',                 'Shahab') },
-  { name: 'Simcut',                 id: 37, img: imgLogo('/logos/Simcut.png',                 'Simcut') },
-  { name: 'Simia cable',            id: 38, img: imgLogo('/logos/Simia cable.png',            'Simia cable') },
-  { name: 'Tara',                   id: 39, img: imgLogo('/logos/Tara.png',                   'Tara') },
-  { name: 'Techno Life',            id: 40, img: imgLogo('/logos/Techno Life.png',            'Techno Life') },
-  { name: 'Tehran Electriv',        id: 41, img: imgLogo('/logos/Tehran Electriv.png',        'Tehran Electriv') },
-  { name: 'Telavang',               id: 42, img: imgLogo('/logos/Telavang.png',               'Telavang') },
-  { name: 'Tohfe Food',             id: 43, img: imgLogo('/logos/Tohfe Food.png',             'Tohfe Food') },
-  { name: 'Vitana',                 id: 44, img: imgLogo('/logos/Vitana.png',                 'Vitana') },
-  { name: 'Vitrinnet',              id: 45, img: imgLogo('/logos/Vitrinnet.png',              'Vitrinnet') },
-  { name: 'Zarrin Zorrat',          id: 46, img: imgLogo('/logos/Zarrin Zorrat.png',          'Zarrin Zorrat') },
-  { name: 'Zerowatt',               id: 47, img: imgLogo('/logos/Zerowatt.png',               'Zerowatt') },
-  { name: 'camel',                  id: 48, img: imgLogo('/logos/camel.png',                  'camel') },
-  { name: 'jungle',                 id: 49, img: imgLogo('/logos/jungle.png',                 'jungle') },
-  { name: 'winston',                id: 50, img: imgLogo('/logos/winston.png',                'winston') },
-  { name: 'ایرانول',               id: 51, img: imgLogo('/logos/ایرانول.png',               'ایرانول') },
-  { name: 'توسعه اقتصاد ملل',     id: 52, img: imgLogo('/logos/توسعه اقتصاد ملل.png',     'توسعه اقتصاد ملل') },
-  { name: 'توسعه سنگ آهن سام',    id: 53, img: imgLogo('/logos/توسعه سنگ آهن سام.png',    'توسعه سنگ آهن سام') },
-  { name: 'رسانا کابل',           id: 54, img: imgLogo('/logos/رسانا کابل.png',           'رسانا کابل') },
-  { name: 'زنجیره ای رقاه',       id: 55, img: imgLogo('/logos/زنجیره ای رقاه.png',       'زنجیره ای رقاه') },
-  { name: 'سرای ایرانی',          id: 56, img: imgLogo('/logos/سرای ایرانی.png',          'سرای ایرانی') },
-  { name: 'سمیه',                  id: 57, img: imgLogo('/logos/سمیه.png',                  'سمیه') },
-  { name: 'فناوران',               id: 58, img: imgLogo('/logos/فناوران.png',               'فناوران') },
-  { name: 'فولاد مشیز بردسیر',   id: 59, img: imgLogo('/logos/فولاد مشیز بردسیر.png',   'فولاد مشیز بردسیر') },
-  { name: 'ماهشام',                id: 60, img: imgLogo('/logos/ماهشام.png',                'ماهشام') },
-  { name: 'مشفق',                  id: 61, img: imgLogo('/logos/مشفق.png',                  'مشفق') },
-  { name: 'میدکو',                 id: 62, img: imgLogo('/logos/میدکو.png',                 'میدکو') },
-  { name: 'پاک',                   id: 63, img: imgLogo('/logos/پاک.png',                   'پاک') },
-  { name: 'پتروشیمی لاله',        id: 64, img: imgLogo('/logos/پتروشیمی لاله.png',        'پتروشیمی لاله') },
-  { name: 'پتروشیمی مهر',         id: 65, img: imgLogo('/logos/پتروشیمی مهر.png',         'پتروشیمی مهر') },
-  { name: 'پدیده کاوش ایرانیان', id: 66, img: imgLogo('/logos/پدیده کاوش ایرانیان.png', 'پدیده کاوش ایرانیان') },
-  { name: 'پرسی گاز',             id: 67, img: imgLogo('/logos/پرسی گاز.png',             'پرسی گاز') },
+  { name: '202 Food',             id:  1, img: imgLogo('/logos/202 Food.png',             '202 Food') },
+  { name: 'Abadan',               id:  2, img: imgLogo('/logos/Abadan.png',               'Abadan') },
+  { name: 'Alima',                id:  3, img: imgLogo('/logos/Alima.png',                'Alima') },
+  { name: 'Aysan Pakhsh',         id:  4, img: imgLogo('/logos/Aysan Pakhsh.png',         'Aysan Pakhsh') },
+  { name: 'Badr',                 id:  5, img: imgLogo('/logos/Badr.png',                 'Badr') },
+  { name: 'Behin Pakhsh',         id:  6, img: imgLogo('/logos/Behin Pakhsh.png',         'Behin Pakhsh') },
+  { name: 'Behnoosh',             id:  7, img: imgLogo('/logos/Behnoosh.png',             'Behnoosh') },
+  { name: 'Chador Maloo',         id:  8, img: imgLogo('/logos/Chador Maloo.png',         'Chador Maloo') },
+  { name: 'Clever',               id:  9, img: imgLogo('/logos/Clever.png',               'Clever') },
+  { name: 'Coca Cola',            id: 10, img: imgLogo('/logos/Coca Cola.png',            'Coca Cola') },
+  { name: 'Damavand',             id: 11, img: imgLogo('/logos/Damavand.png',             'Damavand') },
+  { name: 'Dana Pakhsh',          id: 12, img: imgLogo('/logos/Dana Pakhsh.png',          'Dana Pakhsh') },
+  { name: 'Darik',                id: 13, img: imgLogo('/logos/Darik.png',                'Darik') },
+  { name: 'Delester',             id: 14, img: imgLogo('/logos/Delester.png',             'Delester') },
+  { name: 'Depoint',              id: 15, img: imgLogo('/logos/Depoint.png',              'Depoint') },
+  { name: 'Doogh Abali',          id: 16, img: imgLogo('/logos/Doogh Abali.png',          'Doogh Abali') },
+  { name: 'Dorpad Tabriz',        id: 17, img: imgLogo('/logos/Dorpad Tabriz.png',        'Dorpad Tabriz') },
+  { name: 'Fanavaran',            id: 18, img: imgLogo('/logos/Fanavaran.png',            'Fanavaran') },
+  { name: 'Foolad Saeb',          id: 19, img: imgLogo('/logos/Foolad Saeb.png',          'Foolad Saeb') },
+  { name: 'GFT',                  id: 20, img: imgLogo('/logos/GFT.png',                  'GFT') },
+  { name: 'Gerad',                id: 21, img: imgLogo('/logos/Gerad.png',                'Gerad') },
+  { name: 'Ghadir',               id: 22, img: imgLogo('/logos/Ghadir.png',               'Ghadir') },
+  { name: 'Haraz',                id: 23, img: imgLogo('/logos/Haraz.png',                'Haraz') },
+  { name: 'Khoshgovar',           id: 24, img: imgLogo('/logos/Khoshgovar.png',           'Khoshgovar') },
+  { name: 'Laleh',                id: 25, img: imgLogo('/logos/Laleh.png',                'Laleh') },
+  { name: 'Mahsham',              id: 26, img: imgLogo('/logos/Mahsham.png',              'Mahsham') },
+  { name: 'Maral',                id: 27, img: imgLogo('/logos/Maral.png',                'Maral') },
+  { name: 'Mashiz',               id: 28, img: imgLogo('/logos/Mashiz.png',               'Mashiz') },
+  { name: 'Mehr',                 id: 29, img: imgLogo('/logos/Mehr.png',                 'Mehr') },
+  { name: 'Midhco',               id: 30, img: imgLogo('/logos/Midhco.png',               'Midhco') },
+  { name: 'Miva',                 id: 31, img: imgLogo('/logos/Miva.png',                 'Miva') },
+  { name: 'Padide Kavosh',        id: 32, img: imgLogo('/logos/Padide Kavosh.png',        'Padide Kavosh') },
+  { name: 'Pak Dairy',            id: 33, img: imgLogo('/logos/Pak Dairy.png',            'Pak Dairy') },
+  { name: 'Pak',                  id: 34, img: imgLogo('/logos/Pak.png',                  'Pak') },
+  { name: 'Paknaz',               id: 35, img: imgLogo('/logos/Paknaz.png',               'Paknaz') },
+  { name: 'Pakshooma',            id: 36, img: imgLogo('/logos/Pakshooma.png',            'Pakshooma') },
+  { name: 'Parmidaa',             id: 37, img: imgLogo('/logos/Parmidaa.png',             'Parmidaa') },
+  { name: 'Persi Gas',            id: 38, img: imgLogo('/logos/Persi Gas.png',            'Persi Gas') },
+  { name: 'Resana',               id: 39, img: imgLogo('/logos/Resana.png',               'Resana') },
+  { name: 'Saam',                 id: 40, img: imgLogo('/logos/Saam.png',                 'Saam') },
+  { name: 'Saba Energy',          id: 41, img: imgLogo('/logos/Saba Energy.png',          'Saba Energy') },
+  { name: 'Salamat Pakhsh',       id: 42, img: imgLogo('/logos/Salamat Pakhsh.png',       'Salamat Pakhsh') },
+  { name: 'Sara tel',             id: 43, img: imgLogo('/logos/Sara tel.png',             'Sara tel') },
+  { name: 'Simia cable',          id: 44, img: imgLogo('/logos/Simia cable.png',          'Simia cable') },
+  { name: 'Somaye',               id: 45, img: imgLogo('/logos/Somaye.png',               'Somaye') },
+  { name: 'Taban Pakhsh Salamat', id: 46, img: imgLogo('/logos/Taban Pakhsh Salamat.png','Taban Pakhsh Salamat') },
+  { name: 'Tara',                 id: 47, img: imgLogo('/logos/Tara.png',                 'Tara') },
+  { name: 'Telavang Pakhsh',      id: 48, img: imgLogo('/logos/Telavang Pakhsh.png',      'Telavang Pakhsh') },
+  { name: 'Telavang',             id: 49, img: imgLogo('/logos/Telavang.png',             'Telavang') },
+  { name: 'Tohfe Food',           id: 50, img: imgLogo('/logos/Tohfe Food.png',           'Tohfe Food') },
+  { name: 'Vitana',               id: 51, img: imgLogo('/logos/Vitana.png',               'Vitana') },
+  { name: 'Yaghoot Sanat Tabriz', id: 52, img: imgLogo('/logos/Yaghoot Sanat Tabriz.png','Yaghoot Sanat Tabriz') },
 ];
 
-const customerLogosLoop = Array.from({ length: 3 }).flatMap((_, rep) =>
-  customerLogos.map((logo) => ({
-    ...logo,
-    id: logo.id + rep * 100,
-  })),
-);
 
 export function App() {
   usePageTitle();
@@ -186,7 +177,7 @@ export function App() {
           </motion.div>
 
           <div className="flex justify-center py-2">
-            <LogoCarousel columnCount={5} mobileColumnCount={3} logos={customerLogosLoop} />
+            <LogoCarousel columnCount={5} mobileColumnCount={3} logos={customerLogos} />
           </div>
         </section>
 
@@ -324,32 +315,26 @@ export function App() {
 
         <div className="h-12" />
 
-        <section id="testimonials" className="relative -mx-6">
-          <div className="container mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true }}
-              className="flex flex-col items-center justify-center max-w-[540px] mx-auto"
-            >
-              <div className="flex justify-center">
-                <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground">
-                  نظرات مشتریان
-                </div>
-              </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter mt-5 text-center">
-                مشتریان ما چه می‌گویند
-              </h2>
-              <p className="text-center mt-4 text-muted-foreground text-sm md:text-base">
-                تجربه واقعی کسب‌وکارهایی که با راهکارهای ما رشد کرده‌اند.
-              </p>
-            </motion.div>
-
-            <div className="flex justify-center mt-10">
-              <FocusCards cards={customerSuccessCards} />
+        <section id="testimonials" className="space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
+          >
+            <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
+              نظرات مشتریان
             </div>
-          </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
+              مشتریان ما چه می‌گویند
+            </h2>
+            <p className="text-muted-foreground text-sm md:text-base">
+              تجربه واقعی کسب‌وکارهایی که با راهکارهای ما رشد کرده‌اند.
+            </p>
+          </motion.div>
+
+          <FocusCards cards={customerSuccessCards} />
         </section>
 
         <div className="h-12" />
