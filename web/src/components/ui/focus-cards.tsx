@@ -49,8 +49,8 @@ function CarouselCard({ card, onClick }: { card: CardType; onClick: () => void }
         draggable={false}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-4">
-        <p className="text-white font-semibold text-sm md:text-base drop-shadow">{card.title}</p>
+      <div className="absolute bottom-0 left-0 right-0 p-4 pr-8 pb-6 flex justify-end">
+        <p className="text-white font-semibold text-sm md:text-base drop-shadow" style={{ fontFamily: '"Yekan", system-ui, sans-serif' }}>{card.title}</p>
       </div>
     </div>
   );
