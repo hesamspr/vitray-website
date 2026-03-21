@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { PlusIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ConsultationModal } from "@/components/ui/consultation-modal";
-import { ShineBorder } from "@/components/ui/shine-border";
+import { useState } from 'react'
+import { PlusIcon } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { ConsultationModal } from "@/components/ui/consultation-modal"
+import { ShineBorder } from "@/components/ui/shine-border"
+import { useTranslation } from "@/hooks/useTranslation"
 
 export function CallToAction() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false)
+  const { t } = useTranslation()
 
   return (
     <>
@@ -25,10 +27,10 @@ export function CallToAction() {
 
         <div className="space-y-1">
           <h2 className="text-center font-bold text-2xl">
-            این یک تغییر سخت نیست٬ یک شروع آسان است
+            {t('cta.title')}
           </h2>
           <p className="text-center text-muted-foreground">
-            همین امروز با تیم فروش ما صحبت کنید و اولین قدم را بردارید.
+            {t('cta.subtitle')}
           </p>
         </div>
 
@@ -41,7 +43,7 @@ export function CallToAction() {
             className="p-0 bg-transparent dark:bg-transparent"
           >
             <Button onClick={() => setModalOpen(true)} className="bg-black text-white hover:bg-black/90">
-              درخواست مشاوره
+              {t('cta.button')}
             </Button>
           </ShineBorder>
         </div>
@@ -49,5 +51,5 @@ export function CallToAction() {
 
       <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </>
-  );
+  )
 }
