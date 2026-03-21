@@ -1,5 +1,6 @@
 import fa from '../locales/fa.json'
 import en from '../locales/en.json'
+import { useCallback } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 
 type Dict = Record<string, unknown>
@@ -19,5 +20,6 @@ function lookup(dict: Dict, key: string): string {
 export function useTranslation() {
   const { lang } = useLanguage()
   const dict = lang === 'en' ? (en as Dict) : (fa as Dict)
-  return { t: (key: string) => lookup(dict, key), lang }
+  const t = useCallback((key: string) => lookup(dict, key), [dict])
+  return { t, lang }
 }

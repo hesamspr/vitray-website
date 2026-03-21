@@ -37,4 +37,9 @@ describe('useTranslation', () => {
     const { result } = renderHook(() => useTranslation(), { wrapper: makeWrapper('en') })
     expect(result.current.t('nav.missing')).toBe('nav.missing')
   })
+
+  it('exposes the active lang value', () => {
+    const { result } = renderHook(() => useTranslation(), { wrapper: makeWrapper('en') })
+    expect(result.current.lang).toBe('en')
+  })
 })

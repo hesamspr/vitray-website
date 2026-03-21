@@ -14,7 +14,7 @@ export const LanguageContext = createContext<LanguageContextValue>({
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>(() => {
-    const saved = localStorage.getItem('vitray_lang')
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('vitray_lang') : null
     return saved === 'en' ? 'en' : 'fa'
   })
 
