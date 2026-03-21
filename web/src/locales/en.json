@@ -25,7 +25,14 @@
     "dashboard_maintenance": "Maintenance Dashboard",
     "dashboard_production": "Production Dashboard",
     "dashboard_distribution_sales": "Distribution Sales Dashboard",
-    "dashboard_b2b_sales": "B2B Sales Dashboard"
+    "dashboard_b2b_sales": "B2B Sales Dashboard",
+    "b2b_sales_dashboard": "B2B Sales Dashboard",
+    "distribution_dashboard": "Distribution Sales Dashboard",
+    "finance_dashboard": "Finance Dashboard",
+    "hr_dashboard": "HR Dashboard",
+    "maintenance_dashboard": "Maintenance Dashboard",
+    "production_dashboard": "Production Dashboard",
+    "warehouse_dashboard": "Warehouse Dashboard"
   },
   "hero": {
     "line1": "See it before anyone else.",

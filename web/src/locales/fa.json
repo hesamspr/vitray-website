@@ -25,7 +25,14 @@
     "dashboard_maintenance": "داشبورد نگهداری و تعمیرات",
     "dashboard_production": "داشبورد تولید",
     "dashboard_distribution_sales": "داشبورد فروش پخش",
-    "dashboard_b2b_sales": "داشبورد فروش B2B"
+    "dashboard_b2b_sales": "داشبورد فروش B2B",
+    "b2b_sales_dashboard": "داشبورد فروش B2B",
+    "distribution_dashboard": "داشبورد فروش پخش",
+    "finance_dashboard": "داشبورد مالی",
+    "hr_dashboard": "داشبورد منابع انسانی",
+    "maintenance_dashboard": "داشبورد نگهداری و تعمیرات",
+    "production_dashboard": "داشبورد تولید",
+    "warehouse_dashboard": "داشبورد انبار"
   },
   "hero": {
     "line1": "قبل از دیگران ببینید،",
