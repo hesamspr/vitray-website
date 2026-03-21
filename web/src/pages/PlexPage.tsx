@@ -189,7 +189,7 @@ export function PlexPage() {
         </div>
       </div>
 
-      <div className="h-12" />
+      <div className="h-24" />
 
       {/* Convert data to app highlight */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -239,7 +239,7 @@ export function PlexPage() {
         </motion.div>
       </div>
 
-      <div className="h-4" />
+      <div className="h-10" />
 
       {/* Access control + Workflow — side by side */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -321,7 +321,7 @@ export function PlexPage() {
         </div>
       </div>
 
-      <div className="h-8" />
+      <div className="h-16" />
 
       {/* Data sources */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -365,6 +365,8 @@ export function PlexPage() {
         </motion.div>
       </div>
 
+      <div className="h-16" />
+
       {/* Portal examples */}
       <div className="mx-auto max-w-5xl px-6 py-4">
         <motion.div
@@ -374,7 +376,7 @@ export function PlexPage() {
           viewport={{ once: true }}
         >
           <div className="space-y-6">
-            <div className="space-y-2">
+            <div className="flex flex-col items-center text-center space-y-3">
               <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
                 نمونه‌های واقعی
               </div>
@@ -448,7 +450,7 @@ export function PlexPage() {
         </motion.div>
       </LampContainer>
 
-      <div className="h-8" />
+      <div className="h-16" />
 
       <div className="mx-auto max-w-5xl px-6 py-20 overflow-visible">
         <CallToAction />

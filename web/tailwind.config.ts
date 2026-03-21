@@ -5,6 +5,19 @@ export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
+      backgroundSize: {
+        'shine-size': '300% 300%',
+      },
+      keyframes: {
+        shine: {
+          '0%': { backgroundPosition: '0% 0%' },
+          '50%': { backgroundPosition: '100% 100%' },
+          '100%': { backgroundPosition: '0% 0%' },
+        },
+      },
+      animation: {
+        shine: 'shine var(--duration) infinite linear',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

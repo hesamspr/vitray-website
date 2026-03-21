@@ -118,7 +118,7 @@ export function PulsePage() {
         </div>
       </div>
 
-      <div className="h-12" />
+      <div className="h-24" />
 
       {/* Main description */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -166,7 +166,7 @@ export function PulsePage() {
         </motion.div>
       </div>
 
-      <div className="h-4" />
+      <div className="h-10" />
 
       {/* Independent software on top of PBRS */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -227,7 +227,7 @@ export function PulsePage() {
         </div>
       </div>
 
-      <div className="h-8" />
+      <div className="h-16" />
 
       {/* Closing lamp section */}
       <LampContainer color="orange" className="min-h-[44rem] mb-[-14rem]">
@@ -247,7 +247,7 @@ export function PulsePage() {
         </motion.div>
       </LampContainer>
 
-      <div className="h-8" />
+      <div className="h-16" />
 
       <div className="mx-auto max-w-5xl px-6 py-20 overflow-visible">
         <CallToAction />

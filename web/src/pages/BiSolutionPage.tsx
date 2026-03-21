@@ -22,13 +22,17 @@ import {
   LayoutDashboard,
   Lock,
   Mail,
+  MapPin,
   Package,
   RefreshCw,
   Search,
   Server,
   Share2,
+  Smartphone,
+  Tablet,
   Users,
   Workflow,
+  Zap,
 } from 'lucide-react';
 import RadialOrbitalTimeline from '@/components/ui/radial-orbital-timeline';
 import { usePageTitle } from '@/lib/usePageTitle';
@@ -281,7 +285,7 @@ export function BiSolutionPage() {
         </div>
       </div>
 
-      <div className="h-12" />
+      <div className="h-24" />
 
       {/* Data Sources */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -313,7 +317,159 @@ export function BiSolutionPage() {
         </motion.div>
       </div>
 
-      <div className="h-12" />
+      <div className="h-24" />
+
+      {/* Anywhere Access */}
+      <div className="mx-auto max-w-5xl px-6 py-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
+          className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-14"
+        >
+          <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
+            دسترسی بدون مرز
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter text-white">
+            همیشه و همه‌جا
+          </h2>
+          <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
+            دیگر وابسته به دفتر یا یک دستگاه خاص نیستید. داشبوردهای BI ویترای روی هر صفحه‌ای —
+            از گوشی مدیر تا لپ‌تاپ تحلیل‌گر — به‌درستی نمایش داده می‌شوند. فقط یک مرورگر کافی است.
+          </p>
+        </motion.div>
+
+        {/* Device showcase */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
+          className="relative flex items-end justify-center gap-5 pb-0"
+        >
+          {/* glow */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-28 rounded-full"
+            style={{ background: 'radial-gradient(ellipse at center, rgba(99,102,241,0.22) 0%, transparent 70%)' }}
+          />
+
+          {/* Phone */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center gap-3"
+          >
+            <div className="relative w-[72px] h-[140px] rounded-[14px] border border-indigo-500/40 bg-gradient-to-b from-[#13111f] to-[#1e1b3a] overflow-hidden shadow-[0_8px_32px_rgba(99,102,241,0.18)]">
+              <div className="w-6 h-[3px] bg-white/10 rounded-full mx-auto mt-2" />
+              <div className="p-2 mt-1 flex flex-col gap-1.5">
+                <div className="h-[3px] w-10 rounded bg-white/10" />
+                <div className="h-8 rounded bg-indigo-500/20 relative overflow-hidden">
+                  <div className="absolute bottom-0 inset-x-0 h-3/4 bg-gradient-to-t from-indigo-500/30 to-transparent" />
+                </div>
+                <div className="flex gap-1">
+                  <div className="h-4 flex-1 rounded bg-indigo-500/20" />
+                  <div className="h-4 w-8 rounded bg-indigo-500/20" />
+                </div>
+                <div className="h-[2px] w-11 rounded bg-white/10" />
+                <div className="h-[2px] w-8 rounded bg-white/8" />
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 text-[11px] font-medium text-indigo-400 uppercase tracking-wide">
+              <Smartphone size={11} />
+              موبایل
+            </div>
+          </motion.div>
+
+          {/* Tablet */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center gap-3 mb-3"
+          >
+            <div className="relative w-[110px] h-[152px] rounded-[14px] border border-indigo-500/40 bg-gradient-to-b from-[#13111f] to-[#1e1b3a] overflow-hidden shadow-[0_8px_32px_rgba(99,102,241,0.18)]">
+              <div className="p-2.5 mt-1 flex flex-col gap-1.5">
+                <div className="h-[3px] w-16 rounded bg-white/10" />
+                <div className="flex gap-1.5">
+                  <div className="h-10 flex-1 rounded bg-indigo-500/20" />
+                  <div className="h-10 flex-1 rounded bg-indigo-500/20" />
+                </div>
+                <div className="h-11 rounded bg-indigo-500/15 relative overflow-hidden">
+                  <div className="absolute bottom-0 inset-x-0 h-3/4 bg-gradient-to-t from-indigo-500/28 to-transparent" />
+                </div>
+                <div className="h-[2px] w-full rounded bg-white/10" />
+                <div className="h-[2px] w-16 rounded bg-white/8" />
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 text-[11px] font-medium text-indigo-400 uppercase tracking-wide">
+              <Tablet size={11} />
+              تبلت
+            </div>
+          </motion.div>
+
+          {/* Laptop */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.36, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center gap-0 mb-7"
+          >
+            <div className="relative w-[180px] h-[116px] rounded-t-[10px] border border-indigo-500/40 border-b-0 bg-gradient-to-b from-[#13111f] to-[#1e1b3a] overflow-hidden shadow-[0_8px_32px_rgba(99,102,241,0.22)]">
+              <div className="w-7 h-[3px] bg-white/10 rounded-full mx-auto mt-1.5" />
+              <div className="p-2.5 mt-1 flex flex-col gap-1.5">
+                <div className="flex gap-1.5">
+                  <div className="h-6 flex-1 rounded bg-indigo-500/20" />
+                  <div className="h-6 flex-1 rounded bg-indigo-500/20" />
+                  <div className="h-6 flex-1 rounded bg-indigo-500/20" />
+                </div>
+                <div className="h-14 rounded bg-indigo-500/15 relative overflow-hidden">
+                  <div className="absolute bottom-0 inset-x-0 h-3/4 bg-gradient-to-t from-indigo-500/28 to-transparent" />
+                </div>
+                <div className="flex gap-1.5">
+                  <div className="h-[2px] flex-1 rounded bg-white/10" />
+                  <div className="h-[2px] flex-1 rounded bg-white/8" />
+                </div>
+              </div>
+            </div>
+            <div className="w-[200px] h-2 rounded-b-md bg-gradient-to-b from-[#2a2440] to-[#1a1630] border border-t-0 border-indigo-500/35" />
+            <div className="flex items-center gap-1.5 text-[11px] font-medium text-indigo-400 uppercase tracking-wide mt-3">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              لپ‌تاپ
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Feature pills */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
+          className="flex flex-wrap justify-center gap-3 mt-10"
+        >
+          {[
+            { icon: MapPin, label: 'دسترسی از هر کجای دنیا' },
+            { icon: Zap, label: 'به‌روزرسانی لحظه‌ای' },
+            { icon: Smartphone, label: 'طراحی ریسپانسیو کامل' },
+          ].map(({ icon: Icon, label }) => (
+            <div
+              key={label}
+              className="inline-flex items-center gap-2 border border-border/50 bg-muted/20 rounded-full px-4 py-2 text-sm text-muted-foreground"
+            >
+              <Icon size={13} className="text-indigo-400" />
+              {label}
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      <div className="h-24" />
 
       {/* Process */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -367,7 +523,7 @@ export function BiSolutionPage() {
         </AnimatedBackground>
       </div>
 
-      <div className="h-12" />
+      <div className="h-24" />
 
       {/* Pillars */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -425,7 +581,7 @@ export function BiSolutionPage() {
         </motion.div>
       </div>
 
-      <div className="h-12" />
+      <div className="h-24" />
 
       {/* Deliverables */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -466,7 +622,7 @@ export function BiSolutionPage() {
         </motion.div>
       </div>
 
-      <div className="h-12" />
+      <div className="h-24" />
 
       {/* Dashboard Templates */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -518,7 +674,7 @@ export function BiSolutionPage() {
         </motion.div>
       </LampContainer>
 
-      <div className="h-8" />
+      <div className="h-16" />
 
       <div className="mx-auto max-w-5xl px-6 py-20 overflow-visible">
         <CallToAction />

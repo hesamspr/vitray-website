@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { PremiumHero } from '@/components/ui/hero';
 import { Button } from '@/components/ui/button';
 import { GlowCard } from '@/components/ui/spotlight-card';
-import { Briefcase, Home, Info, Lightbulb, Mail, Package, Target, TrendingUp } from 'lucide-react';
+import { BarChart2, Briefcase, Database, Home, Info, Lightbulb, Mail, Package, Target, TrendingUp } from 'lucide-react';
 import { LogoCarousel } from '@/components/ui/logo-carousel';
 import { NavBar } from '@/components/ui/tubelight-navbar';
 import { CallToAction } from '@/components/ui/cta-3';
@@ -11,6 +11,7 @@ import { FocusCards } from '@/components/ui/focus-cards';
 import { motion } from 'motion/react';
 import { usePageTitle } from '@/lib/usePageTitle';
 import { BentoGrid, type BentoItem } from '@/components/ui/bento-grid';
+import { cn } from '@/lib/utils';
 
 const BiNavIcon = ({ className }: { className?: string }) => <img src="/fav.png" alt="هوش تجاری" className={className} />;
 const PlexNavIcon = ({ className }: { className?: string }) => <img src="/product%20logos/plex%20fav%20white.png" alt="پلکس" className={className} />;
@@ -181,7 +182,7 @@ export function App() {
           </div>
         </section>
 
-        <div className="h-12" />
+        <div className="h-24" />
 
         <section id="products" className="space-y-8">
           <motion.div
@@ -313,7 +314,7 @@ export function App() {
           </div>
         </section>
 
-        <div className="h-12" />
+        <div className="h-24" />
 
         <section id="testimonials" className="space-y-8">
           <motion.div
@@ -337,7 +338,7 @@ export function App() {
           <FocusCards cards={customerSuccessCards} />
         </section>
 
-        <div className="h-12" />
+        <div className="h-24" />
 
         <section className="space-y-8">
           <motion.div
@@ -359,6 +360,93 @@ export function App() {
           </motion.div>
 
           <BentoGrid items={whyItems} />
+        </section>
+
+        <div className="h-24" />
+
+        {/* Data Maturity */}
+        <section className="space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
+          >
+            <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
+              مدل بلوغ داده
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
+              همراه شما از آگاهی تا داده‌محوری
+            </h2>
+            <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
+              حرکت به‌سوی تصمیم‌گیری مبتنی بر داده سفری تدریجی و هدفمند است. در ویترای، رویکرد ما بر
+              پایه‌ی مدل بلوغ داده طراحی شده — مدلی که مسیر حرکت سازمان‌ها از آگاهی اولیه تا
+              تصمیم‌گیری کاملاً داده‌محور را ترسیم می‌کند.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 relative z-10 rounded-2xl border border-border/60 overflow-hidden">
+            {[
+              {
+                icon: Database,
+                title: 'آگاهی از داده',
+                en: 'Data Aware',
+                body: 'داده‌ها به‌صورت دستی از منابع مختلف گردآوری می‌شوند. تمرکز بر ایجاد درک اولیه از ارزش داده و استانداردسازی گزارش‌هاست.',
+              },
+              {
+                icon: BarChart2,
+                title: 'تسلط بر داده',
+                en: 'Data Proficient',
+                body: 'سازمان از یک پلتفرم متمرکز برای گزارش‌دهی استفاده می‌کند و شاخص‌های کلیدی عملکرد خود را به شکل منظم پایش می‌کند.',
+              },
+              {
+                icon: Lightbulb,
+                title: 'هوشمندی داده',
+                en: 'Data Savvy',
+                body: 'داده‌ها به منبع اصلی تصمیم‌گیری‌های کلیدی تبدیل می‌شوند و تحلیل‌ها نقش تعیین‌کننده در جهت‌گیری‌های سازمان دارند.',
+              },
+              {
+                icon: Target,
+                title: 'داده‌محوری',
+                en: 'Data Driven',
+                body: 'داده در تمامی فرآیندها و تصمیمات سازمان نهادینه می‌شود و تصمیمی بدون اتکا به داده گرفته نمی‌شود.',
+              },
+            ].map((stage, index) => {
+              const Icon = stage.icon;
+              const isLastRow = index >= 4 - (4 % 4 || 4);
+              return (
+                <div
+                  key={stage.title}
+                  className={cn(
+                    "flex flex-col py-10 relative group/feature border-border/60",
+                    "lg:border-r",
+                    index === 0 && "lg:border-l",
+                    !isLastRow && "lg:border-b",
+                    index < 2 && "sm:border-b lg:border-b-0",
+                    index % 2 === 0 && index < 3 && "sm:border-r lg:border-r-0",
+                  )}
+                >
+                  <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-muted/60 to-transparent pointer-events-none" />
+                  <div className="mb-4 relative z-10 px-10 text-muted-foreground">
+                    <Icon size={22} />
+                  </div>
+                  <div className="text-base font-bold mb-2 relative z-10 px-10">
+                    <div className="absolute right-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tl-full rounded-bl-full bg-border group-hover/feature:bg-primary transition-all duration-200 origin-center" />
+                    <span className="group-hover/feature:-translate-x-2 transition duration-200 inline-block text-foreground">
+                      {stage.title}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground max-w-xs relative z-10 px-10 leading-relaxed">
+                    {stage.body}
+                  </p>
+                  <div className="mt-4 relative z-10 px-10">
+                    <span className="text-xs text-muted-foreground/50 border border-border/40 px-2 py-0.5 rounded-full" dir="ltr">{stage.en}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </section>
 
       </main>

@@ -63,7 +63,7 @@ export function AboutPage() {
         </motion.div>
       </div>
 
-      <div className="h-8" />
+      <div className="h-16" />
 
       {/* Company overview card */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -114,7 +114,7 @@ export function AboutPage() {
         </motion.div>
       </div>
 
-      <div className="h-12" />
+      <div className="h-24" />
 
       {/* Brand story */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -150,7 +150,7 @@ export function AboutPage() {
         </motion.div>
       </div>
 
-      <div className="h-12" />
+      <div className="h-24" />
 
       {/* Data Maturity */}
       <div className="mx-auto max-w-5xl px-6 py-4">

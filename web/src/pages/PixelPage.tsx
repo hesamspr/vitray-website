@@ -198,7 +198,7 @@ export function PixelPage() {
         </div>
       </div>
 
-      <div className="h-12" />
+      <div className="h-24" />
 
       {/* Why Pixel — main WarpCard */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -243,7 +243,7 @@ export function PixelPage() {
         </motion.div>
       </div>
 
-      <div className="h-4" />
+      <div className="h-10" />
 
       {/* Data sources + Interactive dashboards — side by side */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -323,7 +323,7 @@ export function PixelPage() {
         </div>
       </div>
 
-      <div className="h-8" />
+      <div className="h-16" />
 
       {/* Comparison section */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -381,7 +381,7 @@ export function PixelPage() {
         </motion.div>
       </div>
 
-      <div className="h-8" />
+      <div className="h-16" />
 
       {/* Dashboard examples */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -392,7 +392,7 @@ export function PixelPage() {
           viewport={{ once: true }}
         >
           <div className="space-y-6">
-            <div className="space-y-2">
+            <div className="flex flex-col items-center text-center space-y-3">
               <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
                 نمونه‌های واقعی
               </div>
@@ -466,7 +466,7 @@ export function PixelPage() {
         </motion.div>
       </LampContainer>
 
-      <div className="h-8" />
+      <div className="h-16" />
 
       <div className="mx-auto max-w-5xl px-6 py-20 overflow-visible">
         <CallToAction />
