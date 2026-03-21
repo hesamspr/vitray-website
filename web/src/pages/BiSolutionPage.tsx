@@ -11,231 +11,197 @@ import {
   BarChart3,
   Building2,
   CheckCircle2,
-  Cloud,
   Database,
   FileSpreadsheet,
   FileText,
-  GraduationCap,
-  Home,
-  Info,
-  Layers3,
   LayoutDashboard,
   Lock,
-  Mail,
   MapPin,
-  Package,
   RefreshCw,
   Search,
   Server,
-  Share2,
   Smartphone,
   Tablet,
   Users,
   Workflow,
   Zap,
+  Layers3,
 } from 'lucide-react';
 import RadialOrbitalTimeline from '@/components/ui/radial-orbital-timeline';
 import { usePageTitle } from '@/lib/usePageTitle';
-import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { ConsultationModal } from '@/components/ui/consultation-modal';
-
-const navItems = [
-  { name: 'خانه', url: '/', icon: Home },
-  {
-    name: 'راهکارها',
-    url: '/#products',
-    icon: Package,
-    subItems: [
-      { name: 'هوش تجاری', url: '/bi-solution', icon: BarChart3 },
-      { name: 'پیکسل', url: '/pixel', icon: Cloud },
-      { name: 'پالس', url: '/pulse', icon: Share2 },
-      { name: 'پلکس', url: '/plex', icon: Layers3 },
-      { name: 'آکادمی', url: 'https://academy.vitrayco.com', icon: GraduationCap },
-    ],
-  },
-  { name: 'درباره ما', url: '/about', icon: Info },
-  { name: 'تماس با ما', url: '/contact', icon: Mail },
-];
-
-const phases = [
-  {
-    id: '۰۱',
-    title: 'شناسایی نیاز و تعریف اهداف',
-    description:
-      'با تیم شما جلسات کشف نیاز برگزار می‌کنیم تا الزامات کسب‌وکار را به‌درستی درک کنیم. شاخص‌های کلیدی عملکرد (KPI) و سوالات اصلی تصمیم‌گیری را شناسایی و مستند می‌سازیم.',
-    icon: Search,
-  },
-  {
-    id: '۰۲',
-    title: 'جمع‌آوری و یکپارچه‌سازی داده',
-    description:
-      'داده‌ها را از منابع مختلف — سیستم‌های ERP، پایگاه‌های داده، فایل‌های اکسل و APIهای خارجی — گردآوری می‌کنیم. پاک‌سازی و اعتبارسنجی داده برای اطمینان از کیفیت انجام می‌شود.',
-    icon: Database,
-  },
-  {
-    id: '۰۳',
-    title: 'مدل‌سازی داده',
-    description:
-      'ساختارها و مدل‌های داده‌ای طراحی می‌کنیم که تحلیل دقیق‌تر و سریع‌تر را ممکن می‌سازند. مدل‌سازی ستاره‌ای و اسنوفلیک برای بهینه‌سازی پرس‌وجوها به‌کار می‌رود.',
-    icon: Workflow,
-  },
-  {
-    id: '۰۴',
-    title: 'تحلیل و ساخت داشبورد',
-    description:
-      'داده‌های یکپارچه را به داشبوردها و گزارش‌های تعاملی تبدیل می‌کنیم. تجسم‌های بصری طراحی‌شده برای هر سطح سازمانی، از مدیران ارشد تا تحلیل‌گران عملیاتی.',
-    icon: LayoutDashboard,
-  },
-  {
-    id: '۰۵',
-    title: 'پشتیبانی و بهبود مستمر',
-    description:
-      'پس از راه‌اندازی کنارتان می‌مانیم. نیازهای جدید را تحلیل می‌کنیم، داده‌های اضافی یکپارچه می‌سازیم و کارایی سیستم را در طول زمان حفظ می‌کنیم.',
-    icon: RefreshCw,
-  },
-];
-
-const pillars = [
-  {
-    id: 'integration',
-    title: 'یکپارچه‌سازی داده',
-    description:
-      'اتصال به منابع داده‌ای متنوع و مدیریت یکپارچه داده‌های ساختاریافته و غیرساختاریافته در یک پلتفرم واحد.',
-    icon: Database,
-  },
-  {
-    id: 'analytics',
-    title: 'تحلیل پیشرفته',
-    description:
-      'تبدیل داده‌های خام به بینش‌های عملی از طریق مدل‌سازی، پیش‌بینی و گزارش‌دهی بلادرنگ.',
-    icon: BarChart3,
-  },
-  {
-    id: 'infra',
-    title: 'زیرساخت مقیاس‌پذیر',
-    description:
-      'راهکارهایی که با رشد کسب‌وکار شما بزرگ می‌شوند و در عین حال امنیت داده و انطباق با مقررات را تضمین می‌کنند.',
-    icon: Lock,
-  },
-  {
-    id: 'ux',
-    title: 'طراحی کاربرمحور',
-    description:
-      'داشبوردهای شهودی که نیازی به دانش فنی عمیق ندارند. تصمیم‌گیری بهتر برای همه افراد سازمان.',
-    icon: Users,
-  },
-  {
-    id: 'improvement',
-    title: 'بهبود مستمر',
-    description:
-      'بهینه‌سازی مداوم راهکار متناسب با تغییر نیازهای کسب‌وکار، همراه با پشتیبانی فنی تخصصی.',
-    icon: RefreshCw,
-  },
-  {
-    id: 'reporting',
-    title: 'گزارش‌دهی چندسطحی',
-    description:
-      'ارائه نمای کامل از عملکرد سازمان در سطوح استراتژیک، تاکتیکی و عملیاتی در یک پلتفرم یکپارچه.',
-    icon: Layers3,
-  },
-];
-
-
-const dataSources = [
-  {
-    id: 1,
-    title: 'ERP',
-    date: 'همکاران٬ رایورز و سایر',
-    content: 'اتصال مستقیم به سیستم‌های ERP نظیر SAP، Microsoft Dynamics و سیستم‌های بومی برای استخراج داده‌های مالی، تولید و زنجیره تأمین.',
-    category: 'Enterprise',
-    icon: Building2,
-    relatedIds: [2, 6, 7],
-    status: 'completed' as const,
-    energy: 100,
-  },
-  {
-    id: 2,
-    title: 'CRM',
-    date: 'مایکروسافت / پیام گستر و سایر',
-    content: 'یکپارچه‌سازی با پلتفرم‌های مدیریت ارتباط با مشتری برای تحلیل فروش، رفتار مشتری و پیش‌بینی درآمد.',
-    category: 'Sales',
-    icon: Users,
-    relatedIds: [1, 3],
-    status: 'completed' as const,
-    energy: 95,
-  },
-  {
-    id: 3,
-    title: 'Plex',
-    date: 'Vitray Plex',
-    content: 'اتصال بومی به پلتفرم پلکس ویترای برای یکپارچه‌سازی داده‌های تولید، کنترل کیفیت و عملیات کارخانه.',
-    category: 'Manufacturing',
-    icon: Layers3,
-    relatedIds: [1, 2, 6],
-    status: 'completed' as const,
-    energy: 100,
-  },
-  {
-    id: 4,
-    title: 'Excel',
-    date: 'Microsoft Excel',
-    content: 'وارد کردن و به‌روزرسانی خودکار فایل‌های Excel و گزارش‌های دستی بدون نیاز به وارد کردن مجدد داده.',
-    category: 'Files',
-    icon: FileSpreadsheet,
-    relatedIds: [5],
-    status: 'completed' as const,
-    energy: 90,
-  },
-  {
-    id: 5,
-    title: 'CSV',
-    date: 'Flat Files',
-    content: 'پشتیبانی از فایل‌های CSV، TSV و دیگر فرمت‌های متنی ساختاریافته برای ورودی داده‌های دوره‌ای یا یک‌باره.',
-    category: 'Files',
-    icon: FileText,
-    relatedIds: [4],
-    status: 'completed' as const,
-    energy: 85,
-  },
-  {
-    id: 6,
-    title: 'SQL DB',
-    date: 'SQL Server / MySQL',
-    content: 'اتصال به پایگاه‌های داده رابطه‌ای نظیر SQL Server، MySQL، PostgreSQL و MariaDB از طریق کانکتورهای بهینه.',
-    category: 'Database',
-    icon: Database,
-    relatedIds: [1, 3, 7],
-    status: 'completed' as const,
-    energy: 98,
-  },
-  {
-    id: 7,
-    title: 'Oracle DB',
-    date: 'Oracle Database',
-    content: 'یکپارچه‌سازی با پایگاه داده Oracle برای سازمان‌های بزرگ با حجم داده بالا و الزامات امنیتی سطح سازمانی.',
-    category: 'Database',
-    icon: Server,
-    relatedIds: [1, 6],
-    status: 'completed' as const,
-    energy: 95,
-  },
-];
-
-const deliverables = [
-  'داشبورد مدیریت ارشد (C-Level)',
-  'گزارش‌های عملیاتی روزانه',
-  'تحلیل روند و پیش‌بینی',
-  'مدل داده یکپارچه',
-  'مستندات فنی کامل',
-  'آموزش تیم داخلی',
-  'پشتیبانی پس از راه‌اندازی',
-  'بهینه‌سازی دوره‌ای',
-];
+import { useTranslation } from '@/hooks/useTranslation';
+import { getNavItems } from '@/lib/navItems';
 
 export function BiSolutionPage() {
-  usePageTitle('راهکار هوش تجاری');
+  const { t } = useTranslation();
+  const navItems = getNavItems(t);
+  usePageTitle('page_titles.bi');
   const [modalOpen, setModalOpen] = useState(false);
+
+  const phases = [
+    {
+      id: '۰۱',
+      title: t('bi.phase1_title'),
+      description: t('bi.phase1_body'),
+      icon: Search,
+    },
+    {
+      id: '۰۲',
+      title: t('bi.phase2_title'),
+      description: t('bi.phase2_body'),
+      icon: Database,
+    },
+    {
+      id: '۰۳',
+      title: t('bi.phase3_title'),
+      description: t('bi.phase3_body'),
+      icon: Workflow,
+    },
+    {
+      id: '۰۴',
+      title: t('bi.phase4_title'),
+      description: t('bi.phase4_body'),
+      icon: LayoutDashboard,
+    },
+    {
+      id: '۰۵',
+      title: t('bi.phase5_title'),
+      description: t('bi.phase5_body'),
+      icon: RefreshCw,
+    },
+  ];
+
+  const pillars = [
+    {
+      id: 'integration',
+      title: t('bi.pillar_integration_title'),
+      description: t('bi.pillar_integration_body'),
+      icon: Database,
+    },
+    {
+      id: 'analytics',
+      title: t('bi.pillar_analytics_title'),
+      description: t('bi.pillar_analytics_body'),
+      icon: BarChart3,
+    },
+    {
+      id: 'infra',
+      title: t('bi.pillar_infra_title'),
+      description: t('bi.pillar_infra_body'),
+      icon: Lock,
+    },
+    {
+      id: 'ux',
+      title: t('bi.pillar_ux_title'),
+      description: t('bi.pillar_ux_body'),
+      icon: Users,
+    },
+    {
+      id: 'improvement',
+      title: t('bi.pillar_improvement_title'),
+      description: t('bi.pillar_improvement_body'),
+      icon: RefreshCw,
+    },
+    {
+      id: 'reporting',
+      title: t('bi.pillar_reporting_title'),
+      description: t('bi.pillar_reporting_body'),
+      icon: Layers3,
+    },
+  ];
+
+  const dataSources = [
+    {
+      id: 1,
+      title: 'ERP',
+      date: t('bi.source_erp_date'),
+      content: t('bi.source_erp_content'),
+      category: 'Enterprise',
+      icon: Building2,
+      relatedIds: [2, 6, 7],
+      status: 'completed' as const,
+      energy: 100,
+    },
+    {
+      id: 2,
+      title: 'CRM',
+      date: t('bi.source_crm_date'),
+      content: t('bi.source_crm_content'),
+      category: 'Sales',
+      icon: Users,
+      relatedIds: [1, 3],
+      status: 'completed' as const,
+      energy: 95,
+    },
+    {
+      id: 3,
+      title: 'Plex',
+      date: 'Vitray Plex',
+      content: t('bi.source_plex_content'),
+      category: 'Manufacturing',
+      icon: Layers3,
+      relatedIds: [1, 2, 6],
+      status: 'completed' as const,
+      energy: 100,
+    },
+    {
+      id: 4,
+      title: 'Excel',
+      date: 'Microsoft Excel',
+      content: t('bi.source_excel_content'),
+      category: 'Files',
+      icon: FileSpreadsheet,
+      relatedIds: [5],
+      status: 'completed' as const,
+      energy: 90,
+    },
+    {
+      id: 5,
+      title: 'CSV',
+      date: 'Flat Files',
+      content: t('bi.source_csv_content'),
+      category: 'Files',
+      icon: FileText,
+      relatedIds: [4],
+      status: 'completed' as const,
+      energy: 85,
+    },
+    {
+      id: 6,
+      title: 'SQL DB',
+      date: 'SQL Server / MySQL',
+      content: t('bi.source_sqldb_content'),
+      category: 'Database',
+      icon: Database,
+      relatedIds: [1, 3, 7],
+      status: 'completed' as const,
+      energy: 98,
+    },
+    {
+      id: 7,
+      title: 'Oracle DB',
+      date: 'Oracle Database',
+      content: t('bi.source_oracledb_content'),
+      category: 'Database',
+      icon: Server,
+      relatedIds: [1, 6],
+      status: 'completed' as const,
+      energy: 95,
+    },
+  ];
+
+  const deliverables = [
+    t('bi.deliverable_1'),
+    t('bi.deliverable_2'),
+    t('bi.deliverable_3'),
+    t('bi.deliverable_4'),
+    t('bi.deliverable_5'),
+    t('bi.deliverable_6'),
+    t('bi.deliverable_7'),
+    t('bi.deliverable_8'),
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -270,16 +236,15 @@ export function BiSolutionPage() {
           >
             <div className="inline-flex items-center gap-2 border border-white/20 bg-white/5 backdrop-blur-sm py-1 px-4 rounded-lg text-sm text-white/70 w-fit">
               <BarChart3 size={13} />
-              راهکار هوش تجاری
+              {t('bi.badge')}
             </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-white leading-tight">
-              هوش تجاری،
+              {t('bi.hero_title1')}
               <br />
-              قدم به قدم با شما
+              {t('bi.hero_title2')}
             </h1>
             <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-md">
-              از شناسایی نیاز تا داشبوردهای عملیاتی، تیم ویترای در تمام مراحل پیاده‌سازی BI
-              کنارتان می‌ماند تا داده‌هایتان به بینش‌های واقعی تبدیل شوند.
+              {t('bi.hero_body')}
             </p>
           </motion.div>
         </div>
@@ -297,13 +262,13 @@ export function BiSolutionPage() {
           className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-4"
         >
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-            منابع داده
+            {t('bi.sources_badge')}
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
-            اتصال به هر منبع داده‌ای
+            {t('bi.sources_title')}
           </h2>
           <p className="text-muted-foreground text-sm md:text-base">
-            راهکار BI ما به تمام سیستم‌ها و منابع داده سازمان شما متصل می‌شود تا تصویری یکپارچه از کسب‌وکارتان داشته باشید.
+            {t('bi.sources_body')}
           </p>
         </motion.div>
         <motion.div
@@ -329,14 +294,13 @@ export function BiSolutionPage() {
           className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-14"
         >
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-            دسترسی بدون مرز
+            {t('bi.access_badge')}
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter text-white">
-            همیشه و همه‌جا
+            {t('bi.access_title')}
           </h2>
           <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
-            دیگر وابسته به دفتر یا یک دستگاه خاص نیستید. داشبوردهای BI ویترای روی هر صفحه‌ای —
-            از گوشی مدیر تا لپ‌تاپ تحلیل‌گر — به‌درستی نمایش داده می‌شوند. فقط یک مرورگر کافی است.
+            {t('bi.access_body')}
           </p>
         </motion.div>
 
@@ -380,7 +344,7 @@ export function BiSolutionPage() {
             </div>
             <div className="flex items-center gap-1.5 text-[11px] font-medium text-indigo-400 uppercase tracking-wide">
               <Smartphone size={11} />
-              موبایل
+              {t('bi.access_mobile')}
             </div>
           </motion.div>
 
@@ -408,7 +372,7 @@ export function BiSolutionPage() {
             </div>
             <div className="flex items-center gap-1.5 text-[11px] font-medium text-indigo-400 uppercase tracking-wide">
               <Tablet size={11} />
-              تبلت
+              {t('bi.access_tablet')}
             </div>
           </motion.div>
 
@@ -440,7 +404,7 @@ export function BiSolutionPage() {
             <div className="w-[200px] h-2 rounded-b-md bg-gradient-to-b from-[#2a2440] to-[#1a1630] border border-t-0 border-indigo-500/35" />
             <div className="flex items-center gap-1.5 text-[11px] font-medium text-indigo-400 uppercase tracking-wide mt-3">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              لپ‌تاپ
+              {t('bi.access_laptop')}
             </div>
           </motion.div>
         </motion.div>
@@ -454,9 +418,9 @@ export function BiSolutionPage() {
           className="flex flex-wrap justify-center gap-3 mt-10"
         >
           {[
-            { icon: MapPin, label: 'دسترسی از هر کجای دنیا' },
-            { icon: Zap, label: 'به‌روزرسانی لحظه‌ای' },
-            { icon: Smartphone, label: 'طراحی ریسپانسیو کامل' },
+            { icon: MapPin, label: t('bi.pill_anywhere') },
+            { icon: Zap, label: t('bi.pill_realtime') },
+            { icon: Smartphone, label: t('bi.pill_responsive') },
           ].map(({ icon: Icon, label }) => (
             <div
               key={label}
@@ -481,13 +445,13 @@ export function BiSolutionPage() {
           className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12"
         >
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-            فرآیند اجرا
+            {t('bi.process_badge')}
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
-            پنج گام تا هوشمندی سازمانی
+            {t('bi.process_title')}
           </h2>
           <p className="text-muted-foreground text-sm md:text-base">
-            رویکرد ساختارمند ما تضمین می‌کند که هر مرحله از پروژه با کیفیت و شفافیت کامل انجام شود.
+            {t('bi.process_body')}
           </p>
         </motion.div>
 
@@ -535,13 +499,13 @@ export function BiSolutionPage() {
           className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12"
         >
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-            اصول راهکار
+            {t('bi.pillars_badge')}
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
-            ستون‌های راهکار هوش تجاری ما
+            {t('bi.pillars_title')}
           </h2>
           <p className="text-muted-foreground text-sm md:text-base">
-            هر پروژه BI بر شش اصل پایه‌ای استوار است که با هم یک راهکار جامع و پایدار می‌سازند.
+            {t('bi.pillars_body')}
           </p>
         </motion.div>
 
@@ -599,14 +563,13 @@ export function BiSolutionPage() {
             <div className="grid md:grid-cols-2 gap-10 items-center p-8 md:p-12">
               <div className="space-y-4">
                 <div className="border border-white/20 py-1 px-4 rounded-lg text-sm text-white/60 w-fit">
-                  خروجی‌های پروژه
+                  {t('bi.deliverables_badge')}
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-white">
-                  چه چیزی تحویل می‌گیرید؟
+                  {t('bi.deliverables_title')}
                 </h2>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  در پایان هر پروژه، مجموعه‌ای کامل از مستندات، داشبوردها و دانش فنی به تیم شما
-                  تحویل داده می‌شود تا بتوانند به‌صورت مستقل از سیستم استفاده کنند.
+                  {t('bi.deliverables_body')}
                 </p>
               </div>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -634,13 +597,13 @@ export function BiSolutionPage() {
           className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12"
         >
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-            نمونه داشبورد ها
+            {t('bi.templates_badge')}
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
-            داشبوردهای آماده برای هر صنعت
+            {t('bi.templates_title')}
           </h2>
           <p className="text-muted-foreground text-sm md:text-base">
-            قالب‌های داشبورد اختصاصی برای صنایع مختلف که قابل سفارشی‌سازی کامل بر اساس نیاز کسب‌وکار شما هستند.
+            {t('bi.templates_body')}
           </p>
         </motion.div>
         <motion.div
@@ -663,13 +626,13 @@ export function BiSolutionPage() {
           className="flex flex-col items-center gap-5 text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
-            هوش تجاری، سرمایه‌گذاری با بازده واقعی
+            {t('bi.closing_title')}
           </h2>
           <button
             onClick={() => setModalOpen(true)}
             className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
           >
-            درخواست مشاوره رایگان
+            {t('bi.closing_cta')}
           </button>
         </motion.div>
       </LampContainer>
