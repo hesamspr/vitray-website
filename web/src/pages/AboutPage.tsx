@@ -3,39 +3,14 @@ import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { GlowCard } from '@/components/ui/spotlight-card';
 import { motion } from 'motion/react';
-import {
-  BarChart3,
-  Cloud,
-  GraduationCap,
-  Home,
-  Info,
-  Layers3,
-  Mail,
-  Package,
-  Share2,
-} from 'lucide-react';
 import { usePageTitle } from '@/lib/usePageTitle';
-
-const navItems = [
-  { name: 'خانه', url: '/', icon: Home },
-  {
-    name: 'راهکارها',
-    url: '/#products',
-    icon: Package,
-    subItems: [
-      { name: 'هوش تجاری', url: '/bi-solution', icon: BarChart3 },
-      { name: 'پیکسل', url: '/pixel', icon: Cloud },
-      { name: 'پالس', url: '/pulse', icon: Share2 },
-      { name: 'پلکس', url: '/plex', icon: Layers3 },
-      { name: 'آکادمی', url: 'https://academy.vitrayco.com', icon: GraduationCap },
-    ],
-  },
-  { name: 'درباره ما', url: '/about', icon: Info },
-  { name: 'تماس با ما', url: '/contact', icon: Mail },
-];
+import { useTranslation } from '@/hooks/useTranslation';
+import { getNavItems } from '@/lib/navItems';
 
 export function AboutPage() {
-  usePageTitle('درباره ما');
+  const { t } = useTranslation();
+  const navItems = getNavItems(t);
+  usePageTitle('page_titles.about');
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -50,15 +25,13 @@ export function AboutPage() {
           className="flex flex-col items-center justify-center max-w-[620px] mx-auto text-center space-y-4"
         >
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-            درباره ما
+            {t('about.badge')}
           </div>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter">
-            داده را به تصمیم تبدیل می‌کنیم
+            {t('about.hero_title')}
           </h1>
           <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
-            شرکت ویترای با هدف کمک به سازمان‌ها در تبدیل داده‌های خام به بینش‌های عملی و قابل اجرا
-            در سال ۱۳۹۸ تأسیس شده است. تیم ما متشکل از متخصصان حوزه‌های فناوری و کسب‌وکار است که
-            راه‌حل‌های نوآورانه هوش تجاری را ارائه می‌دهند.
+            {t('about.hero_body')}
           </p>
         </motion.div>
       </div>
@@ -77,30 +50,26 @@ export function AboutPage() {
             <div className="grid md:grid-cols-2 gap-10 items-start">
               <div className="space-y-4">
                 <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-                  ما چه می‌کنیم
+                  {t('about.what_badge')}
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter">
-                  هوش تجاری در خدمت سازمان شما
+                  {t('about.what_title')}
                 </h2>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  با بهره‌گیری از ابزارهای پیشرفته‌ای همچون Microsoft Power BI و دیگر فناوری‌های
-                  تحلیلی، داده‌های شما را به گزارش‌ها و داشبوردهای بصری تبدیل می‌کنیم تا
-                  تصمیم‌گیری سریع‌تر، دقیق‌تر و مبتنی بر داده ممکن شود.
+                  {t('about.what_body1')}
                 </p>
               </div>
               <div className="space-y-4">
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  تمرکز ما بر توانمندسازی سازمان‌ها برای پیشرفت در بازارهای رقابتی است. ما برای
-                  هر صنعت راهکارهای اختصاصی ارائه می‌دهیم تا نیازهای خاص آن را پوشش دهیم.
+                  {t('about.what_body2')}
                 </p>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  هدف نهایی ویترای ایجاد تحول دیجیتال و تقویت نوآوری‌های مبتنی بر داده در
-                  سازمان‌هاست.
+                  {t('about.what_body3')}
                 </p>
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   {[
-                    { value: '۱۳۹۸', label: 'سال تأسیس' },
-                    { value: '+150', label: 'پروژه موفق' },
+                    { value: '۱۳۹۸', label: t('about.stat_founded') },
+                    { value: '+150', label: t('about.stat_projects') },
                   ].map((s) => (
                     <div key={s.label} className="rounded-xl border border-border/40 bg-background/30 p-4 text-center">
                       <div className="text-2xl font-bold tracking-tighter">{s.value}</div>
@@ -136,15 +105,13 @@ export function AboutPage() {
           />
           <div className="relative px-8 py-12 md:px-16 md:py-16 flex flex-col items-center text-center space-y-6">
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-              داستان ما
+              {t('about.story_badge')}
             </div>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tighter max-w-xl leading-snug">
-              ویترای، هنری است برای بخشیدن جان به شیشه‌ها
+              {t('about.story_title')}
             </h2>
             <p className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-2xl">
-              ما در ویترای نیز با همان روح هنرمندانه، به داده‌های شما معنا می‌بخشیم و آن‌ها را به
-              تصاویری روشن و قابل درک تبدیل می‌کنیم؛ تصاویری که تصمیم‌گیری را آسان‌تر و آینده را
-              شفاف‌تر می‌سازند.
+              {t('about.story_body')}
             </p>
           </div>
         </motion.div>
@@ -163,15 +130,13 @@ export function AboutPage() {
           className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12"
         >
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-            مدل بلوغ داده
+            {t('about.maturity_badge')}
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
-            همراه شما از آگاهی تا داده‌محوری
+            {t('about.maturity_title')}
           </h2>
           <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
-            حرکت به‌سوی تصمیم‌گیری مبتنی بر داده سفری تدریجی و هدفمند است. در ویترای، رویکرد ما بر
-            پایه‌ی مدل بلوغ داده طراحی شده — مدلی که مسیر حرکت سازمان‌ها از آگاهی اولیه تا
-            تصمیم‌گیری کاملاً داده‌محور را ترسیم می‌کند.
+            {t('about.maturity_body')}
           </p>
         </motion.div>
 
@@ -181,30 +146,30 @@ export function AboutPage() {
             {
               num: '۱',
               glow: 'blue' as const,
-              title: 'آگاهی از داده',
+              title: t('home.stage1_title'),
               en: 'Data Aware',
-              body: 'داده‌ها به‌صورت دستی از منابع مختلف گردآوری می‌شوند. تمرکز بر ایجاد درک اولیه از ارزش داده و استانداردسازی گزارش‌هاست.',
+              body: t('home.stage1_body'),
             },
             {
               num: '۲',
               glow: 'green' as const,
-              title: 'تسلط بر داده',
+              title: t('home.stage2_title'),
               en: 'Data Proficient',
-              body: 'سازمان از یک پلتفرم متمرکز برای گزارش‌دهی استفاده می‌کند و شاخص‌های کلیدی عملکرد خود را به شکل منظم پایش می‌کند.',
+              body: t('home.stage2_body'),
             },
             {
               num: '۳',
               glow: 'orange' as const,
-              title: 'هوشمندی داده',
+              title: t('home.stage3_title'),
               en: 'Data Savvy',
-              body: 'داده‌ها به منبع اصلی تصمیم‌گیری‌های کلیدی تبدیل می‌شوند و تحلیل‌ها نقش تعیین‌کننده در جهت‌گیری‌های سازمان دارند.',
+              body: t('home.stage3_body'),
             },
             {
               num: '۴',
               glow: 'purple' as const,
-              title: 'داده‌محوری',
+              title: t('home.stage4_title'),
               en: 'Data Driven',
-              body: 'داده در تمامی فرآیندها و تصمیمات سازمان نهادینه می‌شود و تصمیمی بدون اتکا به داده گرفته نمی‌شود.',
+              body: t('home.stage4_body'),
             },
           ].map((stage, index) => (
             <motion.div
@@ -235,9 +200,7 @@ export function AboutPage() {
           className="rounded-2xl border border-border/60 bg-card px-8 py-6 text-center space-y-2"
         >
           <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            در این مسیر، ویترای نقش مشاور و همراه قابل اعتماد شما را ایفا می‌کند — از شناسایی
-            جایگاه فعلی سازمان در مدل بلوغ داده، تا طراحی راهکارهای فنی و تحلیلی متناسب با
-            نیازها و اهداف آینده‌ی شما.
+            {t('about.maturity_closing')}
           </p>
         </motion.div>
       </div>

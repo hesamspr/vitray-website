@@ -137,7 +137,14 @@
     "what_body2": "We focus on empowering organizations to thrive in competitive markets, delivering tailored solutions for every industry's unique requirements.",
     "what_body3": "Vitray's ultimate goal is to drive digital transformation and strengthen data-driven innovation across organizations.",
     "stat_founded": "Founded",
-    "stat_projects": "Successful Projects"
+    "stat_projects": "Successful Projects",
+    "story_badge": "Our Story",
+    "story_title": "Vitray: the Art of Breathing Life into Glass",
+    "story_body": "At Vitray, we bring that same artistic spirit to your data — transforming it into clear, meaningful visuals that make decisions easier and the future more legible.",
+    "maturity_badge": "Data Maturity Model",
+    "maturity_title": "With You from Data Awareness to Data-Driven",
+    "maturity_body": "Becoming data-driven is a deliberate, step-by-step journey. At Vitray, our approach is built on the Data Maturity Model — a framework that maps an organization's path from first awareness all the way to fully data-driven decision-making.",
+    "maturity_closing": "Throughout this journey, Vitray acts as your trusted advisor — from identifying your organization's current position on the maturity model, to designing the technical and analytical solutions that match your future goals."
   },
   "contact": {
     "badge": "Contact",
@@ -155,6 +162,7 @@
     "form_details": "Message",
     "form_name_placeholder": "Alex Johnson",
     "form_company_placeholder": "Acme Corp",
+    "form_details_placeholder": "How can we help?",
     "form_submit": "Send Message",
     "form_submitting": "Sending...",
     "success_title": "Message Sent",
