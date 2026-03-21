@@ -42,31 +42,31 @@ export function BiSolutionPage() {
 
   const phases = [
     {
-      id: '۰۱',
+      id: '01',
       title: t('bi.phase1_title'),
       description: t('bi.phase1_body'),
       icon: Search,
     },
     {
-      id: '۰۲',
+      id: '02',
       title: t('bi.phase2_title'),
       description: t('bi.phase2_body'),
       icon: Database,
     },
     {
-      id: '۰۳',
+      id: '03',
       title: t('bi.phase3_title'),
       description: t('bi.phase3_body'),
       icon: Workflow,
     },
     {
-      id: '۰۴',
+      id: '04',
       title: t('bi.phase4_title'),
       description: t('bi.phase4_body'),
       icon: LayoutDashboard,
     },
     {
-      id: '۰۵',
+      id: '05',
       title: t('bi.phase5_title'),
       description: t('bi.phase5_body'),
       icon: RefreshCw,
