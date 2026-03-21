@@ -414,7 +414,6 @@ export function App() {
               },
             ].map((stage, index) => {
               const Icon = stage.icon;
-              const isLastRow = index >= 4 - (4 % 4 || 4);
               return (
                 <div
                   key={stage.title}
@@ -422,7 +421,6 @@ export function App() {
                     "flex flex-col py-10 relative group/feature border-border/60",
                     "lg:border-r",
                     index === 0 && "lg:border-l",
-                    !isLastRow && "lg:border-b",
                     index < 2 && "sm:border-b lg:border-b-0",
                     index % 2 === 0 && index < 3 && "sm:border-r lg:border-r-0",
                   )}

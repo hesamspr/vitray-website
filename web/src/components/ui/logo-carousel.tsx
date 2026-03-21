@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface Logo {
@@ -12,7 +10,6 @@ interface Logo {
 interface LogoColumnProps {
   logos: Logo[];
   index: number;
-  currentTime: number;
 }
 
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -42,11 +39,25 @@ const distributeLogos = (allLogos: Logo[], columnCount: number): Logo[][] => {
   return columns;
 };
 
-const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, currentTime }) => {
-  const cycleInterval = 2000;
-  const columnDelay = index * 200;
-  const adjustedTime = (currentTime + columnDelay) % (cycleInterval * logos.length);
-  const currentIndex = Math.floor(adjustedTime / cycleInterval);
+// Each column manages its own cycling — avoids a 100ms parent tick re-rendering all children
+const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    // Stagger column start times to match original columnDelay behaviour
+    const delay = index * 200;
+    let intervalId: ReturnType<typeof setInterval>;
+    const timeoutId = setTimeout(() => {
+      intervalId = setInterval(() => {
+        setCurrentIndex((i) => (i + 1) % logos.length);
+      }, 2000);
+    }, delay);
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
+  }, [logos.length, index]);
+
   const CurrentLogo = useMemo(() => logos[currentIndex].img, [logos, currentIndex]);
 
   return (
@@ -104,7 +115,6 @@ interface LogoCarouselProps {
 
 export function LogoCarousel({ columnCount = 2, mobileColumnCount = 3, logos }: LogoCarouselProps) {
   const [logoSets, setLogoSets] = useState<Logo[][]>([]);
-  const [currentTime, setCurrentTime] = useState(0);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
 
   useEffect(() => {
@@ -115,28 +125,15 @@ export function LogoCarousel({ columnCount = 2, mobileColumnCount = 3, logos }: 
 
   const activeColumnCount = isMobile ? mobileColumnCount : columnCount;
 
-  const updateTime = useCallback(() => {
-    setCurrentTime((prevTime) => prevTime + 100);
-  }, []);
-
   useEffect(() => {
-    const intervalId = setInterval(updateTime, 100);
-    return () => clearInterval(intervalId);
-  }, [updateTime]);
-
-  useEffect(() => {
-    const distributedLogos = distributeLogos(logos, activeColumnCount);
-    setLogoSets(distributedLogos);
+    setLogoSets(distributeLogos(logos, activeColumnCount));
   }, [logos, activeColumnCount]);
 
   return (
     <div className="flex gap-4">
       {logoSets.map((logos, index) => (
-        <LogoColumn key={index} logos={logos} index={index} currentTime={currentTime} />
+        <LogoColumn key={index} logos={logos} index={index} />
       ))}
     </div>
   );
 }
-
-export { LogoColumn };
-

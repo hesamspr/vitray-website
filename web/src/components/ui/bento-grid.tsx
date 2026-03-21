@@ -1,11 +1,10 @@
-"use client";
-
+import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export interface BentoItem {
   title: string;
   description: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   status?: string;
   tags?: string[];
   meta?: string;

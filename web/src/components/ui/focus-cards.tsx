@@ -1,4 +1,3 @@
-"use client";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -71,7 +70,7 @@ export function FocusCards({ cards }: { cards: CardType[] }) {
   useEffect(() => {
     cards.forEach((card) => {
       const img = new Image();
-      img.src = card.src.normalize('NFC').normalize('NFC');
+      img.src = card.src.normalize('NFC');
     });
   }, [cards]);
 
