@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getNavItems } from '@/lib/navItems';
 
+// Brand names are intentionally kept in Persian — proper nouns, not translated
 const customerSuccessCards = [
   { title: "آب معدنی دماوند",           src: "/customer success/آب معدنی دماوند.webp" },
   { title: "بهداشتی پاکناز",            src: "/customer success/بهداشتی پاکناز.webp" },
