@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Link, useLocation } from "react-router-dom"
 import { ChevronDown, LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useLanguage } from "@/context/LanguageContext"
 
 interface NavSubItem {
   name: string
@@ -36,6 +37,7 @@ function GlowIndicator() {
 
 export function NavBar({ items, className }: NavBarProps) {
   const { pathname } = useLocation()
+  const { lang, toggleLanguage } = useLanguage()
 
   const findActiveItem = (path: string) =>
     items.find(item =>
@@ -157,6 +159,24 @@ export function NavBar({ items, className }: NavBarProps) {
             </div>
           )
         })}
+
+        {/* Language toggle — desktop */}
+        <button
+          onClick={toggleLanguage}
+          className="hidden md:flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border border-border/50 text-foreground/70 hover:text-primary hover:border-primary/50 transition-colors ms-1"
+          aria-label="Toggle language"
+        >
+          {lang === 'fa' ? 'EN' : 'فا'}
+        </button>
+
+        {/* Language toggle — mobile */}
+        <button
+          onClick={toggleLanguage}
+          className="flex md:hidden items-center px-3 py-1.5 rounded-full text-xs font-semibold border border-border/50 text-foreground/70 hover:text-primary hover:border-primary/50 transition-colors ms-1"
+          aria-label="Toggle language"
+        >
+          {lang === 'fa' ? 'EN' : 'فا'}
+        </button>
       </div>
     </div>
   )

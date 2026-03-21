@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { PremiumHero } from '@/components/ui/hero';
 import { Button } from '@/components/ui/button';
 import { GlowCard } from '@/components/ui/spotlight-card';
-import { BarChart2, Briefcase, Database, Home, Info, Lightbulb, Mail, Package, Target, TrendingUp } from 'lucide-react';
+import { BarChart2, Briefcase, Database, Lightbulb, Target, TrendingUp } from 'lucide-react';
 import { LogoCarousel } from '@/components/ui/logo-carousel';
 import { NavBar } from '@/components/ui/tubelight-navbar';
 import { CallToAction } from '@/components/ui/cta-3';
@@ -12,31 +12,10 @@ import { motion } from 'motion/react';
 import { usePageTitle } from '@/lib/usePageTitle';
 import { BentoGrid, type BentoItem } from '@/components/ui/bento-grid';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/hooks/useTranslation';
+import { getNavItems } from '@/lib/navItems';
 
-const BiNavIcon = ({ className }: { className?: string }) => <img src="/fav.png" alt="هوش تجاری" className={className} />;
-const PlexNavIcon = ({ className }: { className?: string }) => <img src="/product%20logos/plex%20fav%20white.png" alt="پلکس" className={className} />;
-const PixelNavIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pixel%20Fav%20W.png" alt="پیکسل" className={className} />;
-const PulseNavIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pulse%20Fav%20W.png" alt="پالس" className={className} />;
-const AcademyNavIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Academy%20FAV%20White.png" alt="آکادمی" className={className} />;
-
-const navItems = [
-  { name: 'خانه', url: '#home', icon: Home },
-  {
-    name: 'راهکارها',
-    url: '#products',
-    icon: Package,
-    subItems: [
-      { name: 'هوش تجاری', url: '/bi-solution', icon: BiNavIcon },
-      { name: 'پلکس', url: '/plex', icon: PlexNavIcon },
-      { name: 'پالس', url: '/pulse', icon: PulseNavIcon },
-      { name: 'پیکسل', url: '/pixel', icon: PixelNavIcon },
-      { name: 'آکادمی', url: 'https://academy.vitrayco.com', icon: AcademyNavIcon },
-    ],
-  },
-  { name: 'درباره ما', url: '/about', icon: Info },
-  { name: 'تماس با ما', url: '/contact', icon: Mail },
-];
-
+// Brand names are intentionally kept in Persian — proper nouns, not translated
 const customerSuccessCards = [
   { title: "آب معدنی دماوند",           src: "/customer success/آب معدنی دماوند.webp" },
   { title: "بهداشتی پاکناز",            src: "/customer success/بهداشتی پاکناز.webp" },
@@ -59,31 +38,6 @@ const customerSuccessCards = [
   { title: "پیشرو فرآیند بدر",          src: "/customer success/پیشرو فرآیند بدر.webp" },
   { title: "کایل سیمیا",                src: "/customer success/کایل سیمیا.webp" },
 ];
-
-const whyItems: BentoItem[] = [
-  {
-    icon: <Briefcase className="w-4 h-4 text-primary" />,
-    title: 'آشنایی با کسب‌وکارها',
-    description: 'تیم ما با سال‌ها حضور در صنایع مختلف و همکاری با سازمان‌های گوناگون، به‌خوبی با چالش‌ها، نیازها و فرصت‌هایی که در مسیر رشد پیش می‌آیند، آشناست.',
-    hasPersistentHover: true,
-  },
-  {
-    icon: <TrendingUp className="w-4 h-4 text-primary" />,
-    title: 'سرعت اجرا',
-    description: 'تجربه گسترده ما در اجرای پروژه‌های متنوع هوش تجاری، برگ برنده‌ای است که به شما کمک می‌کند با سرعت و دقت به نتایج مورد انتظار دست یابید.',
-  },
-  {
-    icon: <Target className="w-4 h-4 text-primary" />,
-    title: 'مشتری‌مداری',
-    description: 'در ویترای، موفقیت مشتریانمان نه تنها هدف، بلکه ارزش محوری ماست. رشد و دستاوردهای شما مستقیماً به پیشرفت ما گره خورده است.',
-  },
-  {
-    icon: <Lightbulb className="w-4 h-4 text-primary" />,
-    title: 'ابزار و رویکرد درست',
-    description: 'رویکرد ما با Semantic Layer مستقل روی SSAS Tabular و فرآیند ETL پیشرفته، نیازهای سازمان‌های بزرگ را فراتر از محدودیت‌های معمول پاسخ می‌دهد.',
-  },
-];
-
 
 function imgLogo(src: string, alt: string) {
   return function LogoImg({ className }: { className?: string }) {
@@ -149,6 +103,27 @@ const customerLogos = [
 
 export function App() {
   usePageTitle();
+  const { t } = useTranslation();
+
+  const navItems = getNavItems(t).map(item => {
+    if (item.url === '/') return { ...item, url: '#home' };
+    if (item.url === '/#products') return { ...item, url: '#products' };
+    return item;
+  });
+
+  const whyItems: BentoItem[] = [
+    { icon: <Briefcase className="w-4 h-4 text-primary" />, title: t('home.why_business'), description: t('home.why_business_body'), hasPersistentHover: true },
+    { icon: <TrendingUp className="w-4 h-4 text-primary" />, title: t('home.why_speed'), description: t('home.why_speed_body') },
+    { icon: <Target className="w-4 h-4 text-primary" />, title: t('home.why_customer'), description: t('home.why_customer_body') },
+    { icon: <Lightbulb className="w-4 h-4 text-primary" />, title: t('home.why_tools'), description: t('home.why_tools_body') },
+  ];
+
+  const maturityStages = [
+    { icon: Database, title: t('home.stage1_title'), en: 'Data Aware', body: t('home.stage1_body') },
+    { icon: BarChart2, title: t('home.stage2_title'), en: 'Data Proficient', body: t('home.stage2_body') },
+    { icon: Lightbulb, title: t('home.stage3_title'), en: 'Data Savvy', body: t('home.stage3_body') },
+    { icon: Target, title: t('home.stage4_title'), en: 'Data Driven', body: t('home.stage4_body') },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -167,13 +142,13 @@ export function App() {
             className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
           >
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-              مشتریان ما
+              {t('home.customers_badge')}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
-              برندهایی که به ما اعتماد کرده‌اند
+              {t('home.customers_title')}
             </h2>
             <p className="text-muted-foreground text-sm md:text-base">
-              از تیم‌های کوچک تا سازمان‌های بزرگ، همه با ما رشد می‌کنند.
+              {t('home.customers_body')}
             </p>
           </motion.div>
 
@@ -193,13 +168,13 @@ export function App() {
             className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
           >
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-              راهکارها
+              {t('home.solutions_badge')}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
-              ابزارهایی برای هر نیاز کسب‌وکار
+              {t('home.solutions_title')}
             </h2>
             <p className="text-muted-foreground text-sm md:text-base">
-              مجموعه‌ای از راهکارها برای ساخت محصول، تحلیل داده و انتشار گزارش‌ها—از تیم‌های کوچک تا سازمان‌های بزرگ.
+              {t('home.solutions_body')}
             </p>
           </motion.div>
 
@@ -207,19 +182,18 @@ export function App() {
             <GlowCard customSize glowColor="purple" className="h-[360px] w-full">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
-                  هوش تجاری
+                  {t('home.bi_badge')}
                 </div>
-                <img src="/fav.png" alt="هوش تجاری ویترای" className="h-8 w-8 object-contain" />
+                <img src="/fav.png" alt="BI" className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl">هوش تجاری</h3>
+                <h3 className="text-xl">{t('home.bi_title')}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                  پیاده‌سازی کاملاً سفارشی هوش تجاری برای سازمان‌ها: مدل داده، یکپارچه‌سازی منابع، داشبوردهای مدیریتی و استانداردسازی
-                  گزارش‌ها با تمرکز بر کیفیت و حاکمیت داده.
+                  {t('home.bi_body')}
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
                   <Button variant="outline" size="sm" asChild>
-                    <Link to="/bi-solution">بیشتر بدانید</Link>
+                    <Link to="/bi-solution">{t('home.learn_more')}</Link>
                   </Button>
                 </div>
               </div>
@@ -228,19 +202,18 @@ export function App() {
             <GlowCard customSize className="h-[360px] w-full">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
-                  بدون کد
+                  {t('home.plex_badge')}
                 </div>
-                <img src="/product%20logos/plex%20fav%20white.png" alt="پلکس" className="h-8 w-8 object-contain" />
+                <img src="/product%20logos/plex%20fav%20white.png" alt="Plex" className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl">پلکس (Plex)</h3>
+                <h3 className="text-xl">{t('home.plex_title')}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                  ابزار توسعه اپلیکیشن بدون کدنویسی برای ساخت سریع پنل‌ها، فرم‌ها و گردش‌کارها—مناسب برای تیم‌هایی که سرعت اجرای
-                  ایده برایشان حیاتی است.
+                  {t('home.plex_body')}
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
                   <Button variant="outline" size="sm" asChild>
-                    <Link to="/plex">بیشتر بدانید</Link>
+                    <Link to="/plex">{t('home.learn_more')}</Link>
                   </Button>
                 </div>
               </div>
@@ -249,19 +222,18 @@ export function App() {
             <GlowCard customSize glowColor="orange" className="h-[360px] w-full">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
-                  اشتراک گذاری
+                  {t('home.pulse_badge')}
                 </div>
-                <img src="/product%20logos/Pulse%20Fav%20W.png" alt="پالس" className="h-8 w-8 object-contain" />
+                <img src="/product%20logos/Pulse%20Fav%20W.png" alt="Pulse" className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl">پالس (Pulse)</h3>
+                <h3 className="text-xl">{t('home.pulse_title')}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                  پلتفرم فارسی برای انتشار و اشتراک‌گذاری گزارش‌ها و داشبوردهای BI؛ با مدیریت دسترسی، لینک‌های اشتراک امن و تجربه‌ای
-                  مناسب برای ارائه به مدیران و مشتریان.
+                  {t('home.pulse_body')}
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
                   <Button variant="outline" size="sm" asChild>
-                    <Link to="/pulse">بیشتر بدانید</Link>
+                    <Link to="/pulse">{t('home.learn_more')}</Link>
                   </Button>
                 </div>
               </div>
@@ -270,19 +242,18 @@ export function App() {
             <GlowCard customSize glowColor="green" className="h-[360px] w-full">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
-                  ابری
+                  {t('home.pixel_badge')}
                 </div>
-                <img src="/product%20logos/Pixel%20Fav%20W.png" alt="پیکسل" className="h-8 w-8 object-contain" />
+                <img src="/product%20logos/Pixel%20Fav%20W.png" alt="Pixel" className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl">پیکسل (Pixel)</h3>
+                <h3 className="text-xl">{t('home.pixel_title')}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                  راهکار اقتصادی و میزبانی‌شده در فضای ابری برای کسب‌وکارهای کوچک؛ با راه‌اندازی سریع، هزینه نگهداری پایین و داشبوردهای
-                  آماده برای تصمیم‌گیری روزانه.
+                  {t('home.pixel_body')}
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
                   <Button variant="outline" size="sm" asChild>
-                    <Link to="/pixel">بیشتر بدانید</Link>
+                    <Link to="/pixel">{t('home.learn_more')}</Link>
                   </Button>
                 </div>
               </div>
@@ -292,19 +263,19 @@ export function App() {
               <GlowCard customSize glowColor="blue" className="h-[360px] w-full md:w-[calc(50%-8px)]">
                 <div className="flex items-start justify-between">
                   <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
-                    آموزش
+                    {t('home.academy_badge')}
                   </div>
-                  <img src="/product%20logos/Academy%20FAV%20White.png" alt="آکادمی ویترای" className="h-8 w-8 object-contain" />
+                  <img src="/product%20logos/Academy%20FAV%20White.png" alt="Academy" className="h-8 w-8 object-contain" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-xl">آکادمی ویترای</h3>
+                  <h3 className="text-xl">{t('home.academy_title')}</h3>
                   <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                    یادگیری عملی هوش تجاری، مدل‌سازی داده و Power BI با دوره‌های تخصصی فارسی؛ از مبتدی تا حرفه‌ای—مناسب برای تحلیلگران، مدیران و تیم‌های فناوری اطلاعات.
+                    {t('home.academy_body')}
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
                     <Button variant="secondary" size="sm" asChild>
                       <a href="https://academy.vitrayco.com" target="_blank" rel="noopener noreferrer">
-                        ورود به آکادمی
+                        {t('home.academy_link')}
                       </a>
                     </Button>
                   </div>
@@ -325,13 +296,13 @@ export function App() {
             className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
           >
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-              نظرات مشتریان
+              {t('home.testimonials_badge')}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
-              مشتریان ما چه می‌گویند
+              {t('home.testimonials_title')}
             </h2>
             <p className="text-muted-foreground text-sm md:text-base">
-              تجربه واقعی کسب‌وکارهایی که با راهکارهای ما رشد کرده‌اند.
+              {t('home.testimonials_body')}
             </p>
           </motion.div>
 
@@ -349,13 +320,13 @@ export function App() {
             className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
           >
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-              چرا ویترای
+              {t('home.why_badge')}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
-              چه چیزی ما را متفاوت می‌کند
+              {t('home.why_diff_title')}
             </h2>
             <p className="text-muted-foreground text-sm md:text-base">
-              چهار دلیل اصلی که سازمان‌ها ویترای را به‌عنوان شریک داده‌ای خود انتخاب می‌کنند.
+              {t('home.why_diff_body')}
             </p>
           </motion.div>
 
@@ -374,49 +345,22 @@ export function App() {
             className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
           >
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-              مدل بلوغ داده
+              {t('home.maturity_badge')}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
-              همراه شما از آگاهی تا داده‌محوری
+              {t('home.maturity_title')}
             </h2>
             <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
-              حرکت به‌سوی تصمیم‌گیری مبتنی بر داده سفری تدریجی و هدفمند است. در ویترای، رویکرد ما بر
-              پایه‌ی مدل بلوغ داده طراحی شده — مدلی که مسیر حرکت سازمان‌ها از آگاهی اولیه تا
-              تصمیم‌گیری کاملاً داده‌محور را ترسیم می‌کند.
+              {t('home.maturity_body')}
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 relative z-10 rounded-2xl border border-border/60 overflow-hidden">
-            {[
-              {
-                icon: Database,
-                title: 'آگاهی از داده',
-                en: 'Data Aware',
-                body: 'داده‌ها به‌صورت دستی از منابع مختلف گردآوری می‌شوند. تمرکز بر ایجاد درک اولیه از ارزش داده و استانداردسازی گزارش‌هاست.',
-              },
-              {
-                icon: BarChart2,
-                title: 'تسلط بر داده',
-                en: 'Data Proficient',
-                body: 'سازمان از یک پلتفرم متمرکز برای گزارش‌دهی استفاده می‌کند و شاخص‌های کلیدی عملکرد خود را به شکل منظم پایش می‌کند.',
-              },
-              {
-                icon: Lightbulb,
-                title: 'هوشمندی داده',
-                en: 'Data Savvy',
-                body: 'داده‌ها به منبع اصلی تصمیم‌گیری‌های کلیدی تبدیل می‌شوند و تحلیل‌ها نقش تعیین‌کننده در جهت‌گیری‌های سازمان دارند.',
-              },
-              {
-                icon: Target,
-                title: 'داده‌محوری',
-                en: 'Data Driven',
-                body: 'داده در تمامی فرآیندها و تصمیمات سازمان نهادینه می‌شود و تصمیمی بدون اتکا به داده گرفته نمی‌شود.',
-              },
-            ].map((stage, index) => {
+            {maturityStages.map((stage, index) => {
               const Icon = stage.icon;
               return (
                 <div
-                  key={stage.title}
+                  key={stage.en}
                   className={cn(
                     "flex flex-col py-10 relative group/feature border-border/60",
                     "lg:border-r",

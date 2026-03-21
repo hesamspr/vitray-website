@@ -1,30 +1,16 @@
 import { NavBar } from '@/components/ui/tubelight-navbar';
 import { Footer } from '@/components/ui/footer-section';
 import { motion } from 'motion/react';
-import { BarChart3, Cloud, GraduationCap, Home, Info, Layers3, Mail, MapPin, Package, Phone, Send, Share2 } from 'lucide-react';
+import { Mail, MapPin, Phone, Send } from 'lucide-react';
 import { usePageTitle } from '@/lib/usePageTitle';
 import { useState } from 'react';
-
-const navItems = [
-  { name: 'خانه', url: '/', icon: Home },
-  {
-    name: 'راهکارها',
-    url: '/#products',
-    icon: Package,
-    subItems: [
-      { name: 'هوش تجاری', url: '/bi-solution', icon: BarChart3 },
-      { name: 'پیکسل', url: '/pixel', icon: Cloud },
-      { name: 'پالس', url: '/pulse', icon: Share2 },
-      { name: 'پلکس', url: '/plex', icon: Layers3 },
-      { name: 'آکادمی', url: 'https://academy.vitrayco.com', icon: GraduationCap },
-    ],
-  },
-  { name: 'درباره ما', url: '/about', icon: Info },
-  { name: 'تماس با ما', url: '/contact', icon: Mail },
-];
+import { useTranslation } from '@/hooks/useTranslation';
+import { getNavItems } from '@/lib/navItems';
 
 export function ContactPage() {
-  usePageTitle('تماس با ما');
+  const { t, lang } = useTranslation();
+  const navItems = getNavItems(t);
+  usePageTitle('page_titles.contact');
 
   const [form, setForm] = useState({ name: '', email: '', mobile: '', company: '', details: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -65,13 +51,13 @@ export function ContactPage() {
           className="flex flex-col items-center text-center space-y-3 mb-12"
         >
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-            تماس با ما
+            {t('contact.badge')}
           </div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">
-            با ما در ارتباط باشید
+            {t('contact.title')}
           </h1>
           <p className="text-muted-foreground text-sm md:text-base max-w-md">
-            برای دریافت مشاوره رایگان یا هر سوالی درباره محصولات ویترای، پیام بگذارید.
+            {t('contact.body')}
           </p>
         </motion.div>
 
@@ -86,7 +72,7 @@ export function ContactPage() {
             <div className="space-y-6">
               <img src="/Vitray.png" alt="Vitray" className="h-7 w-auto" />
               <p className="text-muted-foreground text-sm leading-relaxed">
-                ویترای با هدف کمک به سازمان‌ها در تبدیل داده‌های خام به بینش‌های عملی تأسیس شده است. تیم ما از متخصصان فناوری و کسب‌وکار تشکیل شده که راه‌حل‌های نوآورانه هوش تجاری ارائه می‌دهند.
+                {t('contact.company_blurb')}
               </p>
             </div>
 
@@ -96,7 +82,7 @@ export function ContactPage() {
                   <Phone size={14} className="text-primary" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground mb-0.5">تلفن</p>
+                  <p className="text-xs text-muted-foreground mb-0.5">{t('contact.about_label')}</p>
                   <a href="tel:+982122865619" className="text-sm font-medium hover:text-primary transition-colors" dir="ltr">2286 5619</a>
                 </div>
               </div>
@@ -106,9 +92,9 @@ export function ContactPage() {
                   <MapPin size={14} className="text-primary" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground mb-0.5">آدرس</p>
+                  <p className="text-xs text-muted-foreground mb-0.5">{t('contact.address_label')}</p>
                   <p className="text-sm font-medium leading-relaxed">
-                    تهران، پاسداران، نگارستان چهارم، پلاک ٬۲۸ واحد ۵
+                    {t('contact.address_value')}
                   </p>
                 </div>
               </div>
@@ -118,7 +104,7 @@ export function ContactPage() {
                   <Mail size={14} className="text-primary" />
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground mb-0.5">ایمیل</p>
+                  <p className="text-xs text-muted-foreground mb-0.5">{t('contact.email_label')}</p>
                   <p className="text-sm font-medium" dir="ltr">hello@vitrayco.com</p>
                 </div>
               </div>
@@ -137,24 +123,24 @@ export function ContactPage() {
                 <div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary/40 bg-primary/10">
                   <Send size={20} className="text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold">پیام شما ارسال شد</h3>
-                <p className="text-sm text-muted-foreground">به زودی با شما تماس می‌گیریم.</p>
+                <h3 className="text-lg font-semibold">{t('contact.success_title')}</h3>
+                <p className="text-sm text-muted-foreground">{t('contact.success_body')}</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4" dir={lang === 'en' ? 'ltr' : 'rtl'}>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs text-muted-foreground">نام و نام خانوادگی</label>
+                    <label className="text-xs text-muted-foreground">{t('contact.form_name')}</label>
                     <input
                       required
                       value={form.name}
                       onChange={e => setForm({ ...form, name: e.target.value })}
                       className="w-full rounded-xl border border-border/60 bg-background/60 px-4 py-2.5 text-sm outline-none focus:border-primary/60 transition-colors placeholder:text-muted-foreground/50"
-                      placeholder="علی احمدی"
+                      placeholder={t('contact.form_name_placeholder')}
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs text-muted-foreground">شماره موبایل</label>
+                    <label className="text-xs text-muted-foreground">{t('contact.form_mobile')}</label>
                     <input
                       required
                       type="tel"
@@ -168,7 +154,7 @@ export function ContactPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs text-muted-foreground">ایمیل</label>
+                  <label className="text-xs text-muted-foreground">{t('contact.form_email')}</label>
                   <input
                     required
                     type="email"
@@ -181,24 +167,24 @@ export function ContactPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs text-muted-foreground">نام شرکت</label>
+                  <label className="text-xs text-muted-foreground">{t('contact.form_company')}</label>
                   <input
                     value={form.company}
                     onChange={e => setForm({ ...form, company: e.target.value })}
                     className="w-full rounded-xl border border-border/60 bg-background/60 px-4 py-2.5 text-sm outline-none focus:border-primary/60 transition-colors placeholder:text-muted-foreground/50"
-                    placeholder="شرکت نمونه"
+                    placeholder={t('contact.form_company_placeholder')}
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs text-muted-foreground">پیام</label>
+                  <label className="text-xs text-muted-foreground">{t('contact.form_details')}</label>
                   <textarea
                     required
                     rows={4}
                     value={form.details}
                     onChange={e => setForm({ ...form, details: e.target.value })}
                     className="w-full rounded-xl border border-border/60 bg-background/60 px-4 py-2.5 text-sm outline-none focus:border-primary/60 transition-colors placeholder:text-muted-foreground/50 resize-none"
-                    placeholder="چطور می‌توانیم کمک کنیم؟"
+                    placeholder={t('contact.form_details_placeholder')}
                   />
                 </div>
 
@@ -208,7 +194,7 @@ export function ContactPage() {
                   className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-60"
                 >
                   <Send size={14} />
-                  {loading ? 'در حال ارسال...' : 'ارسال پیام'}
+                  {loading ? t('contact.form_submitting') : t('contact.form_submit')}
                 </button>
               </form>
             )}

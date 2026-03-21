@@ -11,18 +11,11 @@ import {
   Bell,
   CheckCircle2,
   Cloud,
-  GraduationCap,
   Database,
   Globe,
-  Home,
-  Info,
-  Layers3,
   Lock,
-  Mail,
-  Package,
   RefreshCw,
   Server,
-  Share2,
   ShieldCheck,
   Sliders,
   TrendingUp,
@@ -30,128 +23,119 @@ import {
   Zap,
 } from 'lucide-react';
 import { usePageTitle } from '@/lib/usePageTitle';
+import { useTranslation } from '@/hooks/useTranslation';
+import { getNavItems } from '@/lib/navItems';
 import { cn } from '@/lib/utils';
 
-const navItems = [
-  { name: 'خانه', url: '/', icon: Home },
-  {
-    name: 'راهکارها',
-    url: '/#products',
-    icon: Package,
-    subItems: [
-      { name: 'هوش تجاری', url: '/bi-solution', icon: BarChart3 },
-      { name: 'پیکسل', url: '/pixel', icon: Cloud },
-      { name: 'پالس', url: '/pulse', icon: Share2 },
-      { name: 'پلکس', url: '/plex', icon: Layers3 },
-      { name: 'آکادمی', url: 'https://academy.vitrayco.com', icon: GraduationCap },
-    ],
-  },
-  { name: 'درباره ما', url: '/about', icon: Info },
-  { name: 'تماس با ما', url: '/contact', icon: Mail },
-];
-
-const capabilities = [
-  {
-    icon: Server,
-    title: 'بی‌نیاز از زیرساخت',
-    body: 'هیچ سرور، راه‌اندازی یا نگهداری لازم نیست. همه‌چیز در فضای ابری امن پیکسل اجرا می‌شود.',
-  },
-  {
-    icon: Zap,
-    title: 'راه‌اندازی چند ساعتی',
-    body: 'تنها چند ساعت پس از عقد قرارداد، داشبوردهای مدیریتی در اختیار شما خواهند بود.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'پرداخت ماهانه',
-    body: 'بدون هزینه‌های سنگین پیاده‌سازی — تنها یک اشتراک ماهانه شفاف و قابل پیش‌بینی.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'امنیت و پایداری',
-    body: 'تمام داده‌ها رمزگذاری‌شده ذخیره و منتقل می‌شوند، با استانداردهای امنیتی حرفه‌ای.',
-  },
-];
-
-const keyBenefits = [
-  { icon: Globe, label: 'دسترسی از هر مکان' },
-  { icon: RefreshCw, label: 'به‌روزرسانی خودکار' },
-  { icon: Users, label: 'چند کاربره' },
-  { icon: BarChart3, label: 'گزارش‌های آماده' },
-];
-
-const dataSources = [
-  { icon: Database, label: 'پایگاه داده' },
-  { icon: Cloud, label: 'فضای ابری' },
-  { icon: Sliders, label: 'فایل Excel' },
-  { icon: Globe, label: 'API خارجی' },
-];
-
-const dashboardFeatures = [
-  { icon: BarChart3, label: 'نمودار خطی' },
-  { icon: TrendingUp, label: 'نمودار میله‌ای' },
-  { icon: Users, label: 'جدول تعاملی' },
-  { icon: Bell, label: 'هشدار خودکار' },
-];
-
-const comparisonRows = [
-  { label: 'زمان راه‌اندازی', traditional: 'چند ماه', pixel: 'چند ساعت' },
-  { label: 'نیاز به سرور', traditional: 'بله', pixel: 'خیر' },
-  { label: 'هزینه اولیه', traditional: 'بسیار بالا', pixel: 'بدون هزینه' },
-  { label: 'پرداخت', traditional: 'یکجا', pixel: 'ماهانه' },
-  { label: 'نگهداری IT', traditional: 'نیاز دارد', pixel: 'ندارد' },
-  { label: 'مقیاس‌پذیری', traditional: 'سخت', pixel: 'آسان' },
-];
-
-const dashboards = [
-  {
-    id: 'sales',
-    title: 'داشبورد فروش',
-    icon: TrendingUp,
-    features: [
-      'تحلیل روند فروش',
-      'مقایسه دوره‌ای',
-      'پیش‌بینی درآمد',
-      'عملکرد تیم فروش',
-    ],
-  },
-  {
-    id: 'finance',
-    title: 'داشبورد مالی',
-    icon: BarChart3,
-    features: [
-      'گزارش سود و زیان',
-      'جریان نقدینگی',
-      'بودجه در مقابل واقعی',
-      'تحلیل هزینه',
-    ],
-  },
-  {
-    id: 'hr',
-    title: 'داشبورد منابع انسانی',
-    icon: Users,
-    features: [
-      'شاخص‌های پرسنلی',
-      'نرخ ترک خدمت',
-      'ارزیابی عملکرد',
-      'حضور و غیاب',
-    ],
-  },
-  {
-    id: 'operations',
-    title: 'داشبورد عملیات',
-    icon: Sliders,
-    features: [
-      'پایش فرآیندها',
-      'شاخص‌های کیفی',
-      'زمان‌بندی پروژه‌ها',
-      'ظرفیت و بهره‌وری',
-    ],
-  },
-];
-
 export function PixelPage() {
-  usePageTitle('پیکسل');
+  const { t } = useTranslation();
+  const navItems = getNavItems(t);
+
+  usePageTitle('page_titles.pixel');
+
+  const capabilities = [
+    {
+      id: 'cap1',
+      icon: Server,
+      title: t('pixel.cap1_title'),
+      body: t('pixel.cap1_body'),
+    },
+    {
+      id: 'cap2',
+      icon: Zap,
+      title: t('pixel.cap2_title'),
+      body: t('pixel.cap2_body'),
+    },
+    {
+      id: 'cap3',
+      icon: TrendingUp,
+      title: t('pixel.cap3_title'),
+      body: t('pixel.cap3_body'),
+    },
+    {
+      id: 'cap4',
+      icon: ShieldCheck,
+      title: t('pixel.cap4_title'),
+      body: t('pixel.cap4_body'),
+    },
+  ];
+
+  const keyBenefits = [
+    { icon: Globe, label: t('pixel.benefit1') },
+    { icon: RefreshCw, label: t('pixel.benefit2') },
+    { icon: Users, label: t('pixel.benefit3') },
+    { icon: BarChart3, label: t('pixel.benefit4') },
+  ];
+
+  const dataSources = [
+    { icon: Database, label: t('pixel.datasource1') },
+    { icon: Cloud, label: t('pixel.datasource2') },
+    { icon: Sliders, label: t('pixel.datasource3') },
+    { icon: Globe, label: t('pixel.datasource4') },
+  ];
+
+  const dashboardFeatures = [
+    { icon: BarChart3, label: t('pixel.dashfeat1') },
+    { icon: TrendingUp, label: t('pixel.dashfeat2') },
+    { icon: Users, label: t('pixel.dashfeat3') },
+    { icon: Bell, label: t('pixel.dashfeat4') },
+  ];
+
+  const comparisonRows = [
+    { id: 'setup', label: t('pixel.cmp_setup_label'), traditional: t('pixel.cmp_setup_traditional'), pixel: t('pixel.cmp_setup_pixel') },
+    { id: 'server', label: t('pixel.cmp_server_label'), traditional: t('pixel.cmp_server_traditional'), pixel: t('pixel.cmp_server_pixel') },
+    { id: 'cost', label: t('pixel.cmp_cost_label'), traditional: t('pixel.cmp_cost_traditional'), pixel: t('pixel.cmp_cost_pixel') },
+    { id: 'payment', label: t('pixel.cmp_payment_label'), traditional: t('pixel.cmp_payment_traditional'), pixel: t('pixel.cmp_payment_pixel') },
+    { id: 'it', label: t('pixel.cmp_it_label'), traditional: t('pixel.cmp_it_traditional'), pixel: t('pixel.cmp_it_pixel') },
+    { id: 'scale', label: t('pixel.cmp_scale_label'), traditional: t('pixel.cmp_scale_traditional'), pixel: t('pixel.cmp_scale_pixel') },
+  ];
+
+  const dashboards = [
+    {
+      id: 'sales',
+      title: t('pixel.dash_sales_title'),
+      icon: TrendingUp,
+      features: [
+        t('pixel.dash_sales_feat1'),
+        t('pixel.dash_sales_feat2'),
+        t('pixel.dash_sales_feat3'),
+        t('pixel.dash_sales_feat4'),
+      ],
+    },
+    {
+      id: 'finance',
+      title: t('pixel.dash_finance_title'),
+      icon: BarChart3,
+      features: [
+        t('pixel.dash_finance_feat1'),
+        t('pixel.dash_finance_feat2'),
+        t('pixel.dash_finance_feat3'),
+        t('pixel.dash_finance_feat4'),
+      ],
+    },
+    {
+      id: 'hr',
+      title: t('pixel.dash_hr_title'),
+      icon: Users,
+      features: [
+        t('pixel.dash_hr_feat1'),
+        t('pixel.dash_hr_feat2'),
+        t('pixel.dash_hr_feat3'),
+        t('pixel.dash_hr_feat4'),
+      ],
+    },
+    {
+      id: 'operations',
+      title: t('pixel.dash_ops_title'),
+      icon: Sliders,
+      features: [
+        t('pixel.dash_ops_feat1'),
+        t('pixel.dash_ops_feat2'),
+        t('pixel.dash_ops_feat3'),
+        t('pixel.dash_ops_feat4'),
+      ],
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -169,7 +153,7 @@ export function PixelPage() {
             const isLastRow = index >= capabilities.length - (capabilities.length % 4 || 4);
             return (
               <div
-                key={cap.title}
+                key={cap.id}
                 className={cn(
                   "flex flex-col py-10 relative group/feature border-border/60",
                   "lg:border-r",
@@ -216,21 +200,19 @@ export function PixelPage() {
             <div className="flex flex-col md:flex-row items-center gap-10 p-8 md:p-12">
               <div className="flex-1 space-y-4">
                 <div className="border border-white/20 py-1 px-4 rounded-lg text-sm text-white/60 w-fit">
-                  مزایای کلیدی
+                  {t('pixel.why_badge')}
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-white">
-                  چرا پیکسل برای کسب‌وکار شما؟
+                  {t('pixel.why_title')}
                 </h2>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  پیکسل به کسب‌وکارهای کوچک و متوسط امکان می‌دهد بدون هیچ سرمایه‌گذاری زیرساختی،
-                  از قدرت هوش تجاری بهره‌مند شوند. فقط داده‌هایتان را وصل کنید و از بینش‌های
-                  آماده لذت ببرید.
+                  {t('pixel.why_body')}
                 </p>
               </div>
               <div className="flex-shrink-0 grid grid-cols-2 gap-3 w-full md:w-[220px]">
-                {keyBenefits.map(({ icon: Icon, label }) => (
+                {keyBenefits.map(({ icon: Icon, label }, index) => (
                   <div
-                    key={label}
+                    key={index}
                     className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 p-4 text-center"
                   >
                     <Icon size={18} className="text-white/80" />
@@ -266,16 +248,15 @@ export function PixelPage() {
                   <Lock size={18} className="text-white/80" />
                 </div>
                 <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
-                  منابع داده
+                  {t('pixel.sources_badge')}
                 </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">اتصال به منابع داده</h3>
+                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pixel.sources_title')}</h3>
                 <p className="text-sm text-white/60 leading-relaxed mb-6">
-                  پیکسل به سادگی به منابع داده‌ای مختلف وصل می‌شود — از سیستم‌های ERP و فایل‌های
-                  Excel گرفته تا APIها و پایگاه‌های داده. بدون پیچیدگی فنی، داده‌هایتان را یکجا ببینید.
+                  {t('pixel.sources_body')}
                 </p>
                 <div className="grid grid-cols-2 gap-2 mt-auto">
-                  {dataSources.map(({ icon: Icon, label }) => (
-                    <div key={label} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                  {dataSources.map(({ icon: Icon, label }, index) => (
+                    <div key={index} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
                       <Icon size={13} className="text-white/70 shrink-0" />
                       <span className="text-xs text-white/50">{label}</span>
                     </div>
@@ -302,16 +283,15 @@ export function PixelPage() {
                   <BarChart3 size={18} className="text-white/80" />
                 </div>
                 <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
-                  تجسم داده
+                  {t('pixel.viz_badge')}
                 </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">داشبوردهای تعاملی</h3>
+                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pixel.viz_title')}</h3>
                 <p className="text-sm text-white/60 leading-relaxed mb-6">
-                  داشبوردهای پیکسل تعاملی، بصری و قابل سفارشی‌سازی هستند. فیلتر کنید، حفاری کنید
-                  و بینش‌های واقعی را از داده‌هایتان استخراج کنید — بدون نیاز به دانش فنی.
+                  {t('pixel.viz_body')}
                 </p>
                 <div className="grid grid-cols-2 gap-2 mt-auto">
-                  {dashboardFeatures.map(({ icon: Icon, label }) => (
-                    <div key={label} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                  {dashboardFeatures.map(({ icon: Icon, label }, index) => (
+                    <div key={index} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
                       <Icon size={13} className="text-white/70 shrink-0" />
                       <span className="text-xs text-white/50">{label}</span>
                     </div>
@@ -336,10 +316,10 @@ export function PixelPage() {
         >
           <div className="flex flex-col items-center text-center space-y-3">
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-              مقایسه
+              {t('pixel.cmp_badge')}
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter">
-              مقایسه پیکسل با روش‌های سنتی
+              {t('pixel.cmp_title')}
             </h2>
           </div>
 
@@ -348,17 +328,17 @@ export function PixelPage() {
             <div className="grid grid-cols-3 text-sm font-semibold">
               <div className="p-4 border-b border-border/60 text-muted-foreground" />
               <div className="p-4 border-b border-r border-border/60 text-center text-muted-foreground">
-                روش سنتی
+                {t('pixel.cmp_traditional_col')}
               </div>
               <div className="p-4 border-b border-border/60 text-center bg-primary/5 text-foreground">
-                پیکسل
+                {t('pixel.cmp_pixel_col')}
               </div>
             </div>
 
             {/* Table rows */}
             {comparisonRows.map((row, index) => (
               <div
-                key={row.label}
+                key={row.id}
                 className={cn(
                   "grid grid-cols-3 text-sm",
                   index % 2 === 1 && "bg-muted/20",
@@ -394,10 +374,10 @@ export function PixelPage() {
           <div className="space-y-6">
             <div className="flex flex-col items-center text-center space-y-3">
               <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-                نمونه‌های واقعی
+                {t('pixel.examples_badge')}
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter">
-                چند نمونه از داشبوردهای توسعه داده شده توسط تیم ویترای:
+                {t('pixel.examples_title')}
               </h2>
             </div>
 
@@ -422,8 +402,8 @@ export function PixelPage() {
                       </h3>
                     </div>
                     <ul className="space-y-2">
-                      {dashboard.features.map((feature) => (
-                        <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      {dashboard.features.map((feature, index) => (
+                        <li key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
                           <span className="h-1.5 w-1.5 rounded-full shrink-0 bg-border" />
                           {feature}
                         </li>
@@ -448,7 +428,7 @@ export function PixelPage() {
           className="flex flex-col items-center gap-5 text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
-            اطلاعات درست، در لحظه درست، برای تصمیم درست
+            {t('pixel.closing_title')}
           </h2>
           <a
             href="#"
@@ -456,7 +436,7 @@ export function PixelPage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
           >
-            مشاهده دمو
+            {t('pixel.closing_demo')}
           </a>
           <p className="text-xs text-white/40" dir="ltr">
             user: <span className="text-white/60">user</span>

@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { LanguageProvider } from './context/LanguageContext';
 import { App } from './App';
 import { ScrollToTop } from './components/ScrollToTop';
 import './index.css';
@@ -21,26 +22,28 @@ const MaintenanceDashboardPage = lazy(() => import('./pages/dashboards/Maintenan
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ScrollToTop />
-      <Suspense fallback={null}>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/bi-solution" element={<BiSolutionPage />} />
-          <Route path="/plex" element={<PlexPage />} />
-          <Route path="/pixel" element={<PixelPage />} />
-          <Route path="/pulse" element={<PulsePage />} />
-          <Route path="/bi-dashboards/b2b-sales" element={<B2BSalesDashboardPage />} />
-          <Route path="/bi-dashboards/distribution-sales" element={<DistributionSalesDashboardPage />} />
-          <Route path="/bi-dashboards/finance" element={<FinanceDashboardPage />} />
-          <Route path="/bi-dashboards/hr" element={<HRDashboardPage />} />
-          <Route path="/bi-dashboards/warehouse" element={<WarehouseDashboardPage />} />
-          <Route path="/bi-dashboards/production" element={<ProductionDashboardPage />} />
-          <Route path="/bi-dashboards/maintenance" element={<MaintenanceDashboardPage />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <LanguageProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/bi-solution" element={<BiSolutionPage />} />
+            <Route path="/plex" element={<PlexPage />} />
+            <Route path="/pixel" element={<PixelPage />} />
+            <Route path="/pulse" element={<PulsePage />} />
+            <Route path="/bi-dashboards/b2b-sales" element={<B2BSalesDashboardPage />} />
+            <Route path="/bi-dashboards/distribution-sales" element={<DistributionSalesDashboardPage />} />
+            <Route path="/bi-dashboards/finance" element={<FinanceDashboardPage />} />
+            <Route path="/bi-dashboards/hr" element={<HRDashboardPage />} />
+            <Route path="/bi-dashboards/warehouse" element={<WarehouseDashboardPage />} />
+            <Route path="/bi-dashboards/production" element={<ProductionDashboardPage />} />
+            <Route path="/bi-dashboards/maintenance" element={<MaintenanceDashboardPage />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </LanguageProvider>
   </React.StrictMode>,
 );
