@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConsultationModal } from "@/components/ui/consultation-modal";
+import { ShineBorder } from "@/components/ui/shine-border";
 
 export function CallToAction() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -32,9 +33,17 @@ export function CallToAction() {
         </div>
 
         <div className="flex items-center justify-center gap-2">
-          <Button onClick={() => setModalOpen(true)}>
-            درخواست مشاوره
-          </Button>
+          <ShineBorder
+            borderRadius={8}
+            borderWidth={1}
+            duration={8}
+            color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+            className="p-0 bg-transparent dark:bg-transparent"
+          >
+            <Button onClick={() => setModalOpen(true)} className="bg-black text-white hover:bg-black/90">
+              درخواست مشاوره
+            </Button>
+          </ShineBorder>
         </div>
       </div>
 
