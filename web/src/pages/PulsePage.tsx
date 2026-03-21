@@ -8,70 +8,54 @@ import { motion } from 'motion/react';
 import {
   BarChart3,
   CalendarDays,
-  Cloud,
-  GraduationCap,
   Globe,
-  Home,
-  Info,
-  Layers3,
   Link2,
-  Mail,
-  Package,
   RefreshCw,
   Share2,
   ShieldCheck,
   Users,
 } from 'lucide-react';
 import { usePageTitle } from '@/lib/usePageTitle';
+import { useTranslation } from '@/hooks/useTranslation';
+import { getNavItems } from '@/lib/navItems';
 import { cn } from '@/lib/utils';
 
-const navItems = [
-  { name: 'خانه', url: '/', icon: Home },
-  {
-    name: 'راهکارها',
-    url: '/#products',
-    icon: Package,
-    subItems: [
-      { name: 'هوش تجاری', url: '/bi-solution', icon: BarChart3 },
-      { name: 'پیکسل', url: '/pixel', icon: Cloud },
-      { name: 'پالس', url: '/pulse', icon: Share2 },
-      { name: 'پلکس', url: '/plex', icon: Layers3 },
-      { name: 'آکادمی', url: 'https://academy.vitrayco.com', icon: GraduationCap },
-    ],
-  },
-  { name: 'درباره ما', url: '/about', icon: Info },
-  { name: 'تماس با ما', url: '/contact', icon: Mail },
-];
-
-const features = [
-  {
-    icon: Share2,
-    glow: 'orange' as const,
-    title: 'اشتراک‌گذاری گزارش‌ها',
-    body: 'گزارش‌های Power BI را با مدیران، تیم‌ها و مشتریان به‌صورت امن و کنترل‌شده به اشتراک بگذارید.',
-  },
-  {
-    icon: CalendarDays,
-    glow: 'blue' as const,
-    title: 'تقویم شمسی',
-    body: 'فیلترها و بازه‌های زمانی با تقویم جلالی — کاملاً منطبق با نیازهای کسب‌وکار ایرانی.',
-  },
-  {
-    icon: Globe,
-    glow: 'purple' as const,
-    title: 'رابط کاملاً فارسی',
-    body: 'تجربه‌ای بومی و روان برای کاربران فارسی‌زبان، بدون نیاز به آموزش یا تنظیمات پیچیده.',
-  },
-  {
-    icon: ShieldCheck,
-    glow: 'green' as const,
-    title: 'مدیریت دسترسی',
-    body: 'کنترل دقیق اینکه چه کسی به کدام گزارش دسترسی دارد — بر اساس نقش، تیم یا پروژه.',
-  },
-];
-
 export function PulsePage() {
-  usePageTitle('پالس');
+  const { t } = useTranslation();
+  const navItems = getNavItems(t);
+
+  usePageTitle('page_titles.pulse');
+
+  const features = [
+    {
+      id: 'feat1',
+      icon: Share2,
+      glow: 'orange' as const,
+      title: t('pulse.feat1_title'),
+      body: t('pulse.feat1_body'),
+    },
+    {
+      id: 'feat2',
+      icon: CalendarDays,
+      glow: 'blue' as const,
+      title: t('pulse.feat2_title'),
+      body: t('pulse.feat2_body'),
+    },
+    {
+      id: 'feat3',
+      icon: Globe,
+      glow: 'purple' as const,
+      title: t('pulse.feat3_title'),
+      body: t('pulse.feat3_body'),
+    },
+    {
+      id: 'feat4',
+      icon: ShieldCheck,
+      glow: 'green' as const,
+      title: t('pulse.feat4_title'),
+      body: t('pulse.feat4_body'),
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -89,7 +73,7 @@ export function PulsePage() {
             const isLastRow = index >= features.length - (features.length % 4 || 4);
             return (
               <div
-                key={feat.title}
+                key={feat.id}
                 className={cn(
                   "flex flex-col py-10 relative group/feature border-border/60",
                   "lg:border-r",
@@ -136,21 +120,21 @@ export function PulsePage() {
             <div className="flex flex-col md:flex-row items-center gap-10 p-8 md:p-12">
               <div className="flex-1 space-y-4">
                 <div className="border border-white/20 py-1 px-4 rounded-lg text-sm text-white/60 w-fit">
-                  درباره پالس
+                  {t('pulse.about_badge')}
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-white">
-                  مدیریت و اشتراک‌گذاری گزارش‌های Power BI
+                  {t('pulse.about_title')}
                 </h2>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  پالس پورتالی است برای مدیریت و اشتراک‌گذاری گزارش‌های Power BI به‌صورت متمرکز. کاربران می‌توانند گزارش‌ها را مشاهده، فیلتر و با دیگران به اشتراک بگذارند — با رابطی کاملاً فارسی، تقویم شمسی، و کنترل دسترسی دقیق.
+                  {t('pulse.about_body')}
                 </p>
               </div>
               <div className="flex-shrink-0 grid grid-cols-2 gap-3 w-full md:w-[220px]">
                 {[
                   { icon: BarChart3, label: 'Power BI' },
-                  { icon: CalendarDays, label: 'شمسی' },
-                  { icon: Globe, label: 'فارسی' },
-                  { icon: Users, label: 'تیمی' },
+                  { icon: CalendarDays, label: t('pulse.pill_calendar') },
+                  { icon: Globe, label: t('pulse.pill_persian') },
+                  { icon: Users, label: t('pulse.pill_team') },
                 ].map(({ icon: Icon, label }) => (
                   <div
                     key={label}
@@ -188,11 +172,11 @@ export function PulsePage() {
                   <Link2 size={18} className="text-white/80" />
                 </div>
                 <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
-                  معماری
+                  {t('pulse.arch_badge')}
                 </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">نرم‌افزار مستقل روی Power BI Report Server</h3>
+                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pulse.arch_title')}</h3>
                 <p className="text-sm text-white/60 leading-relaxed">
-                  پالس به‌عنوان یک لایه مستقل روی Power BI Report Server اجرا می‌شود — بدون هیچ تغییری در کد یا تنظیمات PBRS. زیرساخت BI شما دست‌نخورده باقی می‌ماند و پالس فقط از API رسمی آن استفاده می‌کند.
+                  {t('pulse.arch_body')}
                 </p>
               </div>
             </WarpCard>
@@ -214,11 +198,11 @@ export function PulsePage() {
                   <RefreshCw size={18} className="text-white/80" />
                 </div>
                 <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
-                  به‌روزرسانی
+                  {t('pulse.update_badge')}
                 </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">همیشه قابل به‌روزرسانی</h3>
+                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pulse.update_title')}</h3>
                 <p className="text-sm text-white/60 leading-relaxed">
-                  چون پالس مستقل از PBRS عمل می‌کند، می‌توانید هر زمان Power BI Report Server خود را به‌روز کنید بدون اینکه پالس تحت تأثیر قرار بگیرد — و بالعکس.
+                  {t('pulse.update_body')}
                 </p>
               </div>
             </WarpCard>
@@ -239,10 +223,10 @@ export function PulsePage() {
           className="flex flex-col items-center gap-5 text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
-            به زودی جزئیات بیشتری منتشر می‌شود
+            {t('pulse.closing_title')}
           </h2>
           <p className="text-xs text-white/40">
-            دمو و اطلاعات کامل‌تر به زودی در دسترس خواهد بود
+            {t('pulse.closing_body')}
           </p>
         </motion.div>
       </LampContainer>

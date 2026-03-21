@@ -10,18 +10,11 @@ import {
   BarChart3,
   Bell,
   Briefcase,
-  Cloud,
-  GraduationCap,
   Code2,
   Database,
   FileSpreadsheet,
-  Home,
-  Info,
   Layers3,
   Lock,
-  Mail,
-  Package,
-  Share2,
   ShieldCheck,
   Shuffle,
   Sliders,
@@ -30,119 +23,110 @@ import {
   Zap,
 } from 'lucide-react';
 import { usePageTitle } from '@/lib/usePageTitle';
+import { useTranslation } from '@/hooks/useTranslation';
+import { getNavItems } from '@/lib/navItems';
 import { cn } from '@/lib/utils';
 
-const navItems = [
-  { name: 'خانه', url: '/', icon: Home },
-  {
-    name: 'راهکارها',
-    url: '/#products',
-    icon: Package,
-    subItems: [
-      { name: 'هوش تجاری', url: '/bi-solution', icon: BarChart3 },
-      { name: 'پیکسل', url: '/pixel', icon: Cloud },
-      { name: 'پالس', url: '/pulse', icon: Share2 },
-      { name: 'پلکس', url: '/plex', icon: Layers3 },
-      { name: 'آکادمی', url: 'https://academy.vitrayco.com', icon: GraduationCap },
-    ],
-  },
-  { name: 'درباره ما', url: '/about', icon: Info },
-  { name: 'تماس با ما', url: '/contact', icon: Mail },
-];
-
-const capabilities = [
-  {
-    icon: Code2,
-    glow: 'blue' as const,
-    title: 'بدون کدنویسی',
-    body: 'بدون نیاز به تیم توسعه یا دانش برنامه‌نویسی، اپلیکیشن‌های سازمانی حرفه‌ای بسازید.',
-  },
-  {
-    icon: Database,
-    glow: 'purple' as const,
-    title: 'اتصال به هر منبع داده',
-    body: 'از دیتابیس‌های خارجی و API گرفته تا CSV و دیتابیس داخلی — همه چیز با یک کلیک.',
-  },
-  {
-    icon: Shuffle,
-    glow: 'green' as const,
-    title: 'طراحی Drag & Drop',
-    body: 'ده‌ها کامپوننت آماده و قالب‌های حرفه‌ای برای طراحی رابط کاربری سریع و آسان.',
-  },
-  {
-    icon: Zap,
-    glow: 'orange' as const,
-    title: 'خودکارسازی فرآیندها',
-    body: 'فرآیندهای دستی و تکراری را حذف کنید و گردش‌کارهایی بسازید که کل سازمان را هوشمند می‌کنند.',
-  },
-];
-
-const dataSources = [
-  { icon: Database, label: 'پایگاه داده خارجی' },
-  { icon: Cloud, label: 'API' },
-  { icon: FileSpreadsheet, label: 'فایل CSV' },
-  { icon: Layers3, label: 'دیتابیس داخلی Plex' },
-];
-
-const workflowFeatures = [
-  { icon: Zap, label: 'Trigger خودکار' },
-  { icon: Bell, label: 'ارسال اعلان' },
-  { icon: ShieldCheck, label: 'اعتبارسنجی شرایط' },
-  { icon: Workflow, label: 'گردش‌کار تأیید' },
-];
-
-const accessLevels = [
-  { icon: Sliders, label: 'کنترل سطح سامانه' },
-  { icon: Lock, label: 'کنترل سطح جدول' },
-  { icon: ShieldCheck, label: 'کنترل سطح ردیف' },
-  { icon: Database, label: 'کنترل سطح فیلد' },
-];
-
-const portals = [
-  {
-    id: 'financial',
-    title: 'پورتال مالی',
-    features: [
-      'مدیریت فاکتور و پرداخت',
-      'گزارش‌گیری مالی',
-      'تأیید هزینه‌ها',
-      'پیگیری بودجه',
-    ],
-  },
-  {
-    id: 'personnel',
-    title: 'پورتال پرسنلی',
-    features: [
-      'مدیریت کارمندان',
-      'درخواست مرخصی',
-      'ارزیابی عملکرد',
-      'مدیریت حقوق',
-    ],
-  },
-  {
-    id: 'legal',
-    title: 'پورتال حقوقی',
-    features: [
-      'مدیریت قراردادها',
-      'پیگیری پرونده‌ها',
-      'تقویم جلسات حقوقی',
-      'آرشیو اسناد',
-    ],
-  },
-  {
-    id: 'customers',
-    title: 'پورتال مشتریان',
-    features: [
-      'مدیریت پروفایل مشتری',
-      'پیگیری سفارش‌ها',
-      'سیستم تیکتینگ',
-      'گزارش رضایت‌سنجی',
-    ],
-  },
-];
-
 export function PlexPage() {
-  usePageTitle('پلکس');
+  const { t } = useTranslation();
+  const navItems = getNavItems(t);
+
+  usePageTitle('page_titles.plex');
+
+  const capabilities = [
+    {
+      id: 'cap1',
+      icon: Code2,
+      glow: 'blue' as const,
+      title: t('plex.cap1_title'),
+      body: t('plex.cap1_body'),
+    },
+    {
+      id: 'cap2',
+      icon: Database,
+      glow: 'purple' as const,
+      title: t('plex.cap2_title'),
+      body: t('plex.cap2_body'),
+    },
+    {
+      id: 'cap3',
+      icon: Shuffle,
+      glow: 'green' as const,
+      title: t('plex.cap3_title'),
+      body: t('plex.cap3_body'),
+    },
+    {
+      id: 'cap4',
+      icon: Zap,
+      glow: 'orange' as const,
+      title: t('plex.cap4_title'),
+      body: t('plex.cap4_body'),
+    },
+  ];
+
+  const dataSources = [
+    { icon: Database, label: t('plex.source1') },
+    { icon: Layers3, label: t('plex.source2') },
+    { icon: FileSpreadsheet, label: t('plex.source3') },
+    { icon: Layers3, label: t('plex.source4') },
+  ];
+
+  const workflowFeatures = [
+    { icon: Zap, label: t('plex.workflow1') },
+    { icon: Bell, label: t('plex.workflow2') },
+    { icon: ShieldCheck, label: t('plex.workflow3') },
+    { icon: Workflow, label: t('plex.workflow4') },
+  ];
+
+  const accessLevels = [
+    { icon: Sliders, label: t('plex.access1') },
+    { icon: Lock, label: t('plex.access2') },
+    { icon: ShieldCheck, label: t('plex.access3') },
+    { icon: Database, label: t('plex.access4') },
+  ];
+
+  const portals = [
+    {
+      id: 'financial',
+      title: t('plex.portal_financial_title'),
+      features: [
+        t('plex.portal_financial_feat1'),
+        t('plex.portal_financial_feat2'),
+        t('plex.portal_financial_feat3'),
+        t('plex.portal_financial_feat4'),
+      ],
+    },
+    {
+      id: 'personnel',
+      title: t('plex.portal_personnel_title'),
+      features: [
+        t('plex.portal_personnel_feat1'),
+        t('plex.portal_personnel_feat2'),
+        t('plex.portal_personnel_feat3'),
+        t('plex.portal_personnel_feat4'),
+      ],
+    },
+    {
+      id: 'legal',
+      title: t('plex.portal_legal_title'),
+      features: [
+        t('plex.portal_legal_feat1'),
+        t('plex.portal_legal_feat2'),
+        t('plex.portal_legal_feat3'),
+        t('plex.portal_legal_feat4'),
+      ],
+    },
+    {
+      id: 'customers',
+      title: t('plex.portal_customers_title'),
+      features: [
+        t('plex.portal_customers_feat1'),
+        t('plex.portal_customers_feat2'),
+        t('plex.portal_customers_feat3'),
+        t('plex.portal_customers_feat4'),
+      ],
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -160,7 +144,7 @@ export function PlexPage() {
             const isLastRow = index >= capabilities.length - (capabilities.length % 4 || 4);
             return (
               <div
-                key={cap.title}
+                key={cap.id}
                 className={cn(
                   "flex flex-col py-10 relative group/feature border-border/60",
                   "lg:border-r",
@@ -207,23 +191,21 @@ export function PlexPage() {
             <div className="flex flex-col md:flex-row items-center gap-10 p-8 md:p-12">
               <div className="flex-1 space-y-4">
                 <div className="border border-white/20 py-1 px-4 rounded-lg text-sm text-white/60 w-fit">
-                  ساخت سریع
+                  {t('plex.convert_badge')}
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-white">
-                  تبدیل داده‌ها به اپلیکیشن؛ فقط با یک کلیک
+                  {t('plex.convert_title')}
                 </h2>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  در چند ثانیه اپلیکیشن‌ها، فرم‌ها و گردش‌کارهای قدرتمند بسازید — بدون حتی یک خط
-                  کدنویسی. Plex برای تیم‌هایی ساخته شده که می‌خواهند سریع‌تر بسازند، کمتر هزینه
-                  کنند، و راهکارهای دیجیتال حرفه‌ای ارائه دهند.
+                  {t('plex.convert_body')}
                 </p>
               </div>
               <div className="flex-shrink-0 grid grid-cols-2 gap-3 w-full md:w-[220px]">
                 {[
-                  { icon: Code2, label: 'بدون کد' },
-                  { icon: Zap, label: 'سریع' },
-                  { icon: Shuffle, label: 'سفارشی' },
-                  { icon: ShieldCheck, label: 'امن' },
+                  { icon: Code2, label: t('plex.pill_nocode') },
+                  { icon: Zap, label: t('plex.pill_fast') },
+                  { icon: Shuffle, label: t('plex.pill_custom') },
+                  { icon: ShieldCheck, label: t('plex.pill_secure') },
                 ].map(({ icon: Icon, label }) => (
                   <div
                     key={label}
@@ -262,17 +244,15 @@ export function PlexPage() {
                   <Lock size={18} className="text-white/80" />
                 </div>
                 <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
-                  امنیت
+                  {t('plex.access_badge')}
                 </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">سطوح دسترسی</h3>
+                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('plex.access_title')}</h3>
                 <p className="text-sm text-white/60 leading-relaxed mb-6">
-                  کنترل دسترسی، ستون اصلی هر سیستم سازمانی است. Plex با ارائه‌ی سیستم سطح‌به‌سطح و
-                  دقیقِ مدیریت دسترسی — از سطح کل سامانه تا جزئی‌ترین فیلد — امنیت و کنترل کامل
-                  داده‌ها را در تمام سناریوها تضمین می‌کند.
+                  {t('plex.access_body')}
                 </p>
                 <div className="grid grid-cols-2 gap-2 mt-auto">
-                  {accessLevels.map(({ icon: Icon, label }) => (
-                    <div key={label} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                  {accessLevels.map(({ icon: Icon, label }, index) => (
+                    <div key={index} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
                       <Icon size={13} className="text-white/70 shrink-0" />
                       <span className="text-xs text-white/50">{label}</span>
                     </div>
@@ -299,17 +279,15 @@ export function PlexPage() {
                   <Workflow size={18} className="text-white/80" />
                 </div>
                 <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
-                  اتوماسیون
+                  {t('plex.workflow_badge')}
                 </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">گردش کار</h3>
+                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('plex.workflow_title')}</h3>
                 <p className="text-sm text-white/60 leading-relaxed mb-6">
-                  Workflow قلب اتوماسیون فرآیندهای کسب‌وکار است. با ترکیب Triggerها و Actionها، Plex
-                  امکان اجرای خودکار و هوشمند انواع فرآیندها را فراهم می‌کند — از به‌روزرسانی
-                  داده‌ها و ارسال اعلان‌ها گرفته تا اعتبارسنجی شرایط و گردش‌کارهای تأیید.
+                  {t('plex.workflow_body')}
                 </p>
                 <div className="grid grid-cols-2 gap-2 mt-auto">
-                  {workflowFeatures.map(({ icon: Icon, label }) => (
-                    <div key={label} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                  {workflowFeatures.map(({ icon: Icon, label }, index) => (
+                    <div key={index} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
                       <Icon size={13} className="text-white/70 shrink-0" />
                       <span className="text-xs text-white/50">{label}</span>
                     </div>
@@ -339,20 +317,19 @@ export function PlexPage() {
             <div className="grid md:grid-cols-2 gap-10 items-center p-8 md:p-12">
               <div className="space-y-4">
                 <div className="border border-white/20 py-1 px-4 rounded-lg text-sm text-white/60 w-fit">
-                  اتصال داده
+                  {t('plex.datasources_badge')}
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-white">
-                  به هر منبع داده وصل شوید؛ یا دیتابیس خودتان را بسازید
+                  {t('plex.datasources_title')}
                 </h2>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  به پایگاه داده خارجی متصل شوید، داده‌ها را از API دریافت کنید، فایل‌های CSV را
-                  وارد کنید، یا با دیتابیس داخلی Plex از ابتدا شروع کنید.
+                  {t('plex.datasources_body')}
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-3">
-                {dataSources.map(({ icon: Icon, label }) => (
+                {dataSources.map(({ icon: Icon, label }, index) => (
                   <div
-                    key={label}
+                    key={index}
                     className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-6 text-center"
                   >
                     <Icon size={22} className="text-white/80" />
@@ -378,10 +355,10 @@ export function PlexPage() {
           <div className="space-y-6">
             <div className="flex flex-col items-center text-center space-y-3">
               <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
-                نمونه‌های واقعی
+                {t('plex.portals_badge')}
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter">
-                چند نمونه از راهکارهای توسعه داده شده توسط تیم ویترای:
+                {t('plex.portals_title')}
               </h2>
             </div>
 
@@ -407,8 +384,8 @@ export function PlexPage() {
                     </h3>
                   </div>
                   <ul className="space-y-2">
-                    {portal.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    {portal.features.map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
                         <span className="h-1.5 w-1.5 rounded-full shrink-0 bg-border" />
                         {feature}
                       </li>
@@ -432,7 +409,7 @@ export function PlexPage() {
           className="flex flex-col items-center gap-5 text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
-            و این شروع ماجراست ...
+            {t('plex.closing_title')}
           </h2>
           <a
             href="#"
@@ -440,7 +417,7 @@ export function PlexPage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
           >
-            مشاهده دمو
+            {t('plex.closing_demo')}
           </a>
           <p className="text-xs text-white/40" dir="ltr">
             user: <span className="text-white/60">user</span>
