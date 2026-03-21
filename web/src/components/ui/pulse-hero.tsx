@@ -1,7 +1,10 @@
-import { MeshGradient } from "@paper-design/shaders-react";
-import { motion } from "framer-motion";
+import { MeshGradient } from "@paper-design/shaders-react"
+import { motion } from "framer-motion"
+import { useTranslation } from "@/hooks/useTranslation"
 
 export function PulseHero() {
+  const { t } = useTranslation()
+
   return (
     <div
       className="relative w-full overflow-hidden"
@@ -35,16 +38,16 @@ export function PulseHero() {
           className="flex flex-col items-center max-w-[640px] text-center space-y-5"
         >
           <div className="inline-flex items-center gap-2 border border-white/20 bg-white/5 backdrop-blur-sm py-1 px-4 rounded-lg text-sm text-white/70 w-fit">
-            پالس (Pulse)
+            {t('pulse_hero.badge')}
           </div>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-white leading-tight">
-            تجربه‌ای جدید در مدیریت و اشتراک‌گذاری گزارش‌های Power BI
+            {t('pulse_hero.title')}
           </h1>
           <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-md">
-            پورتالی متمرکز برای مدیریت و اشتراک‌گذاری گزارش‌های Power BI — با رابط کاملاً فارسی، تقویم شمسی، و کنترل دسترسی دقیق.
+            {t('pulse_hero.body')}
           </p>
         </motion.div>
       </div>
     </div>
-  );
+  )
 }

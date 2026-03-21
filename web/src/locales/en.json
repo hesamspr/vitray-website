@@ -172,6 +172,17 @@
     "title2": "Infinite solutions.",
     "body": "Build enterprise applications, smart workflows, and custom solutions in record time — no development team or technical complexity required."
   },
+  "pixel_hero": {
+    "badge": "Pixel",
+    "title1": "Business Intelligence,",
+    "title2": "Without the Infrastructure",
+    "body": "A fully cloud-hosted BI service for small and mid-sized businesses — no servers, no IT team, up and running in hours."
+  },
+  "pulse_hero": {
+    "badge": "Pulse",
+    "title": "A New Way to Manage and Share Your Power BI Reports",
+    "body": "A centralized portal for publishing and sharing Power BI reports — with a fully localized interface, Jalali calendar support, and fine-grained access control."
+  },
   "dashboards": {
     "b2b_title": "B2B Sales",
     "b2b_desc": "Track sales opportunities, team performance, and enterprise client analysis at a glance.",
