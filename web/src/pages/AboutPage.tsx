@@ -8,7 +8,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { getNavItems } from '@/lib/navItems';
 
 export function AboutPage() {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
   const navItems = getNavItems(t);
   usePageTitle('page_titles.about');
 
@@ -68,7 +68,7 @@ export function AboutPage() {
                 </p>
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   {[
-                    { value: '۱۳۹۸', label: t('about.stat_founded') },
+                    { value: t('about.stat_founded_value'), label: t('about.stat_founded') },
                     { value: '+150', label: t('about.stat_projects') },
                   ].map((s) => (
                     <div key={s.label} className="rounded-xl border border-border/40 bg-background/30 p-4 text-center">
@@ -182,7 +182,9 @@ export function AboutPage() {
               <GlowCard customSize glowColor={stage.glow} className="flex flex-col p-6 w-full h-full min-h-[260px]">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-3xl font-bold tracking-tighter text-foreground/20">{stage.num}</span>
-                  <span className="text-xs text-muted-foreground border border-border/40 px-2 py-0.5 rounded-full" dir="ltr">{stage.en}</span>
+                  {lang === 'fa' && (
+                    <span className="text-xs text-muted-foreground border border-border/40 px-2 py-0.5 rounded-full" dir="ltr">{stage.en}</span>
+                  )}
                 </div>
                 <h3 className="text-base font-bold mb-2">{stage.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{stage.body}</p>
