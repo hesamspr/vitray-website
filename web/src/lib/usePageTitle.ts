@@ -1,12 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'
+import { useTranslation } from '@/hooks/useTranslation'
 
-const BASE_TITLE = 'راهکارهای ویترای';
+export function usePageTitle(pageKey?: string) {
+  const { t, lang } = useTranslation()
 
-export function usePageTitle(page?: string) {
   useEffect(() => {
-    document.title = page ? `${BASE_TITLE} - ${page}` : BASE_TITLE;
+    const siteName = t('page_titles.site_name')
+    document.title = pageKey ? `${siteName} - ${t(pageKey)}` : siteName
     return () => {
-      document.title = BASE_TITLE;
-    };
-  }, [page]);
+      document.title = t('page_titles.site_name')
+    }
+  // lang is used as dependency instead of t — t is recreated each render but lang only changes on toggle
+  }, [pageKey, lang]) // eslint-disable-line react-hooks/exhaustive-deps
 }
