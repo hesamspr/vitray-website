@@ -217,6 +217,7 @@
     "about_badge": "About Pulse",
     "about_title": "Manage and Share Power BI Reports",
     "about_body": "Pulse is a centralized portal for managing and sharing Power BI reports. Users can view, filter, and share reports — with a fully Persian interface, Jalali calendar, and granular access control.",
+    "pill_powerbi": "Power BI",
     "pill_calendar": "Jalali",
     "pill_persian": "Persian",
     "pill_team": "Team",

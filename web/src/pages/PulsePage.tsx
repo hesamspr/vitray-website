@@ -131,13 +131,13 @@ export function PulsePage() {
               </div>
               <div className="flex-shrink-0 grid grid-cols-2 gap-3 w-full md:w-[220px]">
                 {[
-                  { icon: BarChart3, label: 'Power BI' },
-                  { icon: CalendarDays, label: t('pulse.pill_calendar') },
-                  { icon: Globe, label: t('pulse.pill_persian') },
-                  { icon: Users, label: t('pulse.pill_team') },
-                ].map(({ icon: Icon, label }) => (
+                  { id: 'pill_powerbi', icon: BarChart3, label: t('pulse.pill_powerbi') },
+                  { id: 'pill_calendar', icon: CalendarDays, label: t('pulse.pill_calendar') },
+                  { id: 'pill_persian', icon: Globe, label: t('pulse.pill_persian') },
+                  { id: 'pill_team', icon: Users, label: t('pulse.pill_team') },
+                ].map(({ id, icon: Icon, label }) => (
                   <div
-                    key={label}
+                    key={id}
                     className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 p-4 text-center"
                   >
                     <Icon size={18} className="text-white/80" />

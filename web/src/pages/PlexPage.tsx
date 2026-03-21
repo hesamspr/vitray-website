@@ -202,13 +202,13 @@ export function PlexPage() {
               </div>
               <div className="flex-shrink-0 grid grid-cols-2 gap-3 w-full md:w-[220px]">
                 {[
-                  { icon: Code2, label: t('plex.pill_nocode') },
-                  { icon: Zap, label: t('plex.pill_fast') },
-                  { icon: Shuffle, label: t('plex.pill_custom') },
-                  { icon: ShieldCheck, label: t('plex.pill_secure') },
-                ].map(({ icon: Icon, label }) => (
+                  { id: 'pill_nocode', icon: Code2, label: t('plex.pill_nocode') },
+                  { id: 'pill_fast', icon: Zap, label: t('plex.pill_fast') },
+                  { id: 'pill_custom', icon: Shuffle, label: t('plex.pill_custom') },
+                  { id: 'pill_secure', icon: ShieldCheck, label: t('plex.pill_secure') },
+                ].map(({ id, icon: Icon, label }) => (
                   <div
-                    key={label}
+                    key={id}
                     className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 p-4 text-center"
                   >
                     <Icon size={18} className="text-white/80" />
