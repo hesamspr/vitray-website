@@ -10,7 +10,7 @@ import { Footer } from '@/components/ui/footer-section';
 import { FocusCards } from '@/components/ui/focus-cards';
 import { motion } from 'motion/react';
 import { usePageTitle } from '@/lib/usePageTitle';
-import { BentoGrid, type BentoItem } from '@/components/ui/bento-grid';
+import { CategoryList, type Category } from '@/components/ui/category-list';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getNavItems } from '@/lib/navItems';
@@ -111,11 +111,11 @@ export function App() {
     return item;
   });
 
-  const whyItems: BentoItem[] = [
-    { icon: <Briefcase className="w-4 h-4 text-primary" />, title: t('home.why_business'), description: t('home.why_business_body'), hasPersistentHover: true },
-    { icon: <TrendingUp className="w-4 h-4 text-primary" />, title: t('home.why_speed'), description: t('home.why_speed_body') },
-    { icon: <Target className="w-4 h-4 text-primary" />, title: t('home.why_customer'), description: t('home.why_customer_body') },
-    { icon: <Lightbulb className="w-4 h-4 text-primary" />, title: t('home.why_tools'), description: t('home.why_tools_body') },
+  const whyItems: Category[] = [
+    { id: 1, icon: <Briefcase className="w-5 h-5" />, title: t('home.why_business'), subtitle: t('home.why_business_body'), featured: true },
+    { id: 2, icon: <TrendingUp className="w-5 h-5" />, title: t('home.why_speed'), subtitle: t('home.why_speed_body') },
+    { id: 3, icon: <Target className="w-5 h-5" />, title: t('home.why_customer'), subtitle: t('home.why_customer_body') },
+    { id: 4, icon: <Lightbulb className="w-5 h-5" />, title: t('home.why_tools'), subtitle: t('home.why_tools_body') },
   ];
 
   const maturityStages = [
@@ -330,7 +330,7 @@ export function App() {
             </p>
           </motion.div>
 
-          <BentoGrid items={whyItems} />
+          <CategoryList categories={whyItems} className="max-w-3xl mx-auto" />
         </section>
 
         <div className="h-24" />

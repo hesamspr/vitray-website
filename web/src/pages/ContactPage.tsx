@@ -6,6 +6,8 @@ import { usePageTitle } from '@/lib/usePageTitle';
 import { useState } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getNavItems } from '@/lib/navItems';
+import { Button } from '@/components/ui/button';
+import { ShineBorder } from '@/components/ui/shine-border';
 
 export function ContactPage() {
   const { t, lang } = useTranslation();
@@ -188,14 +190,19 @@ export function ContactPage() {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-60"
+                <ShineBorder
+                  color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+                  className="w-full p-0 bg-transparent dark:bg-transparent"
                 >
-                  <Send size={14} />
-                  {loading ? t('contact.form_submitting') : t('contact.form_submit')}
-                </button>
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full bg-black text-white hover:bg-black/90 gap-2 disabled:opacity-60"
+                  >
+                    <Send size={14} />
+                    {loading ? t('contact.form_submitting') : t('contact.form_submit')}
+                  </Button>
+                </ShineBorder>
               </form>
             )}
           </motion.div>
