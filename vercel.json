@@ -1,10 +1,9 @@
 {
-  "buildCommand": "cd web && npm install && npm run build",
-  "outputDirectory": "web/dist",
-  "framework": "vite",
+  "buildCommand": "cd web-next && npm install && npm run build",
+  "outputDirectory": "web-next/.next",
+  "framework": "nextjs",
   "rewrites": [
-    { "source": "/blog/:path*", "destination": "https://blog.vitrayco.com/:path*" },
-    { "source": "/((?!blog/).*)", "destination": "/index.html" }
+    { "source": "/blog/:path*", "destination": "https://blog.vitrayco.com/:path*" }
   ],
   "redirects": [
     { "source": "/old-post-slug-1", "destination": "/blog/old-post-slug-1", "permanent": true },
