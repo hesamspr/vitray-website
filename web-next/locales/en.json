@@ -7,8 +7,19 @@
     "pulse": "Pulse",
     "pixel": "Pixel",
     "academy": "Academy",
+    "blog": "Blog",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "portal": "Customer Portal"
+  },
+  "blog": {
+    "badge": "Polaris Insights Blog",
+    "title": "Data & BI Insights",
+    "subtitle": "Expert articles on Business Intelligence, Data Engineering, and Analytics — from the team at Polaris Insights.",
+    "empty": "No posts found.",
+    "read_more": "Read more",
+    "back": "Back to all posts",
+    "min_read": "min read"
   },
   "page_titles": {
     "site_name": "Vitray Solutions",

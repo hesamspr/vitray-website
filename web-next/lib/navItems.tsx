@@ -1,4 +1,4 @@
-import { Home, Info, Mail, Package } from 'lucide-react'
+import { Home, Info, Mail, Package, BookOpen, LayoutDashboard } from 'lucide-react'
 
 const BiNavIcon = ({ className }: { className?: string }) => (
   <img src="/fav.png" alt="BI" className={className} />
@@ -31,7 +31,9 @@ export function getNavItems(t: (key: string) => string) {
         { name: t('nav.academy'), url: 'https://academy.vitrayco.com', icon: AcademyNavIcon },
       ],
     },
+    { name: t('nav.blog'), url: '/blog', icon: BookOpen },
     { name: t('nav.about'), url: '/about', icon: Info },
     { name: t('nav.contact'), url: '/contact', icon: Mail },
+    { name: t('nav.portal'), url: 'https://support.vitrayco.com', icon: LayoutDashboard, highlight: true },
   ]
 }

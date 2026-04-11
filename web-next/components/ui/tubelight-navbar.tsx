@@ -19,6 +19,7 @@ interface NavItem {
   url: string
   icon: LucideIcon
   subItems?: NavSubItem[]
+  highlight?: boolean
 }
 
 interface NavBarProps {
@@ -43,10 +44,13 @@ export function NavBar({ items, className }: NavBarProps) {
   const { lang, toggleLanguage } = useLanguage()
 
   const findActiveItem = (path: string) =>
-    items.find(item =>
-      item.url === path ||
-      item.subItems?.some(sub => sub.url === path)
-    )?.name ?? items[0].name
+    items.find(item => {
+      if (item.url === path) return true
+      if (item.subItems?.some(sub => sub.url === path)) return true
+      // Match nested paths: /blog/some-slug should activate /blog
+      if (item.url !== '/' && item.url !== '/#products' && path.startsWith(item.url)) return true
+      return false
+    })?.name ?? items[0].name
 
   const [activeTab, setActiveTab] = useState(() => findActiveItem(pathname))
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
@@ -87,7 +91,10 @@ export function NavBar({ items, className }: NavBarProps) {
           const isActive = activeTab === item.name
           const hasDropdown = !!item.subItems?.length
           const isOpen = openDropdown === item.name
-          const isRouterLink = !hasDropdown && !item.url.startsWith('#')
+          const isExternal = item.url.startsWith('http')
+          const isRouterLink = !hasDropdown && !item.url.startsWith('#') && !isExternal
+
+          const highlightClass = "relative cursor-pointer flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border border-border/50 text-foreground/70 hover:text-primary hover:border-primary/50 transition-colors ms-1"
 
           return (
             <div key={item.name} className="relative">
@@ -104,6 +111,16 @@ export function NavBar({ items, className }: NavBarProps) {
                   <span className="md:hidden"><Icon size={18} strokeWidth={2.5} /></span>
                   {isActive && <GlowIndicator />}
                 </button>
+              ) : isExternal ? (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={item.highlight ? highlightClass : itemClass(isActive)}
+                >
+                  <span className="hidden md:inline">{item.name}</span>
+                  <span className="md:hidden"><Icon size={18} strokeWidth={2.5} /></span>
+                </a>
               ) : isRouterLink ? (
                 <Link
                   href={item.url}
