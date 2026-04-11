@@ -1,6 +1,11 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import { getPosts } from '@/lib/wordpress'
-import { BlogListClient } from '@/components/blog/BlogListClient'
+import { BlogNavBar } from '@/components/ui/blog-navbar'
+import { BlogPostShell } from '@/components/blog/BlogPostShell'
+import { BlogPageHeader } from '@/components/blog/BlogPageHeader'
+import { PostsGrid } from '@/components/blog/PostsGrid'
+import { PostsSkeleton } from '@/components/blog/PostsSkeleton'
+import { Footer } from '@/components/ui/footer-section'
 
 export const metadata: Metadata = {
   title: 'Blog | Polaris Insights',
@@ -15,7 +20,17 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function BlogPage() {
-  const { posts } = await getPosts(1, 12)
-  return <BlogListClient posts={posts} />
+export default function BlogPage() {
+  return (
+    <BlogPostShell>
+      <BlogNavBar />
+      <main className="mx-auto max-w-5xl px-6 pt-28 pb-20">
+        <BlogPageHeader />
+        <Suspense fallback={<PostsSkeleton />}>
+          <PostsGrid />
+        </Suspense>
+      </main>
+      <Footer />
+    </BlogPostShell>
+  )
 }

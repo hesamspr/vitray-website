@@ -65,7 +65,7 @@ function getFooterLinks(t: (k: string) => string): FooterSection[] {
     },
     {
       label: t('footer.resources'),
-      links: [{ title: t('footer.blog'), href: '#blog' }],
+      links: [{ title: t('footer.blog'), href: '/blog' }],
     },
     {
       label: t('footer.social'),
