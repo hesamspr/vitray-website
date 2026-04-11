@@ -25,12 +25,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: yoast.title || post.title.rendered,
     description: yoast.og_description,
     alternates: {
-      canonical: yoast.canonical ?? `https://vitrayco.com/blog/${slug}`,
+      canonical: `https://vitrayco.com/blog/${slug}`,
     },
     openGraph: {
       title: yoast.og_title || post.title.rendered,
       description: yoast.og_description,
-      url: yoast.og_url ?? `https://vitrayco.com/blog/${slug}`,
+      url: `https://vitrayco.com/blog/${slug}`,
       type: 'article',
       publishedTime: yoast.article_published_time ?? post.date,
       modifiedTime: yoast.article_modified_time ?? post.modified,
