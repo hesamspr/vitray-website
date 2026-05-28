@@ -1,7 +1,15 @@
 'use client'
 
-import { ShaderAnimation } from "@/components/ui/shader-animation"
+import dynamic from "next/dynamic"
 import { useTranslation } from "@/hooks/useTranslation"
+
+const ShaderAnimation = dynamic(
+  () => import("@/components/ui/shader-animation").then((m) => m.ShaderAnimation),
+  {
+    ssr: false,
+    loading: () => <div className="absolute inset-0 bg-black" />,
+  },
+)
 
 export const PremiumHero = () => {
   const { t } = useTranslation()

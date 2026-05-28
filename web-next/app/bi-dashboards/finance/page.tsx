@@ -1,26 +1,29 @@
 'use client'
 
-import { NavBar } from '@/components/ui/tubelight-navbar';
-import { Footer } from '@/components/ui/footer-section';
-import { RelatedDashboardsSection } from '@/components/ui/feature-section-with-card-gradient';
-import { useTranslation } from '@/hooks/useTranslation';
-import { getNavItems } from '@/lib/navItems';
-import { usePageTitle } from '@/lib/usePageTitle';
+import {
+  Banknote,
+  Clock,
+  Database,
+  FileSearch,
+  Receipt,
+  ShieldCheck,
+  Sparkles,
+  TrendingUp,
+  Wallet,
+} from 'lucide-react';
+
+import { DashboardSolutionTemplate, type DashboardSolutionConfig } from '@/components/ui/dashboard-solution-template';
+
+const config: DashboardSolutionConfig = {
+  i18nKey: 'finance_dash',
+  pageTitleKey: 'page_titles.finance_dashboard',
+  currentHref: '/bi-dashboards/finance',
+  capabilityIcons: [Database, ShieldCheck, Sparkles],
+  viewIcons: [Banknote, TrendingUp, Receipt, FileSearch, Wallet, Clock],
+};
 
 export function FinanceDashboardPage() {
-  const { t } = useTranslation();
-  const navItems = getNavItems(t);
-  usePageTitle('page_titles.finance_dashboard');
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      <NavBar items={navItems} />
-      <div className="flex items-center justify-center min-h-[80vh]">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tighter">{t('page_titles.finance_dashboard')}</h1>
-      </div>
-      <RelatedDashboardsSection currentHref="/bi-dashboards/finance" />
-      <Footer />
-    </div>
-  );
+  return <DashboardSolutionTemplate config={config} />;
 }
 
-export default FinanceDashboardPage
+export default FinanceDashboardPage;

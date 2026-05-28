@@ -1,26 +1,30 @@
 'use client'
 
-import { NavBar } from '@/components/ui/tubelight-navbar';
-import { Footer } from '@/components/ui/footer-section';
-import { RelatedDashboardsSection } from '@/components/ui/feature-section-with-card-gradient';
-import { useTranslation } from '@/hooks/useTranslation';
-import { getNavItems } from '@/lib/navItems';
-import { usePageTitle } from '@/lib/usePageTitle';
+import {
+  ArchiveX,
+  CalendarDays,
+  Database,
+  Eye,
+  PackageCheck,
+  Repeat,
+  ShieldCheck,
+  ShoppingCart,
+  Sparkles,
+  Wallet,
+} from 'lucide-react';
+
+import { DashboardSolutionTemplate, type DashboardSolutionConfig } from '@/components/ui/dashboard-solution-template';
+
+const config: DashboardSolutionConfig = {
+  i18nKey: 'warehouse_dash',
+  pageTitleKey: 'page_titles.warehouse_dashboard',
+  currentHref: '/bi-dashboards/warehouse',
+  capabilityIcons: [Database, ShieldCheck, Sparkles],
+  viewIcons: [Eye, CalendarDays, Repeat, ArchiveX, Wallet, ShoppingCart],
+};
 
 export function WarehouseDashboardPage() {
-  const { t } = useTranslation();
-  const navItems = getNavItems(t);
-  usePageTitle('page_titles.warehouse_dashboard');
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      <NavBar items={navItems} />
-      <div className="flex items-center justify-center min-h-[80vh]">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tighter">{t('page_titles.warehouse_dashboard')}</h1>
-      </div>
-      <RelatedDashboardsSection currentHref="/bi-dashboards/warehouse" />
-      <Footer />
-    </div>
-  );
+  return <DashboardSolutionTemplate config={config} />;
 }
 
-export default WarehouseDashboardPage
+export default WarehouseDashboardPage;

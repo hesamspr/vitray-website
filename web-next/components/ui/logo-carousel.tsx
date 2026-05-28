@@ -1,17 +1,19 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface Logo {
   name: string;
   id: number;
-  img: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  src: string;
 }
 
 interface LogoColumnProps {
   logos: Logo[];
   index: number;
+  paused: boolean;
 }
 
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -41,12 +43,13 @@ const distributeLogos = (allLogos: Logo[], columnCount: number): Logo[][] => {
   return columns;
 };
 
-// Each column manages its own cycling — avoids a 100ms parent tick re-rendering all children
-const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index }) => {
+// Each column manages its own cycling — avoids a parent tick re-rendering all children
+const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, paused }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // Stagger column start times to match original columnDelay behaviour
+    if (paused) return;
+    // Stagger column start times so columns don't all swap on the same frame
     const delay = index * 200;
     let intervalId: ReturnType<typeof setInterval>;
     const timeoutId = setTimeout(() => {
@@ -58,9 +61,9 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index }) => {
       clearTimeout(timeoutId);
       clearInterval(intervalId);
     };
-  }, [logos.length, index]);
+  }, [logos.length, index, paused]);
 
-  const CurrentLogo = useMemo(() => logos[currentIndex].img, [logos, currentIndex]);
+  const current = logos[currentIndex];
 
   return (
     <motion.div
@@ -75,39 +78,35 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index }) => {
     >
       <AnimatePresence mode="wait">
         <motion.div
-          key={`${logos[currentIndex].id}-${currentIndex}`}
+          key={`${current.id}-${currentIndex}`}
           className="absolute inset-0 flex items-center justify-center"
-          initial={{ y: "10%", opacity: 0, filter: "blur(8px)" }}
+          initial={{ y: "10%", opacity: 0 }}
           animate={{
             y: "0%",
             opacity: 1,
-            filter: "blur(0px)",
-            transition: {
-              type: "spring",
-              stiffness: 300,
-              damping: 20,
-              mass: 1,
-              bounce: 0.2,
-              duration: 0.5,
-            },
+            transition: { type: "tween", ease: "easeOut", duration: 0.4 },
           }}
           exit={{
             y: "-20%",
             opacity: 0,
-            filter: "blur(6px)",
-            transition: {
-              type: "tween",
-              ease: "easeIn",
-              duration: 0.3,
-            },
+            transition: { type: "tween", ease: "easeIn", duration: 0.25 },
           }}
         >
-          <CurrentLogo className="h-28 w-28 max-h-[80%] max-w-[80%] object-contain md:h-48 md:w-48 invert grayscale" />
+          <Image
+            src={current.src}
+            alt={current.name}
+            width={192}
+            height={192}
+            sizes="(max-width: 768px) 112px, 192px"
+            className="max-h-[80%] max-w-[80%] object-contain invert grayscale"
+          />
         </motion.div>
       </AnimatePresence>
     </motion.div>
   );
 });
+
+LogoColumn.displayName = "LogoColumn";
 
 interface LogoCarouselProps {
   columnCount?: number;
@@ -118,6 +117,8 @@ interface LogoCarouselProps {
 export function LogoCarousel({ columnCount = 2, mobileColumnCount = 3, logos }: LogoCarouselProps) {
   const [logoSets, setLogoSets] = useState<Logo[][]>([]);
   const [isMobile, setIsMobile] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
@@ -132,10 +133,22 @@ export function LogoCarousel({ columnCount = 2, mobileColumnCount = 3, logos }: 
     setLogoSets(distributeLogos(logos, activeColumnCount));
   }, [logos, activeColumnCount]);
 
+  // Pause cycling when the carousel scrolls off-screen
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setPaused(!entry.isIntersecting),
+      { threshold: 0 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <div className="flex gap-4">
+    <div ref={containerRef} className="flex gap-4">
       {logoSets.map((logos, index) => (
-        <LogoColumn key={index} logos={logos} index={index} />
+        <LogoColumn key={index} logos={logos} index={index} paused={paused} />
       ))}
     </div>
   );

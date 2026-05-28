@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -9,12 +10,49 @@ type CardType = {
   src: string;
 };
 
-function Lightbox({ card, onClose }: { card: CardType; onClose: () => void }) {
+function Lightbox({
+  cards,
+  index,
+  onIndexChange,
+  onClose,
+}: {
+  cards: CardType[];
+  index: number;
+  onIndexChange: (i: number) => void;
+  onClose: () => void;
+}) {
+  const card = cards[index];
+
+  const goPrev = useCallback(
+    () => onIndexChange((index - 1 + cards.length) % cards.length),
+    [index, cards.length, onIndexChange],
+  );
+  const goNext = useCallback(
+    () => onIndexChange((index + 1) % cards.length),
+    [index, cards.length, onIndexChange],
+  );
+
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowLeft") goPrev();
+      else if (e.key === "ArrowRight") goNext();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  }, [onClose, goPrev, goNext]);
+
+  // Preload neighbours so arrow-nav feels instant
+  useEffect(() => {
+    const neighbours = [
+      cards[(index - 1 + cards.length) % cards.length],
+      cards[(index + 1) % cards.length],
+    ];
+    neighbours.forEach((c) => {
+      const img = new window.Image();
+      img.src = c.src.normalize("NFC");
+    });
+  }, [cards, index]);
 
   return (
     <div
@@ -22,17 +60,45 @@ function Lightbox({ card, onClose }: { card: CardType; onClose: () => void }) {
       onClick={onClose}
     >
       <button
-        className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
+        className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-background/20 hover:bg-background/40 text-white/80 hover:text-white transition-colors flex items-center justify-center"
         onClick={onClose}
+        aria-label="Close"
       >
-        <X className="w-7 h-7" />
+        <X className="w-6 h-6" />
       </button>
-      <img
-        src={card.src.normalize('NFC')}
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          goPrev();
+        }}
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 md:w-12 md:h-12 rounded-full bg-background/20 hover:bg-background/40 text-white/80 hover:text-white transition-colors flex items-center justify-center"
+        aria-label="Previous"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </button>
+
+      <Image
+        key={card.src}
+        src={card.src.normalize("NFC")}
         alt={card.title}
-        className="max-h-[90vh] max-w-[90vw] rounded-xl shadow-2xl object-contain"
+        width={800}
+        height={1000}
+        unoptimized
+        className="max-h-[90vh] max-w-[90vw] rounded-xl shadow-2xl object-contain w-auto h-auto"
         onClick={(e) => e.stopPropagation()}
       />
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          goNext();
+        }}
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 md:w-12 md:h-12 rounded-full bg-background/20 hover:bg-background/40 text-white/80 hover:text-white transition-colors flex items-center justify-center"
+        aria-label="Next"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </button>
     </div>
   );
 }
@@ -43,10 +109,12 @@ function CarouselCard({ card, onClick }: { card: CardType; onClick: () => void }
       onClick={onClick}
       className="relative rounded-xl overflow-hidden cursor-pointer group bg-neutral-900 aspect-[4/5] w-full select-none"
     >
-      <img
+      <Image
         src={card.src.normalize('NFC')}
         alt={card.title}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+        fill
+        sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         draggable={false}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
@@ -62,19 +130,13 @@ const AUTO_PLAY_MS = 4500;
 
 export function FocusCards({ cards }: { cards: CardType[] }) {
   const [index, setIndex] = useState(0);
-  const [selected, setSelected] = useState<CardType | null>(null);
-  const [paused, setPaused] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const [inView, setInView] = useState(false);
   const [cardWidth, setCardWidth] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // Preload all images so the browser doesn't skip hidden carousel cards
-  useEffect(() => {
-    cards.forEach((card) => {
-      const img = new Image();
-      img.src = card.src.normalize('NFC');
-    });
-  }, [cards]);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const updateLayout = useCallback(() => {
     const el = containerRef.current;
@@ -92,6 +154,18 @@ export function FocusCards({ cards }: { cards: CardType[] }) {
     return () => ro.disconnect();
   }, [updateLayout]);
 
+  // Pause autoplay when the carousel scrolls off-screen
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   const maxIndex = Math.max(0, cards.length - visibleCount);
 
   const prev = useCallback(
@@ -105,10 +179,10 @@ export function FocusCards({ cards }: { cards: CardType[] }) {
   );
 
   useEffect(() => {
-    if (paused) return;
+    if (hoverPaused || !inView) return;
     const t = setInterval(next, AUTO_PLAY_MS);
     return () => clearInterval(t);
-  }, [paused, next]);
+  }, [hoverPaused, inView, next]);
 
   // Reset when card list changes
   useEffect(() => {
@@ -121,10 +195,11 @@ export function FocusCards({ cards }: { cards: CardType[] }) {
   return (
     <>
       <div
+        ref={sectionRef}
         dir="ltr"
         className="relative w-full"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        onMouseEnter={() => setHoverPaused(true)}
+        onMouseLeave={() => setHoverPaused(false)}
       >
         {/* Left / Prev arrow */}
         <button
@@ -147,9 +222,9 @@ export function FocusCards({ cards }: { cards: CardType[] }) {
             className="flex transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
             style={{ gap: GAP, transform: `translateX(-${translateX}px)` }}
           >
-            {cards.map((card) => (
+            {cards.map((card, i) => (
               <div key={card.src.normalize('NFC')} style={{ width: cardWidth, flexShrink: 0 }}>
-                <CarouselCard card={card} onClick={() => setSelected(card)} />
+                <CarouselCard card={card} onClick={() => setSelectedIndex(i)} />
               </div>
             ))}
           </div>
@@ -188,8 +263,13 @@ export function FocusCards({ cards }: { cards: CardType[] }) {
         </div>
       </div>
 
-      {selected && (
-        <Lightbox card={selected} onClose={() => setSelected(null)} />
+      {selectedIndex !== null && (
+        <Lightbox
+          cards={cards}
+          index={selectedIndex}
+          onIndexChange={setSelectedIndex}
+          onClose={() => setSelectedIndex(null)}
+        />
       )}
     </>
   );

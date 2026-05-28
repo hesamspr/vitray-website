@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ReactNode, useEffect, useRef } from "react";
+import React, { ReactNode, useEffect } from "react";
 
 interface GlowCardProps {
   children: ReactNode;
@@ -76,13 +76,61 @@ const GLOW_CSS = `
 
 let glowStylesInjected = false;
 
+// Pointer position is viewport-global — the same for every card. We track it once
+// on :root and let cards inherit --x/--xp/--y/--yp through the CSS cascade. This
+// replaces N listeners × 4 style writes per pointermove with 1 listener × 4 writes,
+// rAF-coalesced so we write at most once per frame regardless of pointer poll rate.
+let trackerRefCount = 0;
+let detachTracker: (() => void) | null = null;
+
+function attachPointerTracker() {
+  if (detachTracker) return;
+  if (typeof window === "undefined") return;
+
+  const root = document.documentElement;
+
+  // Touch-only / hover-less devices: park the spotlight at center and skip tracking
+  if (!window.matchMedia("(hover: hover)").matches) {
+    root.style.setProperty("--x", String(window.innerWidth / 2));
+    root.style.setProperty("--xp", "0.5");
+    root.style.setProperty("--y", String(window.innerHeight / 2));
+    root.style.setProperty("--yp", "0.5");
+    detachTracker = () => {};
+    return;
+  }
+
+  let rafId = 0;
+  let pendingX = 0;
+  let pendingY = 0;
+
+  const flush = () => {
+    rafId = 0;
+    root.style.setProperty("--x", pendingX.toFixed(2));
+    root.style.setProperty("--xp", (pendingX / window.innerWidth).toFixed(2));
+    root.style.setProperty("--y", pendingY.toFixed(2));
+    root.style.setProperty("--yp", (pendingY / window.innerHeight).toFixed(2));
+  };
+
+  const onPointerMove = (e: PointerEvent) => {
+    if (e.pointerType === "touch") return;
+    pendingX = e.clientX;
+    pendingY = e.clientY;
+    if (!rafId) rafId = requestAnimationFrame(flush);
+  };
+
+  document.addEventListener("pointermove", onPointerMove, { passive: true });
+
+  detachTracker = () => {
+    document.removeEventListener("pointermove", onPointerMove);
+    if (rafId) cancelAnimationFrame(rafId);
+  };
+}
+
 const GlowCard: React.FC<GlowCardProps> = ({
   children,
   className = "",
   glowColor = "blue",
 }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     if (!glowStylesInjected) {
       const style = document.createElement("style");
@@ -90,20 +138,17 @@ const GlowCard: React.FC<GlowCardProps> = ({
       document.head.appendChild(style);
       glowStylesInjected = true;
     }
-  }, []);
 
-  useEffect(() => {
-    const syncPointer = (e: PointerEvent) => {
-      const { clientX: x, clientY: y } = e;
-      if (cardRef.current) {
-        cardRef.current.style.setProperty("--x", x.toFixed(2));
-        cardRef.current.style.setProperty("--xp", (x / window.innerWidth).toFixed(2));
-        cardRef.current.style.setProperty("--y", y.toFixed(2));
-        cardRef.current.style.setProperty("--yp", (y / window.innerHeight).toFixed(2));
+    trackerRefCount++;
+    if (trackerRefCount === 1) attachPointerTracker();
+
+    return () => {
+      trackerRefCount--;
+      if (trackerRefCount === 0 && detachTracker) {
+        detachTracker();
+        detachTracker = null;
       }
     };
-    document.addEventListener("pointermove", syncPointer);
-    return () => document.removeEventListener("pointermove", syncPointer);
   }, []);
 
   const { base, spread } = glowColorMap[glowColor];
@@ -137,7 +182,6 @@ const GlowCard: React.FC<GlowCardProps> = ({
 
   return (
     <div
-      ref={cardRef}
       data-glow
       style={inlineStyles}
       className={`relative grid grid-rows-[1fr_auto] gap-4 rounded-2xl p-4 shadow-[0_1rem_2rem_-1rem_black] backdrop-blur-[5px] ${className}`}

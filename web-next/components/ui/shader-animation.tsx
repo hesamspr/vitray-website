@@ -5,18 +5,12 @@ import * as THREE from "three"
 
 export function ShaderAnimation() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const sceneRef = useRef<{
-    camera: THREE.Camera
-    scene: THREE.Scene
-    renderer: THREE.WebGLRenderer
-    uniforms: any
-    animationId: number
-  } | null>(null)
 
   useEffect(() => {
-    if (!containerRef.current) return
-
     const container = containerRef.current
+    if (!container) return
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
     const vertexShader = `
       void main() {
@@ -55,69 +49,107 @@ export function ShaderAnimation() {
     const geometry = new THREE.PlaneGeometry(2, 2)
 
     const uniforms = {
-      time: { type: "f", value: 1.0 },
-      resolution: { type: "v2", value: new THREE.Vector2() },
+      time: { value: 1.0 },
+      resolution: { value: new THREE.Vector2() },
     }
 
     const material = new THREE.ShaderMaterial({
-      uniforms: uniforms,
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
+      uniforms,
+      vertexShader,
+      fragmentShader,
     })
 
     const mesh = new THREE.Mesh(geometry, material)
     scene.add(mesh)
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
-    renderer.setPixelRatio(window.devicePixelRatio)
+    const renderer = new THREE.WebGLRenderer({
+      antialias: false,
+      powerPreference: "low-power",
+    })
+    // Cap DPR — full-screen fragment shader scales quadratically with pixel count.
+    // 1.5 keeps it crisp on Retina without paying for 4× the work.
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
 
     container.appendChild(renderer.domElement)
 
-    const onWindowResize = () => {
-      const width = container.clientWidth
-      const height = container.clientHeight
-      renderer.setSize(width, height)
+    const onResize = () => {
+      const w = container.clientWidth
+      const h = container.clientHeight
+      renderer.setSize(w, h)
       uniforms.resolution.value.x = renderer.domElement.width
       uniforms.resolution.value.y = renderer.domElement.height
     }
 
-    onWindowResize()
-    window.addEventListener("resize", onWindowResize, false)
+    onResize()
+    window.addEventListener("resize", onResize)
 
-    const animate = () => {
-      const animationId = requestAnimationFrame(animate)
+    let animationId = 0
+    let isVisible = true
+    let isTabActive = !document.hidden
+
+    const renderFrame = () => {
       uniforms.time.value += 0.05
       renderer.render(scene, camera)
-
-      if (sceneRef.current) {
-        sceneRef.current.animationId = animationId
-      }
     }
 
-    sceneRef.current = {
-      camera,
-      scene,
-      renderer,
-      uniforms,
-      animationId: 0,
+    const shouldRun = () => isVisible && isTabActive && !reduceMotion
+
+    const tick = () => {
+      animationId = requestAnimationFrame(tick)
+      renderFrame()
     }
 
-    animate()
+    const start = () => {
+      if (animationId) return
+      animationId = requestAnimationFrame(tick)
+    }
+
+    const stop = () => {
+      if (!animationId) return
+      cancelAnimationFrame(animationId)
+      animationId = 0
+    }
+
+    const sync = () => {
+      if (shouldRun()) start()
+      else stop()
+    }
+
+    // Pause when scrolled off-screen
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting
+        sync()
+      },
+      { threshold: 0 },
+    )
+    io.observe(container)
+
+    // Pause when tab is hidden
+    const onVisibilityChange = () => {
+      isTabActive = !document.hidden
+      sync()
+    }
+    document.addEventListener("visibilitychange", onVisibilityChange)
+
+    // Reduced-motion users get a single still frame
+    if (reduceMotion) {
+      renderFrame()
+    } else {
+      sync()
+    }
 
     return () => {
-      window.removeEventListener("resize", onWindowResize)
-
-      if (sceneRef.current) {
-        cancelAnimationFrame(sceneRef.current.animationId)
-
-        if (container && sceneRef.current.renderer.domElement) {
-          container.removeChild(sceneRef.current.renderer.domElement)
-        }
-
-        sceneRef.current.renderer.dispose()
-        geometry.dispose()
-        material.dispose()
+      stop()
+      io.disconnect()
+      document.removeEventListener("visibilitychange", onVisibilityChange)
+      window.removeEventListener("resize", onResize)
+      if (renderer.domElement.parentNode === container) {
+        container.removeChild(renderer.domElement)
       }
+      renderer.dispose()
+      geometry.dispose()
+      material.dispose()
     }
   }, [])
 
