@@ -1,6 +1,6 @@
 'use client'
 
-import { MeshGradient } from "@paper-design/shaders-react"
+import { LazyMeshGradient as MeshGradient } from "@/components/ui/lazy-shaders"
 import { motion } from "framer-motion"
 import { useTranslation } from "@/hooks/useTranslation"
 

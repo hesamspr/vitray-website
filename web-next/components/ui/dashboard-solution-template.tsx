@@ -2,7 +2,7 @@
 
 import { useState, type ComponentType } from 'react';
 import { motion } from 'motion/react';
-import { MeshGradient } from '@paper-design/shaders-react';
+import { LazyMeshGradient as MeshGradient } from '@/components/ui/lazy-shaders';
 import { BarChart3, CheckCircle2, Layers, Lock, type LucideIcon } from 'lucide-react';
 
 import { NavBar } from '@/components/ui/tubelight-navbar';

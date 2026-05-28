@@ -1,7 +1,7 @@
 'use client'
 
 import type React from "react";
-import { Warp } from "@paper-design/shaders-react";
+import { LazyWarp as Warp } from "@/components/ui/lazy-shaders";
 
 type WarpColors = string[];
 

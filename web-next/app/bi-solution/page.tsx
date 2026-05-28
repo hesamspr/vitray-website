@@ -7,7 +7,7 @@ import { WarpCard } from '@/components/ui/warp-card';
 import { AnimatedBackground } from '@/components/ui/animated-background';
 import { LampContainer } from '@/components/ui/lamp';
 import { DashboardTemplatesSection } from '@/components/ui/feature-section-with-card-gradient';
-import { MeshGradient } from "@paper-design/shaders-react";
+import { LazyMeshGradient as MeshGradient } from "@/components/ui/lazy-shaders";
 import { motion } from 'motion/react';
 import {
   BarChart3,
