@@ -1,7 +1,7 @@
 'use client'
 
 import { LazyMeshGradient as MeshGradient } from "@/components/ui/lazy-shaders"
-import { motion } from "framer-motion"
+import { m } from "motion/react"
 import { useTranslation } from "@/hooks/useTranslation"
 
 export function PulseHero() {
@@ -30,7 +30,7 @@ export function PulseHero() {
       />
 
       <div className="absolute inset-0 flex items-center justify-center z-20 px-6">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
@@ -45,7 +45,7 @@ export function PulseHero() {
           <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-md">
             {t('pulse_hero.body')}
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   )

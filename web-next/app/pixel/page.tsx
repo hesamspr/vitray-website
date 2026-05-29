@@ -1,13 +1,11 @@
-'use client'
-
-import { NavBar } from '@/components/ui/tubelight-navbar';
+import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { PixelHero } from '@/components/ui/pixel-hero';
 import { WarpCard } from '@/components/ui/warp-card';
 import { AnimatedBackground } from '@/components/ui/animated-background';
 import { LampContainer } from '@/components/ui/lamp';
-import { motion } from 'motion/react';
+import { Reveal } from '@/components/ui/reveal';
 import {
   BarChart3,
   Bell,
@@ -24,16 +22,11 @@ import {
   Users,
   Zap,
 } from 'lucide-react';
-import { usePageTitle } from '@/lib/usePageTitle';
-import { useTranslation } from '@/hooks/useTranslation';
-import { getNavItems } from '@/lib/navItems';
+import { getTranslations } from '@/lib/i18n.server';
 import { cn } from '@/lib/utils';
 
-export function PixelPage() {
-  const { t } = useTranslation();
-  const navItems = getNavItems(t);
-
-  usePageTitle('page_titles.pixel');
+export async function PixelPage() {
+  const { t } = await getTranslations();
 
   const capabilities = [
     {
@@ -141,7 +134,7 @@ export function PixelPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <NavBar items={navItems} />
+      <SiteNav />
 
       <PixelHero />
 
@@ -188,12 +181,7 @@ export function PixelPage() {
 
       {/* Why Pixel — main WarpCard */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-        >
+        <Reveal>
           <WarpCard
             colors={["hsl(190,100%,15%)", "hsl(195,100%,45%)", "hsl(185,90%,30%)", "hsl(200,100%,60%)"]}
             shape="checks"
@@ -224,7 +212,7 @@ export function PixelPage() {
               </div>
             </div>
           </WarpCard>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="h-10" />
@@ -234,12 +222,7 @@ export function PixelPage() {
         <div className="grid md:grid-cols-2 gap-4">
 
           {/* Data sources */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-          >
+          <Reveal x={20} y={0} duration={0.7}>
             <WarpCard
               colors={["hsl(270,100%,15%)", "hsl(280,100%,55%)", "hsl(300,90%,40%)", "hsl(260,100%,65%)"]}
               shape="checks"
@@ -266,15 +249,10 @@ export function PixelPage() {
                 </div>
               </div>
             </WarpCard>
-          </motion.div>
+          </Reveal>
 
           {/* Interactive dashboards */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-          >
+          <Reveal x={-20} y={0} duration={0.7} delay={0.15}>
             <WarpCard
               colors={["hsl(25,100%,20%)", "hsl(35,100%,55%)", "hsl(15,90%,40%)", "hsl(45,100%,65%)"]}
               shape="checks"
@@ -301,7 +279,7 @@ export function PixelPage() {
                 </div>
               </div>
             </WarpCard>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
 
@@ -309,13 +287,7 @@ export function PixelPage() {
 
       {/* Comparison section */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="space-y-8"
-        >
+        <Reveal className="space-y-8">
           <div className="flex flex-col items-center text-center space-y-3">
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
               {t('pixel.cmp_badge')}
@@ -360,19 +332,14 @@ export function PixelPage() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="h-16" />
 
       {/* Dashboard examples */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-        >
+        <Reveal>
           <div className="space-y-6">
             <div className="flex flex-col items-center text-center space-y-3">
               <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
@@ -417,16 +384,16 @@ export function PixelPage() {
             </AnimatedBackground>
 
           </div>
-        </motion.div>
+        </Reveal>
       </div>
 
       {/* Closing lamp section */}
       <LampContainer color="cyan" className="min-h-[44rem] mb-[-14rem]">
-        <motion.div
-          initial={{ opacity: 0.5, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+        <Reveal
+          y={60}
+          fromOpacity={0.5}
+          delay={0.3}
+          ease="easeInOut"
           className="flex flex-col items-center gap-5 text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
@@ -445,7 +412,7 @@ export function PixelPage() {
             {' '}|{' '}
             pass: <span className="text-white/60">user</span>
           </p>
-        </motion.div>
+        </Reveal>
       </LampContainer>
 
       <div className="h-16" />

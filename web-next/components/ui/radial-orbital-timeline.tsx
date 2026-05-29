@@ -1,7 +1,28 @@
 'use client'
 
 import { useState, useEffect, useRef } from "react";
+import {
+  Building2,
+  Database,
+  FileSpreadsheet,
+  FileText,
+  Layers3,
+  Server,
+  Users,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const TIMELINE_ICONS = {
+  building: Building2,
+  users: Users,
+  layers: Layers3,
+  spreadsheet: FileSpreadsheet,
+  file: FileText,
+  database: Database,
+  server: Server,
+} as const;
+
+export type TimelineIconKey = keyof typeof TIMELINE_ICONS;
 
 interface TimelineItem {
   id: number;
@@ -9,7 +30,7 @@ interface TimelineItem {
   date: string;
   content: string;
   category: string;
-  icon: React.ElementType;
+  icon: TimelineIconKey;
   relatedIds: number[];
   status: "completed" | "in-progress" | "pending";
   energy: number;
@@ -168,7 +189,7 @@ export default function RadialOrbitalTimeline({
             const isExpanded = expandedItems[item.id];
             const isRelated = isRelatedToActive(item.id);
             const isPulsing = pulseEffect[item.id];
-            const Icon = item.icon;
+            const Icon = TIMELINE_ICONS[item.icon];
 
             const nodeStyle = {
               transform: `translate(${position.x}px, ${position.y}px)`,

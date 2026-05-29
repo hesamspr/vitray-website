@@ -1,12 +1,10 @@
-'use client'
-
-import { NavBar } from '@/components/ui/tubelight-navbar';
+import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { PulseHero } from '@/components/ui/pulse-hero';
 import { WarpCard } from '@/components/ui/warp-card';
 import { LampContainer } from '@/components/ui/lamp';
-import { motion } from 'motion/react';
+import { Reveal } from '@/components/ui/reveal';
 import {
   BarChart3,
   CalendarDays,
@@ -17,16 +15,11 @@ import {
   ShieldCheck,
   Users,
 } from 'lucide-react';
-import { usePageTitle } from '@/lib/usePageTitle';
-import { useTranslation } from '@/hooks/useTranslation';
-import { getNavItems } from '@/lib/navItems';
+import { getTranslations } from '@/lib/i18n.server';
 import { cn } from '@/lib/utils';
 
-export function PulsePage() {
-  const { t } = useTranslation();
-  const navItems = getNavItems(t);
-
-  usePageTitle('page_titles.pulse');
+export async function PulsePage() {
+  const { t } = await getTranslations();
 
   const features = [
     {
@@ -61,7 +54,7 @@ export function PulsePage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <NavBar items={navItems} />
+      <SiteNav />
 
       <PulseHero />
 
@@ -108,12 +101,7 @@ export function PulsePage() {
 
       {/* Main description */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-        >
+        <Reveal>
           <WarpCard
             colors={["hsl(25,100%,20%)", "hsl(35,100%,55%)", "hsl(15,90%,40%)", "hsl(45,100%,65%)"]}
             shape="checks"
@@ -149,7 +137,7 @@ export function PulsePage() {
               </div>
             </div>
           </WarpCard>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="h-10" />
@@ -158,12 +146,7 @@ export function PulsePage() {
       <div className="mx-auto max-w-5xl px-6 py-4">
         <div className="grid md:grid-cols-2 gap-4">
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-          >
+          <Reveal x={20} y={0} duration={0.7}>
             <WarpCard
               colors={["hsl(25,100%,18%)", "hsl(35,100%,50%)", "hsl(15,90%,35%)", "hsl(45,100%,60%)"]}
               shape="checks"
@@ -182,14 +165,9 @@ export function PulsePage() {
                 </p>
               </div>
             </WarpCard>
-          </motion.div>
+          </Reveal>
 
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-          >
+          <Reveal x={-20} y={0} duration={0.7} delay={0.15}>
             <WarpCard
               colors={["hsl(15,100%,18%)", "hsl(25,100%,50%)", "hsl(5,90%,35%)", "hsl(35,100%,60%)"]}
               shape="checks"
@@ -208,7 +186,7 @@ export function PulsePage() {
                 </p>
               </div>
             </WarpCard>
-          </motion.div>
+          </Reveal>
 
         </div>
       </div>
@@ -217,11 +195,11 @@ export function PulsePage() {
 
       {/* Closing lamp section */}
       <LampContainer color="orange" className="min-h-[44rem] mb-[-14rem]">
-        <motion.div
-          initial={{ opacity: 0.5, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+        <Reveal
+          y={60}
+          fromOpacity={0.5}
+          delay={0.3}
+          ease="easeInOut"
           className="flex flex-col items-center gap-5 text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
@@ -230,7 +208,7 @@ export function PulsePage() {
           <p className="text-xs text-white/40">
             {t('pulse.closing_body')}
           </p>
-        </motion.div>
+        </Reveal>
       </LampContainer>
 
       <div className="h-16" />

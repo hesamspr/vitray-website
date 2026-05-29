@@ -1,21 +1,17 @@
-'use client'
-
-import { useState, type ComponentType } from 'react';
-import { motion } from 'motion/react';
+import { type ComponentType } from 'react';
 import { LazyMeshGradient as MeshGradient } from '@/components/ui/lazy-shaders';
 import { BarChart3, CheckCircle2, Layers, Lock, type LucideIcon } from 'lucide-react';
 
-import { NavBar } from '@/components/ui/tubelight-navbar';
+import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { WarpCard } from '@/components/ui/warp-card';
 import { AnimatedBackground } from '@/components/ui/animated-background';
 import { LampContainer } from '@/components/ui/lamp';
 import { RelatedDashboardsSection } from '@/components/ui/feature-section-with-card-gradient';
-import { ConsultationModal } from '@/components/ui/consultation-modal';
-import { useTranslation } from '@/hooks/useTranslation';
-import { getNavItems } from '@/lib/navItems';
-import { usePageTitle } from '@/lib/usePageTitle';
+import { BiConsultationButton } from '@/components/ui/bi-consultation-button';
+import { Reveal } from '@/components/ui/reveal';
+import { getTranslations } from '@/lib/i18n.server';
 
 type Icon = LucideIcon | ComponentType<{ size?: number; className?: string }>;
 
@@ -27,11 +23,8 @@ export interface DashboardSolutionConfig {
   viewIcons: [Icon, Icon, Icon, Icon, Icon, Icon];
 }
 
-export function DashboardSolutionTemplate({ config }: { config: DashboardSolutionConfig }) {
-  const { t } = useTranslation();
-  const navItems = getNavItems(t);
-  usePageTitle(config.pageTitleKey);
-  const [modalOpen, setModalOpen] = useState(false);
+export async function DashboardSolutionTemplate({ config }: { config: DashboardSolutionConfig }) {
+  const { t } = await getTranslations();
 
   const k = (suffix: string) => `${config.i18nKey}.${suffix}`;
 
@@ -63,7 +56,7 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <NavBar items={navItems} />
+      <SiteNav />
 
       {/* Hero */}
       <div className="relative w-full overflow-hidden" style={{ height: '100vh', minHeight: 520 }}>
@@ -83,12 +76,7 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
           style={{ background: 'linear-gradient(to bottom, transparent, hsl(var(--background)))' }}
         />
         <div className="absolute inset-0 flex items-center justify-center z-20 px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center max-w-[640px] text-center space-y-5"
-          >
+          <Reveal onMount y={24} delay={0.15} duration={0.9} className="flex flex-col items-center max-w-[640px] text-center space-y-5">
             <div className="inline-flex items-center gap-2 border border-white/20 bg-white/5 backdrop-blur-sm py-1 px-4 rounded-lg text-sm text-white/70 w-fit">
               <BarChart3 size={13} />
               {t(k('badge'))}
@@ -101,7 +89,7 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
             <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-md">
               {t(k('hero_body'))}
             </p>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
 
@@ -109,13 +97,7 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
 
       {/* Capabilities */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12"
-        >
+        <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12">
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
             {t(k('caps_badge'))}
           </div>
@@ -125,7 +107,7 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
           <p className="text-muted-foreground text-sm md:text-base">
             {t(k('caps_body'))}
           </p>
-        </motion.div>
+        </Reveal>
 
         <AnimatedBackground
           enableHover
@@ -134,13 +116,10 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
           {capabilities.map((cap, index) => {
             const Icon = cap.icon;
             return (
-              <motion.div
+              <Reveal
                 key={cap.id}
-                data-id={cap.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }}
-                viewport={{ once: true }}
+                delay={index * 0.07}
+                duration={0.7}
                 className="rounded-2xl border border-border/60 bg-gradient-to-r from-primary/5 via-transparent to-transparent p-6 h-full flex flex-col"
               >
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/60 bg-muted/30 mb-4">
@@ -150,7 +129,7 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
                   {cap.title}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{cap.description}</p>
-              </motion.div>
+              </Reveal>
             );
           })}
         </AnimatedBackground>
@@ -160,13 +139,7 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
 
       {/* Dashboard Views */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12"
-        >
+        <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12">
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
             {t(k('views_badge'))}
           </div>
@@ -176,7 +149,7 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
           <p className="text-muted-foreground text-sm md:text-base">
             {t(k('views_body'))}
           </p>
-        </motion.div>
+        </Reveal>
 
         <AnimatedBackground
           enableHover
@@ -185,13 +158,10 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
           {views.map((view, index) => {
             const Icon = view.icon;
             return (
-              <motion.div
+              <Reveal
                 key={view.id}
-                data-id={view.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }}
-                viewport={{ once: true }}
+                delay={index * 0.07}
+                duration={0.7}
                 className="rounded-2xl border border-border/60 bg-gradient-to-r from-primary/5 via-transparent to-transparent p-6 h-full flex flex-col"
               >
                 <div className="flex items-center gap-3 mb-4">
@@ -204,7 +174,7 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
                   {view.title}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{view.description}</p>
-              </motion.div>
+              </Reveal>
             );
           })}
         </AnimatedBackground>
@@ -214,12 +184,7 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
 
       {/* KPIs */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-        >
+        <Reveal>
           <WarpCard
             colors={['hsl(250,100%,15%)', 'hsl(260,100%,55%)', 'hsl(280,90%,40%)', 'hsl(240,100%,65%)']}
             shape="checks"
@@ -247,20 +212,14 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
               </ul>
             </div>
           </WarpCard>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="h-24" />
 
       {/* Tech stack */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="rounded-2xl border border-border/60 bg-gradient-to-br from-primary/5 via-transparent to-transparent p-8 md:p-10"
-        >
+        <Reveal className="rounded-2xl border border-border/60 bg-gradient-to-br from-primary/5 via-transparent to-transparent p-8 md:p-10">
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-border/60 bg-muted/30 shrink-0">
               <Layers size={20} className="text-indigo-400" />
@@ -280,28 +239,23 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
               <Lock size={18} className="text-muted-foreground/60" />
             </div>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
 
       {/* Closing lamp */}
       <LampContainer color="purple" className="min-h-[44rem] mb-[-14rem]">
-        <motion.div
-          initial={{ opacity: 0.5, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
+        <Reveal
+          y={60}
+          fromOpacity={0.5}
+          delay={0.3}
+          ease="easeInOut"
           className="flex flex-col items-center gap-5 text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
             {t(k('closing_title'))}
           </h2>
-          <button
-            onClick={() => setModalOpen(true)}
-            className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
-          >
-            {t(k('closing_cta'))}
-          </button>
-        </motion.div>
+          <BiConsultationButton label={t(k('closing_cta'))} />
+        </Reveal>
       </LampContainer>
 
       <div className="h-16" />
@@ -313,8 +267,6 @@ export function DashboardSolutionTemplate({ config }: { config: DashboardSolutio
       </div>
 
       <Footer />
-
-      <ConsultationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
 }

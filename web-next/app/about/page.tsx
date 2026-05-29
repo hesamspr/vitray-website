@@ -1,31 +1,20 @@
-'use client'
-
-import { NavBar } from '@/components/ui/tubelight-navbar';
+import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { GlowCard } from '@/components/ui/spotlight-card';
-import { motion } from 'motion/react';
-import { usePageTitle } from '@/lib/usePageTitle';
-import { useTranslation } from '@/hooks/useTranslation';
-import { getNavItems } from '@/lib/navItems';
+import { Reveal } from '@/components/ui/reveal';
+import { getTranslations } from '@/lib/i18n.server';
 
-export function AboutPage() {
-  const { t, lang } = useTranslation();
-  const navItems = getNavItems(t);
-  usePageTitle('page_titles.about');
+export async function AboutPage() {
+  const { t, lang } = await getTranslations();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <NavBar items={navItems} />
+      <SiteNav />
 
       {/* Hero */}
       <div className="mx-auto max-w-5xl px-6 pt-28 pb-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center justify-center max-w-[620px] mx-auto text-center space-y-4"
-        >
+        <Reveal onMount className="flex flex-col items-center justify-center max-w-[620px] mx-auto text-center space-y-4">
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
             {t('about.badge')}
           </div>
@@ -35,19 +24,14 @@ export function AboutPage() {
           <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
             {t('about.hero_body')}
           </p>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="h-16" />
 
       {/* Company overview card */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-        >
+        <Reveal>
           <GlowCard customSize glowColor="purple" className="flex flex-col p-8 md:p-12 w-full">
             <div className="grid md:grid-cols-2 gap-10 items-start">
               <div className="space-y-4">
@@ -82,20 +66,14 @@ export function AboutPage() {
               </div>
             </div>
           </GlowCard>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="h-24" />
 
       {/* Brand story */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="relative rounded-3xl border border-border/60 bg-card overflow-hidden"
-        >
+        <Reveal className="relative rounded-3xl border border-border/60 bg-card overflow-hidden">
           {/* Decorative glow */}
           <div
             aria-hidden="true"
@@ -116,7 +94,7 @@ export function AboutPage() {
               {t('about.story_body')}
             </p>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="h-24" />
@@ -124,13 +102,7 @@ export function AboutPage() {
       {/* Data Maturity */}
       <div className="mx-auto max-w-5xl px-6 py-4">
         {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12"
-        >
+        <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12">
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
             {t('about.maturity_badge')}
           </div>
@@ -140,7 +112,7 @@ export function AboutPage() {
           <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
             {t('about.maturity_body')}
           </p>
-        </motion.div>
+        </Reveal>
 
         {/* Stages */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-10">
@@ -174,13 +146,7 @@ export function AboutPage() {
               body: t('home.stage4_body'),
             },
           ].map((stage, index) => (
-            <motion.div
-              key={stage.num}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true }}
-            >
+            <Reveal key={stage.num} delay={index * 0.1} duration={0.7}>
               <GlowCard customSize glowColor={stage.glow} className="flex flex-col p-6 w-full h-full min-h-[260px]">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-3xl font-bold tracking-tighter text-foreground/20">{stage.num}</span>
@@ -191,22 +157,16 @@ export function AboutPage() {
                 <h3 className="text-base font-bold mb-2">{stage.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{stage.body}</p>
               </GlowCard>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
 
         {/* Closing statement */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="rounded-2xl border border-border/60 bg-card px-8 py-6 text-center space-y-2"
-        >
+        <Reveal className="rounded-2xl border border-border/60 bg-card px-8 py-6 text-center space-y-2">
           <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl mx-auto">
             {t('about.maturity_closing')}
           </p>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="mx-auto max-w-5xl px-6 py-20 overflow-visible">

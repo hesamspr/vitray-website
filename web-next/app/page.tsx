@@ -1,5 +1,3 @@
-'use client'
-
 import Image from 'next/image'
 import Link from 'next/link'
 import { PremiumHero } from '@/components/ui/hero'
@@ -7,16 +5,14 @@ import { Button } from '@/components/ui/button'
 import { GlowCard } from '@/components/ui/spotlight-card'
 import { BarChart2, Briefcase, Database, Lightbulb, Target, TrendingUp } from 'lucide-react'
 import { LogoCarousel } from '@/components/ui/logo-carousel'
-import { NavBar } from '@/components/ui/tubelight-navbar'
+import { SiteNav } from '@/components/ui/site-nav'
 import { CallToAction } from '@/components/ui/cta-3'
 import { Footer } from '@/components/ui/footer-section'
 import { FocusCards } from '@/components/ui/focus-cards'
-import { motion } from 'motion/react'
-import { usePageTitle } from '@/lib/usePageTitle'
+import { Reveal } from '@/components/ui/reveal'
 import { CategoryList, type Category } from '@/components/ui/category-list'
 import { cn } from '@/lib/utils'
-import { useTranslation } from '@/hooks/useTranslation'
-import { getNavItems } from '@/lib/navItems'
+import { getTranslations } from '@/lib/i18n.server'
 
 // Brand names are intentionally kept in Persian — proper nouns, not translated
 const customerSuccessCards = [
@@ -97,15 +93,8 @@ const customerLogos = [
   { name: 'Yaghoot Sanat Tabriz', id: 52, src: '/logos/Yaghoot Sanat Tabriz.png' },
 ]
 
-export default function HomePage() {
-  usePageTitle()
-  const { t } = useTranslation()
-
-  const navItems = getNavItems(t).map(item => {
-    if (item.url === '/') return { ...item, url: '#home' }
-    if (item.url === '/#products') return { ...item, url: '#products' }
-    return item
-  })
+export default async function HomePage() {
+  const { t } = await getTranslations()
 
   const whyItems: Category[] = [
     { id: 1, icon: <Briefcase className="w-5 h-5" />, title: t('home.why_business'), subtitle: t('home.why_business_body'), featured: true },
@@ -123,20 +112,14 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <NavBar items={navItems} />
+      <SiteNav variant="home" />
       <div id="home">
         <PremiumHero />
       </div>
 
       <main className="mx-auto max-w-5xl px-6 py-12">
         <section id="customers" className="space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
-          >
+          <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4">
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
               {t('home.customers_badge')}
             </div>
@@ -146,7 +129,7 @@ export default function HomePage() {
             <p className="text-muted-foreground text-sm md:text-base">
               {t('home.customers_body')}
             </p>
-          </motion.div>
+          </Reveal>
 
           <div className="flex justify-center py-2">
             <LogoCarousel columnCount={5} mobileColumnCount={3} logos={customerLogos} />
@@ -156,13 +139,7 @@ export default function HomePage() {
         <div className="h-24" />
 
         <section id="products" className="space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
-          >
+          <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4">
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
               {t('home.solutions_badge')}
             </div>
@@ -172,7 +149,7 @@ export default function HomePage() {
             <p className="text-muted-foreground text-sm md:text-base">
               {t('home.solutions_body')}
             </p>
-          </motion.div>
+          </Reveal>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <GlowCard customSize glowColor="purple" className="h-[360px] w-full">
@@ -284,13 +261,7 @@ export default function HomePage() {
         <div className="h-24" />
 
         <section id="testimonials" className="space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
-          >
+          <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4">
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
               {t('home.testimonials_badge')}
             </div>
@@ -300,7 +271,7 @@ export default function HomePage() {
             <p className="text-muted-foreground text-sm md:text-base">
               {t('home.testimonials_body')}
             </p>
-          </motion.div>
+          </Reveal>
 
           <FocusCards cards={customerSuccessCards} />
         </section>
@@ -308,13 +279,7 @@ export default function HomePage() {
         <div className="h-24" />
 
         <section className="space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
-          >
+          <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4">
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
               {t('home.why_badge')}
             </div>
@@ -324,7 +289,7 @@ export default function HomePage() {
             <p className="text-muted-foreground text-sm md:text-base">
               {t('home.why_diff_body')}
             </p>
-          </motion.div>
+          </Reveal>
 
           <CategoryList categories={whyItems} className="max-w-3xl mx-auto" />
         </section>
@@ -333,13 +298,7 @@ export default function HomePage() {
 
         {/* Data Maturity */}
         <section className="space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4"
-          >
+          <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4">
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
               {t('home.maturity_badge')}
             </div>
@@ -349,7 +308,7 @@ export default function HomePage() {
             <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
               {t('home.maturity_body')}
             </p>
-          </motion.div>
+          </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 relative z-10 rounded-2xl border border-border/60 overflow-hidden">
             {maturityStages.map((stage, index) => {

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "motion/react";
 
 interface Logo {
   name: string;
@@ -66,7 +66,7 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, paused
   const current = logos[currentIndex];
 
   return (
-    <motion.div
+    <m.div
       className="relative h-20 w-36 overflow-hidden md:h-32 md:w-64"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
@@ -77,7 +77,7 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, paused
       }}
     >
       <AnimatePresence mode="wait">
-        <motion.div
+        <m.div
           key={`${current.id}-${currentIndex}`}
           className="absolute inset-0 flex items-center justify-center"
           initial={{ y: "10%", opacity: 0 }}
@@ -100,9 +100,9 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, paused
             sizes="(max-width: 768px) 112px, 192px"
             className="max-h-[80%] max-w-[80%] object-contain invert grayscale"
           />
-        </motion.div>
+        </m.div>
       </AnimatePresence>
-    </motion.div>
+    </m.div>
   );
 });
 

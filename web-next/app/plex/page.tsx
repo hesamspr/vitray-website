@@ -1,13 +1,11 @@
-'use client'
-
-import { NavBar } from '@/components/ui/tubelight-navbar';
+import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { PlexHero } from '@/components/ui/plex-hero';
 import { WarpCard } from '@/components/ui/warp-card';
 import { AnimatedBackground } from '@/components/ui/animated-background';
 import { LampContainer } from '@/components/ui/lamp';
-import { motion } from 'motion/react';
+import { Reveal } from '@/components/ui/reveal';
 import {
   BarChart3,
   Bell,
@@ -24,16 +22,11 @@ import {
   Workflow,
   Zap,
 } from 'lucide-react';
-import { usePageTitle } from '@/lib/usePageTitle';
-import { useTranslation } from '@/hooks/useTranslation';
-import { getNavItems } from '@/lib/navItems';
+import { getTranslations } from '@/lib/i18n.server';
 import { cn } from '@/lib/utils';
 
-export function PlexPage() {
-  const { t } = useTranslation();
-  const navItems = getNavItems(t);
-
-  usePageTitle('page_titles.plex');
+export async function PlexPage() {
+  const { t } = await getTranslations();
 
   const capabilities = [
     {
@@ -132,7 +125,7 @@ export function PlexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <NavBar items={navItems} />
+      <SiteNav />
 
       <PlexHero />
 
@@ -179,12 +172,7 @@ export function PlexPage() {
 
       {/* Convert data to app highlight */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-        >
+        <Reveal>
           <WarpCard
             colors={["hsl(200,100%,15%)", "hsl(210,100%,55%)", "hsl(190,90%,40%)", "hsl(220,100%,65%)"]}
             shape="checks"
@@ -220,7 +208,7 @@ export function PlexPage() {
               </div>
             </div>
           </WarpCard>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="h-10" />
@@ -230,12 +218,7 @@ export function PlexPage() {
         <div className="grid md:grid-cols-2 gap-4">
 
           {/* Access control */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-          >
+          <Reveal x={20} y={0} duration={0.7}>
             <WarpCard
               colors={["hsl(270,100%,15%)", "hsl(280,100%,55%)", "hsl(300,90%,40%)", "hsl(260,100%,65%)"]}
               shape="checks"
@@ -262,15 +245,10 @@ export function PlexPage() {
                 </div>
               </div>
             </WarpCard>
-          </motion.div>
+          </Reveal>
 
           {/* Workflow */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-          >
+          <Reveal x={-20} y={0} duration={0.7} delay={0.15}>
             <WarpCard
               colors={["hsl(25,100%,20%)", "hsl(35,100%,55%)", "hsl(15,90%,40%)", "hsl(45,100%,65%)"]}
               shape="checks"
@@ -297,7 +275,7 @@ export function PlexPage() {
                 </div>
               </div>
             </WarpCard>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
 
@@ -305,12 +283,7 @@ export function PlexPage() {
 
       {/* Data sources */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-        >
+        <Reveal>
           <WarpCard
             colors={["hsl(140,100%,15%)", "hsl(150,100%,45%)", "hsl(120,90%,30%)", "hsl(160,100%,60%)"]}
             shape="checks"
@@ -341,19 +314,14 @@ export function PlexPage() {
               </div>
             </div>
           </WarpCard>
-        </motion.div>
+        </Reveal>
       </div>
 
       <div className="h-16" />
 
       {/* Portal examples */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-        >
+        <Reveal>
           <div className="space-y-6">
             <div className="flex flex-col items-center text-center space-y-3">
               <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
@@ -398,16 +366,16 @@ export function PlexPage() {
             </AnimatedBackground>
 
           </div>
-        </motion.div>
+        </Reveal>
       </div>
 
       {/* Closing lamp section */}
       <LampContainer className="min-h-[44rem] mb-[-14rem]">
-        <motion.div
-          initial={{ opacity: 0.5, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+        <Reveal
+          y={60}
+          fromOpacity={0.5}
+          delay={0.3}
+          ease="easeInOut"
           className="flex flex-col items-center gap-5 text-center"
         >
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
@@ -426,7 +394,7 @@ export function PlexPage() {
             {' '}|{' '}
             pass: <span className="text-white/60">user</span>
           </p>
-        </motion.div>
+        </Reveal>
       </LampContainer>
 
       <div className="h-16" />

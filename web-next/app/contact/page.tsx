@@ -2,9 +2,8 @@
 
 import { NavBar } from '@/components/ui/tubelight-navbar';
 import { Footer } from '@/components/ui/footer-section';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { Mail, MapPin, Phone, Send } from 'lucide-react';
-import { usePageTitle } from '@/lib/usePageTitle';
 import { useState } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getNavItems } from '@/lib/navItems';
@@ -14,7 +13,6 @@ import { ShineBorder } from '@/components/ui/shine-border';
 export function ContactPage() {
   const { t, lang } = useTranslation();
   const navItems = getNavItems(t);
-  usePageTitle('page_titles.contact');
 
   const [form, setForm] = useState({ name: '', email: '', mobile: '', company: '', details: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -48,7 +46,7 @@ export function ContactPage() {
       <NavBar items={navItems} />
 
       <div className="mx-auto max-w-5xl px-6 pt-28 pb-20">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -63,11 +61,11 @@ export function ContactPage() {
           <p className="text-muted-foreground text-sm md:text-base max-w-md">
             {t('contact.body')}
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Info panel */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
@@ -113,10 +111,10 @@ export function ContactPage() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Form panel */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
@@ -207,7 +205,7 @@ export function ContactPage() {
                 </ShineBorder>
               </form>
             )}
-          </motion.div>
+          </m.div>
         </div>
       </div>
 

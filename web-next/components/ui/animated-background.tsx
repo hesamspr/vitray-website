@@ -3,11 +3,11 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { AnimatePresence, m } from 'motion/react';
+import { Children, isValidElement, useState } from 'react';
 
 interface AnimatedBackgroundProps {
-  children: React.ReactNode[];
+  children: React.ReactNode;
   className?: string;
   enableHover?: boolean;
   defaultValue?: string;
@@ -43,8 +43,10 @@ export function AnimatedBackground({
 
   return (
     <div className={cn('relative', className)}>
-      {(children as React.ReactElement<{ 'data-id'?: string }>[]).map((child, index) => {
-        const id = child.props['data-id'] ?? String(index);
+      {Children.toArray(children).map((child, index) => {
+        const dataId =
+          isValidElement<{ 'data-id'?: string }>(child) ? child.props['data-id'] : undefined;
+        const id = dataId ?? String(index);
         const isActive = activeId === id;
 
         return (
@@ -58,8 +60,7 @@ export function AnimatedBackground({
           >
             <AnimatePresence initial={false}>
               {isActive && (
-                <motion.div
-                  layoutId='background'
+                <m.div
                   className='absolute inset-0 rounded-2xl bg-white/5'
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}

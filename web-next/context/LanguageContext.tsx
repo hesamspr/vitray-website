@@ -1,41 +1,42 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
-
-type Lang = 'fa' | 'en'
+import { createContext, useContext, type ReactNode } from 'react'
+import { useRouter } from 'next/navigation'
+import { LANG_COOKIE, type Dict, type Lang } from '@/lib/i18n'
 
 interface LanguageContextValue {
   lang: Lang
+  dict: Dict
   toggleLanguage: () => void
 }
 
-export const LanguageContext = createContext<LanguageContextValue>({
+const fallback: LanguageContextValue = {
   lang: 'fa',
+  dict: {},
   toggleLanguage: () => {},
-})
+}
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>(() => {
-    const saved = typeof window !== 'undefined' ? localStorage.getItem('vitray_lang') : null
-    return saved === 'en' ? 'en' : 'fa'
-  })
+export const LanguageContext = createContext<LanguageContextValue>(fallback)
 
-  useEffect(() => {
-    const html = document.documentElement
-    html.lang = lang
-    html.dir = lang === 'en' ? 'ltr' : 'rtl'
-    if (lang === 'en') {
-      html.classList.add('lang-en')
-    } else {
-      html.classList.remove('lang-en')
-    }
-    localStorage.setItem('vitray_lang', lang)
-  }, [lang])
+export function LanguageProvider({
+  lang,
+  dict,
+  children,
+}: {
+  lang: Lang
+  dict: Dict
+  children: ReactNode
+}) {
+  const router = useRouter()
 
-  const toggleLanguage = () => setLang(prev => (prev === 'fa' ? 'en' : 'fa'))
+  const toggleLanguage = () => {
+    const next: Lang = lang === 'fa' ? 'en' : 'fa'
+    document.cookie = `${LANG_COOKIE}=${next};path=/;max-age=31536000;samesite=lax`
+    router.refresh()
+  }
 
   return (
-    <LanguageContext.Provider value={{ lang, toggleLanguage }}>
+    <LanguageContext.Provider value={{ lang, dict, toggleLanguage }}>
       {children}
     </LanguageContext.Provider>
   )

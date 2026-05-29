@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { m, AnimatePresence } from "motion/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ChevronDown, LucideIcon } from "lucide-react"
@@ -147,7 +147,7 @@ export function NavBar({ items, className }: NavBarProps) {
               {hasDropdown && (
                 <AnimatePresence>
                   {isOpen && (
-                    <motion.div
+                    <m.div
                       initial={{ opacity: 0, y: -6, scale: 0.97 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -6, scale: 0.97 }}
@@ -182,7 +182,7 @@ export function NavBar({ items, className }: NavBarProps) {
                           </Link>
                         )
                       })}
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               )}

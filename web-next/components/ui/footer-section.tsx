@@ -1,7 +1,7 @@
 'use client'
 
 import type { ComponentProps, ReactNode } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
+import { m, useReducedMotion } from 'motion/react'
 import Link from 'next/link'
 import { Phone, MapPin, Mail } from 'lucide-react'
 
@@ -153,7 +153,7 @@ export function Footer() {
 
 type ViewAnimationProps = {
   delay?: number
-  className?: ComponentProps<typeof motion.div>['className']
+  className?: ComponentProps<typeof m.div>['className']
   children: ReactNode
 }
 
@@ -161,7 +161,7 @@ function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationPr
   const shouldReduceMotion = useReducedMotion()
   if (shouldReduceMotion) return <>{children}</>
   return (
-    <motion.div
+    <m.div
       initial={{ filter: 'blur(4px)', translateY: -8, opacity: 0 }}
       whileInView={{ filter: 'blur(0px)', translateY: 0, opacity: 1 }}
       viewport={{ once: true }}
@@ -169,6 +169,6 @@ function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationPr
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
