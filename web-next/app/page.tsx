@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { PremiumHero } from '@/components/ui/hero'
 import { Button } from '@/components/ui/button'
@@ -179,7 +180,7 @@ export default function HomePage() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   {t('home.bi_badge')}
                 </div>
-                <img src="/fav.png" alt="BI" className="h-8 w-8 object-contain" />
+                <Image src="/fav.png" alt="BI" width={32} height={32} className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-xl">{t('home.bi_title')}</h3>
@@ -199,7 +200,7 @@ export default function HomePage() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   {t('home.plex_badge')}
                 </div>
-                <img src="/product%20logos/plex%20fav%20white.png" alt="Plex" className="h-8 w-8 object-contain" />
+                <Image src="/product logos/plex fav white.png" alt="Plex" width={32} height={32} className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-xl">{t('home.plex_title')}</h3>
@@ -219,7 +220,7 @@ export default function HomePage() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   {t('home.pulse_badge')}
                 </div>
-                <img src="/product%20logos/Pulse%20Fav%20W.png" alt="Pulse" className="h-8 w-8 object-contain" />
+                <Image src="/product logos/Pulse Fav W.png" alt="Pulse" width={32} height={32} className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-xl">{t('home.pulse_title')}</h3>
@@ -239,7 +240,7 @@ export default function HomePage() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   {t('home.pixel_badge')}
                 </div>
-                <img src="/product%20logos/Pixel%20Fav%20W.png" alt="Pixel" className="h-8 w-8 object-contain" />
+                <Image src="/product logos/Pixel Fav W.png" alt="Pixel" width={32} height={32} className="h-8 w-8 object-contain" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-xl">{t('home.pixel_title')}</h3>
@@ -260,7 +261,7 @@ export default function HomePage() {
                   <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                     {t('home.academy_badge')}
                   </div>
-                  <img src="/product%20logos/Academy%20FAV%20White.png" alt="Academy" className="h-8 w-8 object-contain" />
+                  <Image src="/product logos/Academy FAV White.png" alt="Academy" width={32} height={32} className="h-8 w-8 object-contain" />
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-xl">{t('home.academy_title')}</h3>
