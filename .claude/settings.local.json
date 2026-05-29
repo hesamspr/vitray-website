@@ -1,25 +1,27 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)",
-      "Bash(npx tsc:*)",
-      "Bash(node -e \"const p = require\\(''./package.json''\\); console.log\\(JSON.stringify\\({...p.dependencies,...p.devDependencies}, null, 2\\)\\)\")",
-      "Bash(./node_modules/.bin/tsc --noEmit)",
-      "Bash(brew install:*)",
-      "Bash(pdftotext '/Users/hesamsaeidpour/Documents/Website/Main Catalogue v3.1.pdf' -)",
       "Bash(npm run:*)",
-      "WebFetch(domain:polarisinsights.tech)",
+      "Bash(echo \"EXIT_CODE: $?\")",
+      "Bash(echo \"Exit code: $?\")",
+      "Read(//tmp/**)",
+      "Bash(python3 -c \":*)",
+      "Bash(echo \"EXIT:$?\")",
       "Bash(npx vite:*)",
-      "Bash(grep -n \"GraduationCap\\\\|from ''lucide-react''\" /Users/hesamsaeidpour/Documents/Website/web/src/App.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/BiSolutionPage.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/PlexPage.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/PixelPage.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/PulsePage.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/AboutPage.tsx /Users/hesamsaeidpour/Documents/Website/web/src/pages/ContactPage.tsx)",
-      "Bash(sed -i '' \"s/name: ''راهکار هوش تجاری''/name: ''هوش تجاری''/g\" App.tsx pages/AboutPage.tsx pages/PulsePage.tsx pages/PlexPage.tsx pages/ContactPage.tsx pages/BiSolutionPage.tsx pages/PixelPage.tsx)",
-      "Bash(sed -i '' \"s/title: ''راهکار هوش تجاری''/title: ''هوش تجاری''/g\" components/ui/footer-section.tsx)",
-      "Bash(find /Users/hesamsaeidpour/Documents/Website -name *.svg -type f)",
-      "Bash(find /Users/hesamsaeidpour/Documents/Website/web/src -type f \\\\\\(-name *.tsx -o -name *.ts -o -name *.jsx -o -name *.js \\\\\\))",
-      "Bash(git -C /Users/hesamsaeidpour/Documents/Website status)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(/Users/hesamsaeidpour/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.5/skills/brainstorming/scripts/start-server.sh --project-dir /Users/hesamsaeidpour/Documents/Website)"
+      "Bash(npm test:*)",
+      "Bash(node -e \"const fa=require\\(''./fa.json''\\); const en=require\\(''./en.json''\\); const fk=Object.keys\\(fa\\); const ek=Object.keys\\(en\\); const missing_en=fk.filter\\(k=>!ek.includes\\(k\\)\\); const missing_fa=ek.filter\\(k=>!fk.includes\\(k\\)\\); console.log\\(''Missing in EN:'', missing_en\\); console.log\\(''Missing in FA:'', missing_fa\\);\")",
+      "Bash(node -e \":*)",
+      "Bash(echo \"EXIT_CODE:$?\")",
+      "Read(//proc/50085/**)",
+      "Bash(git merge feature/english-i18n --no-ff -m \"feat: add English language support with i18n toggle:*)",
+      "Bash(git push:*)"
+    ],
+    "defaultMode": "bypassPermissions",
+    "additionalDirectories": [
+      "/Users/hesamsaeidpour/.claude",
+      "/private/tmp"
     ]
   }
 }
