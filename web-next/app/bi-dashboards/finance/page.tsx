@@ -18,6 +18,8 @@ const config: DashboardSolutionConfig = {
   currentHref: '/bi-dashboards/finance',
   capabilityIcons: [Database, ShieldCheck, Sparkles],
   viewIcons: [Banknote, TrendingUp, Receipt, FileSearch, Wallet, Clock],
+  powerbiEmbedUrl:
+    'https://app.powerbi.com/view?r=eyJrIjoiYjc4ODI5ZTItMzBiYy00ZDk3LTk2M2YtMjVlMTM1ZjRiZTA5IiwidCI6IjA5YTdiYjhiLTVkMDgtNDhhMi05ODk5LTYzZWU2N2FhY2Q5OSIsImMiOjF9&pageName=ReportSection',
 };
 
 export function FinanceDashboardPage() {

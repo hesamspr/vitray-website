@@ -2,7 +2,7 @@ import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { PulseHero } from '@/components/ui/pulse-hero';
-import { WarpCard } from '@/components/ui/warp-card';
+import { GradientCard } from '@/components/ui/gradient-card';
 import { LampContainer } from '@/components/ui/lamp';
 import { Reveal } from '@/components/ui/reveal';
 import {
@@ -102,9 +102,8 @@ export async function PulsePage() {
       {/* Main description */}
       <div className="mx-auto max-w-5xl px-6 py-4">
         <Reveal>
-          <WarpCard
+          <GradientCard
             colors={["hsl(25,100%,20%)", "hsl(35,100%,55%)", "hsl(15,90%,40%)", "hsl(45,100%,65%)"]}
-            shape="checks"
             className="w-full"
           >
             <div className="flex flex-col md:flex-row items-center gap-10 p-8 md:p-12">
@@ -136,7 +135,7 @@ export async function PulsePage() {
                 ))}
               </div>
             </div>
-          </WarpCard>
+          </GradientCard>
         </Reveal>
       </div>
 
@@ -147,9 +146,8 @@ export async function PulsePage() {
         <div className="grid md:grid-cols-2 gap-4">
 
           <Reveal x={20} y={0} duration={0.7}>
-            <WarpCard
+            <GradientCard
               colors={["hsl(25,100%,18%)", "hsl(35,100%,50%)", "hsl(15,90%,35%)", "hsl(45,100%,60%)"]}
-              shape="checks"
               className="h-full"
             >
               <div className="flex flex-col p-7 h-full">
@@ -164,13 +162,12 @@ export async function PulsePage() {
                   {t('pulse.arch_body')}
                 </p>
               </div>
-            </WarpCard>
+            </GradientCard>
           </Reveal>
 
           <Reveal x={-20} y={0} duration={0.7} delay={0.15}>
-            <WarpCard
+            <GradientCard
               colors={["hsl(15,100%,18%)", "hsl(25,100%,50%)", "hsl(5,90%,35%)", "hsl(35,100%,60%)"]}
-              shape="checks"
               className="h-full"
             >
               <div className="flex flex-col p-7 h-full">
@@ -185,7 +182,7 @@ export async function PulsePage() {
                   {t('pulse.update_body')}
                 </p>
               </div>
-            </WarpCard>
+            </GradientCard>
           </Reveal>
 
         </div>

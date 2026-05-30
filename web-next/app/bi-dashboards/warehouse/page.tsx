@@ -19,6 +19,8 @@ const config: DashboardSolutionConfig = {
   currentHref: '/bi-dashboards/warehouse',
   capabilityIcons: [Database, ShieldCheck, Sparkles],
   viewIcons: [Eye, CalendarDays, Repeat, ArchiveX, Wallet, ShoppingCart],
+  powerbiEmbedUrl:
+    'https://app.powerbi.com/view?r=eyJrIjoiNTJlMDA3NTQtOWViNy00M2MxLTg3ZGItMTAzNjQ4MTUxMjYwIiwidCI6IjA5YTdiYjhiLTVkMDgtNDhhMi05ODk5LTYzZWU2N2FhY2Q5OSIsImMiOjF9',
 };
 
 export function WarehouseDashboardPage() {

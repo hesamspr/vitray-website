@@ -2,7 +2,7 @@ import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { PixelHero } from '@/components/ui/pixel-hero';
-import { WarpCard } from '@/components/ui/warp-card';
+import { GradientCard } from '@/components/ui/gradient-card';
 import { AnimatedBackground } from '@/components/ui/animated-background';
 import { LampContainer } from '@/components/ui/lamp';
 import { Reveal } from '@/components/ui/reveal';
@@ -179,12 +179,11 @@ export async function PixelPage() {
 
       <div className="h-24" />
 
-      {/* Why Pixel — main WarpCard */}
+      {/* Why Pixel — main GradientCard */}
       <div className="mx-auto max-w-5xl px-6 py-4">
         <Reveal>
-          <WarpCard
+          <GradientCard
             colors={["hsl(190,100%,15%)", "hsl(195,100%,45%)", "hsl(185,90%,30%)", "hsl(200,100%,60%)"]}
-            shape="checks"
             className="w-full"
           >
             <div className="flex flex-col md:flex-row items-center gap-10 p-8 md:p-12">
@@ -211,7 +210,7 @@ export async function PixelPage() {
                 ))}
               </div>
             </div>
-          </WarpCard>
+          </GradientCard>
         </Reveal>
       </div>
 
@@ -223,9 +222,8 @@ export async function PixelPage() {
 
           {/* Data sources */}
           <Reveal x={20} y={0} duration={0.7}>
-            <WarpCard
+            <GradientCard
               colors={["hsl(270,100%,15%)", "hsl(280,100%,55%)", "hsl(300,90%,40%)", "hsl(260,100%,65%)"]}
-              shape="checks"
               className="h-full"
             >
               <div className="flex flex-col p-7 h-full">
@@ -248,14 +246,13 @@ export async function PixelPage() {
                   ))}
                 </div>
               </div>
-            </WarpCard>
+            </GradientCard>
           </Reveal>
 
           {/* Interactive dashboards */}
           <Reveal x={-20} y={0} duration={0.7} delay={0.15}>
-            <WarpCard
+            <GradientCard
               colors={["hsl(25,100%,20%)", "hsl(35,100%,55%)", "hsl(15,90%,40%)", "hsl(45,100%,65%)"]}
-              shape="checks"
               className="h-full"
             >
               <div className="flex flex-col p-7 h-full">
@@ -278,7 +275,7 @@ export async function PixelPage() {
                   ))}
                 </div>
               </div>
-            </WarpCard>
+            </GradientCard>
           </Reveal>
         </div>
       </div>

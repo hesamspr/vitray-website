@@ -2,7 +2,7 @@ import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { PlexHero } from '@/components/ui/plex-hero';
-import { WarpCard } from '@/components/ui/warp-card';
+import { GradientCard } from '@/components/ui/gradient-card';
 import { AnimatedBackground } from '@/components/ui/animated-background';
 import { LampContainer } from '@/components/ui/lamp';
 import { Reveal } from '@/components/ui/reveal';
@@ -173,9 +173,8 @@ export async function PlexPage() {
       {/* Convert data to app highlight */}
       <div className="mx-auto max-w-5xl px-6 py-4">
         <Reveal>
-          <WarpCard
+          <GradientCard
             colors={["hsl(200,100%,15%)", "hsl(210,100%,55%)", "hsl(190,90%,40%)", "hsl(220,100%,65%)"]}
-            shape="checks"
             className="w-full"
           >
             <div className="flex flex-col md:flex-row items-center gap-10 p-8 md:p-12">
@@ -207,7 +206,7 @@ export async function PlexPage() {
                 ))}
               </div>
             </div>
-          </WarpCard>
+          </GradientCard>
         </Reveal>
       </div>
 
@@ -219,9 +218,8 @@ export async function PlexPage() {
 
           {/* Access control */}
           <Reveal x={20} y={0} duration={0.7}>
-            <WarpCard
+            <GradientCard
               colors={["hsl(270,100%,15%)", "hsl(280,100%,55%)", "hsl(300,90%,40%)", "hsl(260,100%,65%)"]}
-              shape="checks"
               className="h-full"
             >
               <div className="flex flex-col p-7 h-full">
@@ -244,14 +242,13 @@ export async function PlexPage() {
                   ))}
                 </div>
               </div>
-            </WarpCard>
+            </GradientCard>
           </Reveal>
 
           {/* Workflow */}
           <Reveal x={-20} y={0} duration={0.7} delay={0.15}>
-            <WarpCard
+            <GradientCard
               colors={["hsl(25,100%,20%)", "hsl(35,100%,55%)", "hsl(15,90%,40%)", "hsl(45,100%,65%)"]}
-              shape="checks"
               className="h-full"
             >
               <div className="flex flex-col p-7 h-full">
@@ -274,7 +271,7 @@ export async function PlexPage() {
                   ))}
                 </div>
               </div>
-            </WarpCard>
+            </GradientCard>
           </Reveal>
         </div>
       </div>
@@ -284,9 +281,8 @@ export async function PlexPage() {
       {/* Data sources */}
       <div className="mx-auto max-w-5xl px-6 py-4">
         <Reveal>
-          <WarpCard
+          <GradientCard
             colors={["hsl(140,100%,15%)", "hsl(150,100%,45%)", "hsl(120,90%,30%)", "hsl(160,100%,60%)"]}
-            shape="checks"
             className="w-full"
           >
             <div className="grid md:grid-cols-2 gap-10 items-center p-8 md:p-12">
@@ -313,7 +309,7 @@ export async function PlexPage() {
                 ))}
               </div>
             </div>
-          </WarpCard>
+          </GradientCard>
         </Reveal>
       </div>
 

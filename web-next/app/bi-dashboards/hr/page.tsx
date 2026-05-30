@@ -18,6 +18,8 @@ const config: DashboardSolutionConfig = {
   currentHref: '/bi-dashboards/hr',
   capabilityIcons: [Database, ShieldCheck, Sparkles],
   viewIcons: [Users, CalendarClock, Clock, GraduationCap, Award, UserMinus],
+  powerbiEmbedUrl:
+    'https://app.powerbi.com/view?r=eyJrIjoiNWJmOTYyZmEtNGUxZS00ZWExLWI1MjktMWFiMDczZWI3ZWVjIiwidCI6IjA5YTdiYjhiLTVkMDgtNDhhMi05ODk5LTYzZWU2N2FhY2Q5OSIsImMiOjF9&pageName=ReportSection',
 };
 
 export function HRDashboardPage() {

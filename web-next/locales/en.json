@@ -500,8 +500,9 @@
     "stack_badge": "Technical Foundation",
     "stack_title": "Built on a Professional Data Stack",
     "stack_body": "Data is extracted and cleansed from your sources with SSIS, modeled in an independent Semantic Layer on SSAS Tabular, and finally turned into a fast, polished Power BI dashboard — an architecture that keeps your data model intact even if you change the visualization tool later.",
-    "closing_title": "Let's Bring Your B2B Sales Data to Life",
-    "closing_cta": "Request a Consultation"
+    "demo_badge": "Live Dashboard Sample",
+    "demo_title": "See This Dashboard in Action",
+    "demo_body": "A real Power BI sample built by the Vitray team — filter, drill down, and explore the data yourself right now."
   },
   "dist_sales": {
     "badge": "Distribution Sales Dashboard",
@@ -546,8 +547,9 @@
     "stack_badge": "Technical Foundation",
     "stack_title": "Built on a Professional Data Stack",
     "stack_body": "Branch and channel data is extracted with SSIS, modeled in an independent Semantic Layer on SSAS Tabular, and finally turned into a fast, polished Power BI dashboard.",
-    "closing_title": "Let's Turn Your Distribution Network Data-Driven",
-    "closing_cta": "Request a Consultation"
+    "demo_badge": "Live Dashboard Sample",
+    "demo_title": "See This Dashboard in Action",
+    "demo_body": "A real Power BI sample built by the Vitray team — filter, drill down, and explore the data yourself right now."
   },
   "finance_dash": {
     "badge": "Finance Dashboard",
@@ -592,8 +594,9 @@
     "stack_badge": "Technical Foundation",
     "stack_title": "Built on a Professional Data Stack",
     "stack_body": "Financial data is extracted with SSIS from your accounting system and ERP, modeled in an independent Semantic Layer on SSAS Tabular, and finally turned into a fast, trustworthy Power BI dashboard.",
-    "closing_title": "Let's Bring Clarity to Your Financial Health",
-    "closing_cta": "Request a Consultation"
+    "demo_badge": "Live Dashboard Sample",
+    "demo_title": "See This Dashboard in Action",
+    "demo_body": "A real Power BI sample built by the Vitray team — filter, drill down, and explore the data yourself right now."
   },
   "hr_dash": {
     "badge": "HR Dashboard",
@@ -638,8 +641,9 @@
     "stack_badge": "Technical Foundation",
     "stack_title": "Built on a Professional Data Stack",
     "stack_body": "Your HR data is extracted with SSIS from attendance, payroll, and training systems, modeled in an independent Semantic Layer on SSAS Tabular, and finally turned into a fast, secure Power BI dashboard.",
-    "closing_title": "Let's Turn Your Human Capital Data-Driven",
-    "closing_cta": "Request a Consultation"
+    "demo_badge": "Live Dashboard Sample",
+    "demo_title": "See This Dashboard in Action",
+    "demo_body": "A real Power BI sample built by the Vitray team — filter, drill down, and explore the data yourself right now."
   },
   "production_dash": {
     "badge": "Production Dashboard",
@@ -684,8 +688,9 @@
     "stack_badge": "Technical Foundation",
     "stack_title": "Built on a Professional Data Stack",
     "stack_body": "Line data is extracted with SSIS from MES, PLCs, and ERP, modeled in an independent Semantic Layer on SSAS Tabular, and finally turned into a fast, real-time Power BI dashboard.",
-    "closing_title": "Let's Bring Clarity to Your Production Line",
-    "closing_cta": "Request a Consultation"
+    "demo_badge": "Live Dashboard Sample",
+    "demo_title": "See This Dashboard in Action",
+    "demo_body": "A real Power BI sample built by the Vitray team — filter, drill down, and explore the data yourself right now."
   },
   "maintenance_dash": {
     "badge": "Maintenance Dashboard",
@@ -730,8 +735,9 @@
     "stack_badge": "Technical Foundation",
     "stack_title": "Built on a Professional Data Stack",
     "stack_body": "CMMS and condition-monitoring data is extracted with SSIS, modeled in an independent Semantic Layer on SSAS Tabular, and finally turned into a fast, trustworthy Power BI dashboard.",
-    "closing_title": "Let's Make Your Maintenance Predictive",
-    "closing_cta": "Request a Consultation"
+    "demo_badge": "Live Dashboard Sample",
+    "demo_title": "See This Dashboard in Action",
+    "demo_body": "A real Power BI sample built by the Vitray team — filter, drill down, and explore the data yourself right now."
   },
   "warehouse_dash": {
     "badge": "Warehouse Dashboard",
@@ -776,7 +782,8 @@
     "stack_badge": "Technical Foundation",
     "stack_title": "Built on a Professional Data Stack",
     "stack_body": "Warehouse data is extracted with SSIS from WMS, ERP, and branch files, modeled in an independent Semantic Layer on SSAS Tabular, and finally turned into a fast, polished Power BI dashboard.",
-    "closing_title": "Let's Free the Capital Locked in Your Warehouse",
-    "closing_cta": "Request a Consultation"
+    "demo_badge": "Live Dashboard Sample",
+    "demo_title": "See This Dashboard in Action",
+    "demo_body": "A real Power BI sample built by the Vitray team — filter, drill down, and explore the data yourself right now."
   }
 }

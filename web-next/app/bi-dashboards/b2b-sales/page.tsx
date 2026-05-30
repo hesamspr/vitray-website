@@ -18,6 +18,8 @@ const config: DashboardSolutionConfig = {
   currentHref: '/bi-dashboards/b2b-sales',
   capabilityIcons: [Database, ShieldCheck, Sparkles],
   viewIcons: [Eye, LineChart, Users, GitCompareArrows, TrendingUp, LayoutGrid],
+  powerbiEmbedUrl:
+    'https://app.powerbi.com/view?r=eyJrIjoiODRhZjJjY2YtYjY0Ni00ZjM4LThiOTktMGRlNDI3M2M2NGY5IiwidCI6IjA5YTdiYjhiLTVkMDgtNDhhMi05ODk5LTYzZWU2N2FhY2Q5OSIsImMiOjF9&pageName=ReportSection879071a21508da2e80b1',
 };
 
 export function B2BSalesDashboardPage() {

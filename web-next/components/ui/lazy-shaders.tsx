@@ -13,8 +13,3 @@ export const LazyMeshGradient = dynamic(
   () => import("@paper-design/shaders-react").then((m) => ({ default: m.MeshGradient })),
   { ssr: false, loading: ShaderFallback },
 )
-
-export const LazyWarp = dynamic(
-  () => import("@paper-design/shaders-react").then((m) => ({ default: m.Warp })),
-  { ssr: false, loading: ShaderFallback },
-)

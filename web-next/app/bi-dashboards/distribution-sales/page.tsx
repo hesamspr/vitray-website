@@ -19,6 +19,8 @@ const config: DashboardSolutionConfig = {
   currentHref: '/bi-dashboards/distribution-sales',
   capabilityIcons: [Database, ShieldCheck, Sparkles],
   viewIcons: [Eye, Target, Users, Store, PackageX, Map],
+  powerbiEmbedUrl:
+    'https://app.powerbi.com/view?r=eyJrIjoiYmRhOGIyM2QtMjZlYy00NGIwLWJiMTYtZDUzYjYyMTc3NTU0IiwidCI6IjA5YTdiYjhiLTVkMDgtNDhhMi05ODk5LTYzZWU2N2FhY2Q5OSIsImMiOjF9&pageName=ReportSection',
 };
 
 export function DistributionSalesDashboardPage() {

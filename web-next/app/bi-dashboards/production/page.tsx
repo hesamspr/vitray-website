@@ -19,6 +19,8 @@ const config: DashboardSolutionConfig = {
   currentHref: '/bi-dashboards/production',
   capabilityIcons: [Database, ShieldCheck, Sparkles],
   viewIcons: [Eye, Gauge, AlertTriangle, Layers, HardHat, TrendingUp],
+  powerbiEmbedUrl:
+    'https://app.powerbi.com/view?r=eyJrIjoiNmNkZDRmNWUtYTZkYy00YTFlLTg0ODUtYTk0NjAyZDMyYWE2IiwidCI6IjA5YTdiYjhiLTVkMDgtNDhhMi05ODk5LTYzZWU2N2FhY2Q5OSIsImMiOjF9&pageName=ReportSection41b57ee34022b6320dbe',
 };
 
 export function ProductionDashboardPage() {

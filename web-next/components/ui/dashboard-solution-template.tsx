@@ -1,15 +1,11 @@
 import { type ComponentType } from 'react';
-import { LazyMeshGradient as MeshGradient } from '@/components/ui/lazy-shaders';
 import { BarChart3, CheckCircle2, Layers, Lock, type LucideIcon } from 'lucide-react';
 
 import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
-import { WarpCard } from '@/components/ui/warp-card';
 import { AnimatedBackground } from '@/components/ui/animated-background';
-import { LampContainer } from '@/components/ui/lamp';
 import { RelatedDashboardsSection } from '@/components/ui/feature-section-with-card-gradient';
-import { BiConsultationButton } from '@/components/ui/bi-consultation-button';
 import { Reveal } from '@/components/ui/reveal';
 import { getTranslations } from '@/lib/i18n.server';
 
@@ -21,6 +17,7 @@ export interface DashboardSolutionConfig {
   currentHref: string;
   capabilityIcons: [Icon, Icon, Icon];
   viewIcons: [Icon, Icon, Icon, Icon, Icon, Icon];
+  powerbiEmbedUrl?: string;
 }
 
 export async function DashboardSolutionTemplate({ config }: { config: DashboardSolutionConfig }) {
@@ -59,16 +56,18 @@ export async function DashboardSolutionTemplate({ config }: { config: DashboardS
       <SiteNav />
 
       {/* Hero */}
-      <div className="relative w-full overflow-hidden" style={{ height: '100vh', minHeight: 520 }}>
-        <MeshGradient
-          className="absolute inset-0 w-full h-full"
-          colors={['#000000', '#3730a3', '#1e1b4b', '#0f172a', '#4338ca']}
-          speed={0.3}
-        />
-        <MeshGradient
-          className="absolute inset-0 w-full h-full opacity-40"
-          colors={['#000000', '#ffffff', '#3730a3', '#6366f1']}
-          speed={0.2}
+      <div className="relative w-full overflow-hidden" style={{ height: '62vh', minHeight: 460 }}>
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            backgroundColor: '#01030c',
+            backgroundImage: [
+              'radial-gradient(ellipse 65% 50% at 50% 42%, rgba(30, 64, 175, 0.32) 0%, transparent 72%)',
+              'radial-gradient(ellipse 95% 3% at 50% 42%, rgba(147, 197, 253, 0.75) 0%, rgba(59, 130, 246, 0.35) 22%, transparent 60%)',
+              'radial-gradient(ellipse 5% 18% at 50% 42%, rgba(219, 234, 254, 0.85) 0%, transparent 75%)',
+            ].join(', '),
+          }}
         />
         <div
           aria-hidden="true"
@@ -81,7 +80,7 @@ export async function DashboardSolutionTemplate({ config }: { config: DashboardS
               <BarChart3 size={13} />
               {t(k('badge'))}
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-white leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-white leading-[1.5] md:leading-[1.5]">
               {t(k('hero_title1'))}
               <br />
               {t(k('hero_title2'))}
@@ -185,10 +184,16 @@ export async function DashboardSolutionTemplate({ config }: { config: DashboardS
       {/* KPIs */}
       <div className="mx-auto max-w-5xl px-6 py-4">
         <Reveal>
-          <WarpCard
-            colors={['hsl(250,100%,15%)', 'hsl(260,100%,55%)', 'hsl(280,90%,40%)', 'hsl(240,100%,65%)']}
-            shape="checks"
-            className="w-full"
+          <div
+            className="relative w-full rounded-3xl overflow-hidden border border-white/10"
+            style={{
+              backgroundColor: '#070b18',
+              backgroundImage: [
+                'radial-gradient(ellipse 60% 70% at 15% 10%, hsl(220 100% 22% / 0.85) 0%, transparent 60%)',
+                'radial-gradient(ellipse 55% 65% at 90% 90%, hsl(210 90% 30% / 0.75) 0%, transparent 55%)',
+                'radial-gradient(ellipse 40% 50% at 70% 20%, hsl(230 100% 35% / 0.55) 0%, transparent 60%)',
+              ].join(', '),
+            }}
           >
             <div className="grid md:grid-cols-2 gap-10 items-center p-8 md:p-12">
               <div className="space-y-4">
@@ -211,7 +216,7 @@ export async function DashboardSolutionTemplate({ config }: { config: DashboardS
                 ))}
               </ul>
             </div>
-          </WarpCard>
+          </div>
         </Reveal>
       </div>
 
@@ -222,7 +227,7 @@ export async function DashboardSolutionTemplate({ config }: { config: DashboardS
         <Reveal className="rounded-2xl border border-border/60 bg-gradient-to-br from-primary/5 via-transparent to-transparent p-8 md:p-10">
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-border/60 bg-muted/30 shrink-0">
-              <Layers size={20} className="text-indigo-400" />
+              <Layers size={20} className="text-blue-400" />
             </div>
             <div className="space-y-2 flex-1">
               <div className="border border-border/60 py-1 px-3 rounded-lg text-xs text-muted-foreground w-fit">
@@ -242,23 +247,37 @@ export async function DashboardSolutionTemplate({ config }: { config: DashboardS
         </Reveal>
       </div>
 
-      {/* Closing lamp */}
-      <LampContainer color="purple" className="min-h-[44rem] mb-[-14rem]">
-        <Reveal
-          y={60}
-          fromOpacity={0.5}
-          delay={0.3}
-          ease="easeInOut"
-          className="flex flex-col items-center gap-5 text-center"
-        >
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
-            {t(k('closing_title'))}
-          </h2>
-          <BiConsultationButton label={t(k('closing_cta'))} />
-        </Reveal>
-      </LampContainer>
+      {config.powerbiEmbedUrl && (
+        <>
+          <div className="h-24" />
 
-      <div className="h-16" />
+          {/* Live Power BI demo */}
+          <div className="mx-auto max-w-5xl px-6 py-4">
+            <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-10">
+              <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
+                {t(k('demo_badge'))}
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
+                {t(k('demo_title'))}
+              </h2>
+              <p className="text-muted-foreground text-sm md:text-base">
+                {t(k('demo_body'))}
+              </p>
+            </Reveal>
+            <div className="relative w-full max-w-[900px] mx-auto aspect-[800/636] rounded-2xl overflow-hidden border border-border/60 bg-black shadow-[0_8px_32px_rgba(59,130,246,0.18)]">
+              <iframe
+                src={config.powerbiEmbedUrl}
+                title={t(k('demo_title'))}
+                allowFullScreen
+                loading="lazy"
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
+          </div>
+        </>
+      )}
+
+      <div className="h-24" />
 
       <RelatedDashboardsSection currentHref={config.currentHref} />
 
