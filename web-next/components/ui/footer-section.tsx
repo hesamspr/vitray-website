@@ -64,8 +64,16 @@ function getFooterLinks(t: (k: string) => string): FooterSection[] {
       ],
     },
     {
-      label: t('footer.resources'),
-      links: [{ title: t('footer.blog'), href: '/blog' }],
+      label: t('footer.templates'),
+      links: [
+        { title: t('footer.tpl_b2b'), href: '/bi-dashboards/b2b-sales' },
+        { title: t('footer.tpl_distribution'), href: '/bi-dashboards/distribution-sales' },
+        { title: t('footer.tpl_finance'), href: '/bi-dashboards/finance' },
+        { title: t('footer.tpl_hr'), href: '/bi-dashboards/hr' },
+        { title: t('footer.tpl_maintenance'), href: '/bi-dashboards/maintenance' },
+        { title: t('footer.tpl_production'), href: '/bi-dashboards/production' },
+        { title: t('footer.tpl_warehouse'), href: '/bi-dashboards/warehouse' },
+      ],
     },
     {
       label: t('footer.social'),
