@@ -27,23 +27,6 @@ const ACCENT_STYLE: Record<SuccessStory['accent'], { chip: string; value: string
   orange: { chip: 'border-orange-400/30 bg-orange-400/10 text-orange-200', value: 'from-white to-orange-300' },
 }
 
-function Monogram({ label, accent }: { label: string; accent: SuccessStory['accent'] }) {
-  const ring: Record<SuccessStory['accent'], string> = {
-    blue: 'from-blue-500/30 to-blue-500/5 text-blue-200',
-    purple: 'from-purple-500/30 to-purple-500/5 text-purple-200',
-    green: 'from-emerald-500/30 to-emerald-500/5 text-emerald-200',
-    orange: 'from-orange-500/30 to-orange-500/5 text-orange-200',
-  }
-  return (
-    <div
-      className={`flex h-14 w-14 items-center justify-center rounded-2xl border border-white/15 bg-gradient-to-br ${ring[accent]} text-xl font-bold`}
-      aria-hidden="true"
-    >
-      {label}
-    </div>
-  )
-}
-
 /** A single story card used on the listing page and the related-stories rail. */
 export function StoryCard({ story, lang, t }: { story: SuccessStory; lang: Lang; t: T }) {
   const Arrow = lang === 'fa' ? ArrowLeft : ArrowRight
@@ -52,12 +35,9 @@ export function StoryCard({ story, lang, t }: { story: SuccessStory; lang: Lang;
       href={`/success-stories/${story.slug}`}
       className="group relative flex h-full flex-col rounded-3xl border border-border/60 bg-gradient-to-b from-neutral-900 to-neutral-950 p-6 transition-colors hover:border-primary/40"
     >
-      <div className="mb-5 flex items-center gap-3">
-        <Monogram label={pick(story.company, lang).slice(0, 2)} accent={story.accent} />
-        <div className="min-w-0">
-          <div className="text-xs text-muted-foreground">{pick(story.industry, lang)}</div>
-          <h3 className="truncate text-lg font-bold tracking-tight text-white">{pick(story.company, lang)}</h3>
-        </div>
+      <div className="mb-5">
+        <div className="text-xs text-muted-foreground">{pick(story.industry, lang)}</div>
+        <h3 className="mt-1 text-lg font-bold tracking-tight text-white">{pick(story.company, lang)}</h3>
       </div>
       <p className="flex-1 text-sm leading-relaxed text-neutral-400">{pick(story.summary, lang)}</p>
       <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
@@ -149,13 +129,10 @@ export async function SuccessStoryTemplate({ story }: { story: SuccessStory }) {
           <div className="mt-8 grid items-end gap-10 md:grid-cols-12">
             {/* Lead text */}
             <Reveal onMount y={24} delay={0.1} duration={0.9} className="space-y-5 md:col-span-7">
-              <div className="flex items-center gap-3">
-                <Monogram label={pick(story.company, lang).slice(0, 2)} accent={story.accent} />
-                <span className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${accent.chip}`}>
-                  <BarChart3 size={12} />
-                  {pick(story.industry, lang)}
-                </span>
-              </div>
+              <span className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${accent.chip}`}>
+                <BarChart3 size={12} />
+                {pick(story.industry, lang)}
+              </span>
               <h1 className="text-4xl font-bold leading-[1.15] tracking-tighter text-white md:text-6xl">
                 {pick(story.company, lang)}
               </h1>
