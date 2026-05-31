@@ -11,6 +11,22 @@ import { pick, successStories, type SuccessStory } from '@/lib/successStories'
 
 type T = (key: string) => string
 
+/** RGB triplets used for inline accent glows in the hero (kept literal for clarity). */
+const ACCENT_RGB: Record<SuccessStory['accent'], string> = {
+  blue: '59, 130, 246',
+  purple: '139, 92, 246',
+  green: '16, 185, 129',
+  orange: '249, 115, 22',
+}
+
+/** Full literal Tailwind class strings so the JIT can see them. */
+const ACCENT_STYLE: Record<SuccessStory['accent'], { chip: string; value: string }> = {
+  blue: { chip: 'border-blue-400/30 bg-blue-400/10 text-blue-200', value: 'from-white to-blue-300' },
+  purple: { chip: 'border-purple-400/30 bg-purple-400/10 text-purple-200', value: 'from-white to-purple-300' },
+  green: { chip: 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200', value: 'from-white to-emerald-300' },
+  orange: { chip: 'border-orange-400/30 bg-orange-400/10 text-orange-200', value: 'from-white to-orange-300' },
+}
+
 function Monogram({ label, accent }: { label: string; accent: SuccessStory['accent'] }) {
   const ring: Record<SuccessStory['accent'], string> = {
     blue: 'from-blue-500/30 to-blue-500/5 text-blue-200',
@@ -75,57 +91,119 @@ export function RelatedStoriesSection({ currentSlug, lang, t }: { currentSlug: s
 export async function SuccessStoryTemplate({ story }: { story: SuccessStory }) {
   const { t, lang } = await getTranslations()
   const aboutParagraphs = pick(story.about, lang).split('\n\n')
+  const rgb = ACCENT_RGB[story.accent]
+  const accent = ACCENT_STYLE[story.accent]
+  const highlight = story.results[0]
+  const lead = story.testimonials[0]
+  const BackArrow = lang === 'fa' ? ArrowRight : ArrowLeft
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
 
-      {/* Hero */}
-      <div className="relative w-full overflow-hidden" style={{ height: '58vh', minHeight: 440 }}>
+      {/* Hero — editorial case-study header */}
+      <header className="relative w-full overflow-hidden">
+        {/* Base + per-story accent glow */}
         <div
           aria-hidden="true"
           className="absolute inset-0"
           style={{
             backgroundColor: '#01030c',
             backgroundImage: [
-              'radial-gradient(ellipse 65% 50% at 50% 42%, rgba(30, 64, 175, 0.32) 0%, transparent 72%)',
-              'radial-gradient(ellipse 95% 3% at 50% 42%, rgba(147, 197, 253, 0.75) 0%, rgba(59, 130, 246, 0.35) 22%, transparent 60%)',
-              'radial-gradient(ellipse 5% 18% at 50% 42%, rgba(219, 234, 254, 0.85) 0%, transparent 75%)',
+              `radial-gradient(ellipse 70% 60% at 82% 8%, rgba(${rgb}, 0.30) 0%, transparent 60%)`,
+              `radial-gradient(ellipse 55% 55% at 8% 100%, rgba(${rgb}, 0.14) 0%, transparent 55%)`,
+              'radial-gradient(ellipse 110% 60% at 50% -12%, rgba(59, 130, 246, 0.10) 0%, transparent 60%)',
             ].join(', '),
           }}
         />
+        {/* Dot-grid texture, masked toward the accent corner */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-48"
+          className="absolute inset-0 opacity-[0.16]"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.7) 1px, transparent 1px)',
+            backgroundSize: '22px 22px',
+            maskImage: 'radial-gradient(ellipse 75% 80% at 78% 18%, black, transparent 72%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 75% 80% at 78% 18%, black, transparent 72%)',
+          }}
+        />
+        {/* Fade into the page background */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-32"
           style={{ background: 'linear-gradient(to bottom, transparent, hsl(var(--background)))' }}
         />
-        <div className="absolute inset-0 z-20 flex items-center justify-center px-6">
-          <Reveal onMount y={24} delay={0.15} duration={0.9} className="flex max-w-[680px] flex-col items-center space-y-5 text-center">
-            <div className="inline-flex w-fit items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-4 py-1 text-sm text-white/70 backdrop-blur-sm">
-              <BarChart3 size={13} />
-              {pick(story.industry, lang)}
-            </div>
-            <h1 className="text-4xl font-bold leading-[1.4] tracking-tighter text-white md:text-6xl md:leading-[1.4]">
-              {pick(story.company, lang)}
-            </h1>
-            <p className="max-w-xl text-sm leading-relaxed text-white/60 md:text-base">{pick(story.intro, lang)}</p>
+
+        <div className="relative mx-auto max-w-5xl px-6 pb-12 pt-32 md:pb-16">
+          {/* Breadcrumb back-link */}
+          <Reveal onMount y={14} duration={0.7}>
+            <Link
+              href="/success-stories"
+              className="group inline-flex items-center gap-1.5 text-sm text-white/55 transition-colors hover:text-white"
+            >
+              <BackArrow size={15} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
+              {t('stories.badge')}
+            </Link>
+          </Reveal>
+
+          <div className="mt-8 grid items-end gap-10 md:grid-cols-12">
+            {/* Lead text */}
+            <Reveal onMount y={24} delay={0.1} duration={0.9} className="space-y-5 md:col-span-7">
+              <div className="flex items-center gap-3">
+                <Monogram label={pick(story.company, lang).slice(0, 2)} accent={story.accent} />
+                <span className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${accent.chip}`}>
+                  <BarChart3 size={12} />
+                  {pick(story.industry, lang)}
+                </span>
+              </div>
+              <h1 className="text-4xl font-bold leading-[1.15] tracking-tighter text-white md:text-6xl">
+                {pick(story.company, lang)}
+              </h1>
+              <p className="max-w-xl text-sm leading-relaxed text-white/60 md:text-base">{pick(story.intro, lang)}</p>
+            </Reveal>
+
+            {/* Key-result highlight card */}
+            {highlight && (
+              <Reveal onMount y={24} delay={0.25} duration={0.9} className="md:col-span-5">
+                <div className="relative overflow-hidden rounded-3xl border border-white/[0.12] bg-white/[0.04] p-7 backdrop-blur-sm">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -end-10 -top-10 h-32 w-32 rounded-full blur-2xl"
+                    style={{ backgroundColor: `rgba(${rgb}, 0.35)` }}
+                  />
+                  <div className="relative">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-white/45">{t('stories.results_label')}</div>
+                    <div className={`mt-3 bg-gradient-to-br bg-clip-text text-5xl font-bold tracking-tighter text-transparent md:text-6xl ${accent.value}`}>
+                      {pick(highlight.value, lang)}
+                    </div>
+                    <div className="mt-2 text-sm text-white/70">{pick(highlight.label, lang)}</div>
+                    {lead && (
+                      <div className="mt-6 border-t border-white/10 pt-5">
+                        <p className="text-sm leading-relaxed text-white/75">«{pick(lead.quote, lang)}»</p>
+                        <div className="mt-3 text-xs text-white/50">
+                          {pick(lead.name, lang)} — {pick(lead.role, lang)}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </Reveal>
+            )}
+          </div>
+
+          {/* Facts ribbon */}
+          <Reveal onMount y={20} delay={0.35} duration={0.8}>
+            <dl className="mt-12 grid grid-cols-2 gap-y-6 border-t border-white/10 pt-6 sm:grid-cols-4 sm:divide-x sm:divide-white/10">
+              {story.facts.map((fact) => (
+                <div key={pick(fact.label, lang)} className="px-2 sm:px-5">
+                  <dt className="text-lg font-bold tracking-tighter text-white md:text-2xl">{pick(fact.value, lang)}</dt>
+                  <dd className="mt-1 text-xs text-white/55">{pick(fact.label, lang)}</dd>
+                </div>
+              ))}
+            </dl>
           </Reveal>
         </div>
-      </div>
-
-      {/* Key facts strip */}
-      <div className="relative z-30 mx-auto -mt-16 max-w-5xl px-6">
-        <Reveal>
-          <div className="grid grid-cols-2 gap-3 rounded-3xl border border-border/60 bg-card/80 p-4 backdrop-blur-sm sm:grid-cols-4 md:p-6">
-            {story.facts.map((fact) => (
-              <div key={pick(fact.label, lang)} className="rounded-2xl border border-border/40 bg-background/40 p-4 text-center">
-                <div className="text-lg font-bold tracking-tighter md:text-2xl">{pick(fact.value, lang)}</div>
-                <div className="mt-1 text-xs text-muted-foreground">{pick(fact.label, lang)}</div>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-      </div>
+      </header>
 
       <div className="h-20" />
 
