@@ -838,5 +838,124 @@
     "ssas_caption": "Analysis Services Projects extension",
     "ssis_caption": "Integration Services Projects extension",
     "note": "Vitray delivers business intelligence solutions using Microsoft tools — SSIS, SSAS, and Power BI."
+  },
+  "plexserver": {
+    "badge": "Plex Infrastructure",
+    "hero_title": "Hardware & Software Requirements for Plex",
+    "hero_body": "Plex is a powerful Low-Code and Headless CMS platform that lets you build enterprise applications and complex databases with little to no coding.",
+    "hw_badge": "Hardware",
+    "hw_title": "Hardware Requirements",
+    "hw_head": [
+      "Usage level",
+      "CPU",
+      "RAM",
+      "Storage",
+      "Notes"
+    ],
+    "hw_rows": [
+      [
+        "Test & development",
+        "2 cores",
+        "4 GB",
+        "20 GB",
+        "Enough for small environments"
+      ],
+      [
+        "Small projects",
+        "4 cores",
+        "8 GB",
+        "50 GB",
+        "Better throughput for medium workloads"
+      ],
+      [
+        "Enterprise",
+        "8+ cores",
+        "16+ GB",
+        "SSD over 100 GB",
+        "Suited to many users and custom plugins"
+      ]
+    ],
+    "sw_badge": "Software prerequisites",
+    "sw_title": "General Software Prerequisites",
+    "sw_body": "Plex is recommended to be installed via Docker. Docker runs on both Windows and Ubuntu, but for stable, enterprise hosting Ubuntu is the far better choice. The table below compares Docker on Windows vs. Docker on Ubuntu:",
+    "cmp_head": [
+      "Feature",
+      "Docker on Windows",
+      "Docker on Ubuntu"
+    ],
+    "cmp_rows": [
+      [
+        "Performance & speed",
+        "Moderate; slower due to the WSL2 virtualization layer",
+        "Excellent; runs natively on Linux"
+      ],
+      [
+        "Stability for production",
+        "Suitable for development and testing",
+        "Ideal for stable hosting"
+      ],
+      [
+        "Hardware resource usage",
+        "Higher",
+        "More efficient"
+      ],
+      [
+        "Initial setup",
+        "Needs more configuration",
+        "Simpler"
+      ],
+      [
+        "Security & DevOps compatibility",
+        "Moderate",
+        "Very high"
+      ],
+      [
+        "Summary",
+        "Good for a Windows development environment",
+        "Best choice for organizations and servers"
+      ]
+    ],
+    "ubuntu_cta": "Download Ubuntu",
+    "ubuntu_caption": "Ubuntu desktop edition",
+    "docker_badge": "Docker Hosting",
+    "docker_title": "Software Required for Docker Hosting",
+    "docker_head": [
+      "Software",
+      "Recommended version",
+      "Purpose"
+    ],
+    "docker_rows": [
+      [
+        "Node.js",
+        "Version 18 or higher (LTS)",
+        "Runs the Plex core"
+      ],
+      [
+        "npm or Yarn",
+        "Latest version",
+        "Package management"
+      ],
+      [
+        "Docker & Docker Compose",
+        "Latest version",
+        "Fast, portable service deployment"
+      ],
+      [
+        "PostgreSQL",
+        "Version 14 or higher",
+        "Database"
+      ],
+      [
+        "Git",
+        "Latest version",
+        "Source control and fetching the project"
+      ]
+    ],
+    "docker_note": "All of the software listed above is installed and configured by our team, so you don't need to install anything in advance. Simply provide access to the host (Server / Host).",
+    "access_badge": "Access",
+    "access_title": "Access Required to Perform the Installation",
+    "access_body": "For a complete, trouble-free deployment, please provide the following:",
+    "access_1": "Super/Admin access to the server (SSH for Ubuntu or Admin Access for Windows)",
+    "access_2": "An active internet connection during installation and package downloads"
   }
 }
