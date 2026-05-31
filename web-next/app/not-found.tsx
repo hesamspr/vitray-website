@@ -19,10 +19,10 @@ export default async function NotFound() {
   ]
 
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="flex min-h-screen flex-col overflow-x-hidden bg-background text-foreground">
       <SiteNav />
 
-      <main className="relative flex flex-1 items-center justify-center overflow-hidden px-6 pb-24 pt-32">
+      <main className="relative flex flex-1 items-center justify-center overflow-hidden px-6 pb-28 pt-36 md:pb-32 md:pt-44">
         {/* Accent glow */}
         <div
           aria-hidden="true"
@@ -60,7 +60,7 @@ export default async function NotFound() {
           </div>
 
           {/* "No data" dashboard widget */}
-          <div className="mt-8 w-full overflow-hidden rounded-3xl border border-white/[0.12] bg-white/[0.04] p-6 backdrop-blur-sm md:p-8">
+          <div className="mt-12 w-full overflow-hidden rounded-3xl border border-white/[0.12] bg-white/[0.04] p-7 backdrop-blur-sm md:p-10">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold uppercase tracking-wider text-white/45">
                 {t('notfound.widget_label')}
@@ -72,10 +72,10 @@ export default async function NotFound() {
             </div>
 
             {/* Flatlining chart with the 404 behind it */}
-            <div className="relative mt-4 h-40">
+            <div className="relative mt-6 h-44 md:h-52">
               <div
                 aria-hidden="true"
-                className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-white/90 to-blue-400/40 bg-clip-text text-[7rem] font-bold leading-none tracking-tighter text-transparent md:text-[9rem]"
+                className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-white/90 to-blue-400/40 bg-clip-text text-[4.5rem] font-bold leading-none tracking-tighter text-transparent sm:text-[7rem] md:text-[9rem]"
               >
                 404
               </div>
@@ -117,13 +117,13 @@ export default async function NotFound() {
             </div>
           </div>
 
-          <h1 className="mt-10 text-3xl font-bold tracking-tighter md:text-4xl">{t('notfound.title')}</h1>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+          <h1 className="mt-14 w-full max-w-md text-balance text-3xl font-bold tracking-tighter md:text-4xl">{t('notfound.title')}</h1>
+          <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
             {t('notfound.body')}
           </p>
 
           {/* CTAs */}
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
+          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
             <Link
               href="/"
               className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-white/90"
@@ -142,7 +142,7 @@ export default async function NotFound() {
           </div>
 
           {/* Quick links */}
-          <div className="mt-10 w-full border-t border-border/40 pt-6">
+          <div className="mt-16 w-full border-t border-border/40 pt-8">
             <p className="text-xs text-muted-foreground">{t('notfound.links_label')}</p>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
               {quickLinks.map((link) => (
