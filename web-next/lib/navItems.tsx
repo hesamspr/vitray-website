@@ -1,4 +1,4 @@
-import { Home, Info, Mail, Package, BookOpen, LayoutDashboard, Building2, Trophy } from 'lucide-react'
+import { Home, Info, Mail, Package, BookOpen, LayoutDashboard, Building2, Trophy, Download } from 'lucide-react'
 
 const BiNavIcon = ({ className }: { className?: string }) => (
   <img src="/fav.png" alt="BI" className={className} />
@@ -36,14 +36,15 @@ export function getNavItems(t: (key: string) => string) {
       name: t('nav.company'),
       url: '/about',
       icon: Building2,
-      matchPrefixes: ['/about', '/contact', '/success-stories', '/blog'],
+      matchPrefixes: ['/about', '/success-stories', '/blog', '/pbi-download'],
       subItems: [
         { name: t('nav.about'), url: '/about', icon: Info },
-        { name: t('nav.contact'), url: '/contact', icon: Mail },
         { name: t('nav.stories'), url: '/success-stories', icon: Trophy },
         { name: t('nav.blog'), url: '/blog', icon: BookOpen },
+        { name: t('nav.downloads'), url: '/pbi-download', icon: Download },
       ],
     },
+    { name: t('nav.contact'), url: '/contact', icon: Mail },
     { name: t('nav.portal'), url: 'https://support.vitrayco.com', icon: LayoutDashboard, highlight: true },
   ]
 }

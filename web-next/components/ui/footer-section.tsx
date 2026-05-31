@@ -63,6 +63,7 @@ function getFooterLinks(t: (k: string) => string): FooterSection[] {
         { title: t('footer.contact'), href: '/contact' },
         { title: t('footer.stories'), href: '/success-stories' },
         { title: t('footer.blog'), href: '/blog' },
+        { title: t('footer.downloads'), href: '/pbi-download' },
       ],
     },
     {
