@@ -20,6 +20,7 @@ interface NavItem {
   icon: LucideIcon
   subItems?: NavSubItem[]
   highlight?: boolean
+  matchPrefixes?: string[]
 }
 
 interface NavBarProps {
@@ -47,8 +48,9 @@ export function NavBar({ items, className }: NavBarProps) {
     items.find(item => {
       if (item.url === path) return true
       if (item.subItems?.some(sub => sub.url === path)) return true
+      if (item.matchPrefixes?.some(prefix => path === prefix || path.startsWith(prefix + '/'))) return true
       // Match nested paths: /blog/some-slug should activate /blog
-      if (item.url !== '/' && item.url !== '/#products' && path.startsWith(item.url)) return true
+      if (item.url !== '/' && !item.url.startsWith('#') && !item.url.includes('#') && path.startsWith(item.url)) return true
       return false
     })?.name ?? items[0].name
 

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getPosts } from '@/lib/wordpress'
+import { successStories } from '@/lib/successStories'
 
 const BASE_URL = 'https://vitrayco.com'
 
@@ -7,6 +8,7 @@ const staticRoutes: Array<{ path: string; priority: number; changeFrequency: Met
   { path: '/', priority: 1, changeFrequency: 'weekly' },
   { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.6, changeFrequency: 'monthly' },
+  { path: '/success-stories', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/bi-solution', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/plex', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/pixel', priority: 0.8, changeFrequency: 'monthly' },

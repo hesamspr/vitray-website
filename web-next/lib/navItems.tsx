@@ -1,4 +1,4 @@
-import { Home, Info, Mail, Package, BookOpen, LayoutDashboard } from 'lucide-react'
+import { Home, Info, Mail, Package, BookOpen, LayoutDashboard, Building2, Trophy } from 'lucide-react'
 
 const BiNavIcon = ({ className }: { className?: string }) => (
   <img src="/fav.png" alt="BI" className={className} />
@@ -23,6 +23,7 @@ export function getNavItems(t: (key: string) => string) {
       name: t('nav.solutions'),
       url: '/#products',
       icon: Package,
+      matchPrefixes: ['/bi-dashboards', '/bi-solution', '/plex', '/pulse', '/pixel'],
       subItems: [
         { name: t('nav.bi'), url: '/bi-solution', icon: BiNavIcon },
         { name: t('nav.plex'), url: '/plex', icon: PlexNavIcon },
@@ -31,9 +32,18 @@ export function getNavItems(t: (key: string) => string) {
         { name: t('nav.academy'), url: 'https://academy.vitrayco.com', icon: AcademyNavIcon },
       ],
     },
-    { name: t('nav.blog'), url: '/blog', icon: BookOpen },
-    { name: t('nav.about'), url: '/about', icon: Info },
-    { name: t('nav.contact'), url: '/contact', icon: Mail },
+    {
+      name: t('nav.company'),
+      url: '/about',
+      icon: Building2,
+      matchPrefixes: ['/about', '/contact', '/success-stories', '/blog'],
+      subItems: [
+        { name: t('nav.about'), url: '/about', icon: Info },
+        { name: t('nav.contact'), url: '/contact', icon: Mail },
+        { name: t('nav.stories'), url: '/success-stories', icon: Trophy },
+        { name: t('nav.blog'), url: '/blog', icon: BookOpen },
+      ],
+    },
     { name: t('nav.portal'), url: 'https://support.vitrayco.com', icon: LayoutDashboard, highlight: true },
   ]
 }

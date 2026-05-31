@@ -61,6 +61,8 @@ function getFooterLinks(t: (k: string) => string): FooterSection[] {
       links: [
         { title: t('footer.about'), href: '/about' },
         { title: t('footer.contact'), href: '/contact' },
+        { title: t('footer.stories'), href: '/success-stories' },
+        { title: t('footer.blog'), href: '/blog' },
       ],
     },
     {

@@ -7,9 +7,11 @@
     "pulse": "Pulse",
     "pixel": "Pixel",
     "academy": "Academy",
+    "company": "Company",
     "blog": "Blog",
     "about": "About",
     "contact": "Contact",
+    "stories": "Success Stories",
     "portal": "Customer Portal"
   },
   "blog": {
@@ -20,6 +22,23 @@
     "read_more": "Read more",
     "back": "Back to all posts",
     "min_read": "min read"
+  },
+  "stories": {
+    "badge": "Success Stories",
+    "title": "Our Credibility Is Our Customers",
+    "subtitle": "Stories of businesses that moved from scattered data to data-driven decisions with Vitray's business intelligence.",
+    "read": "Read the story",
+    "about_label": "About the client",
+    "challenge_label": "Challenge",
+    "solution_label": "The Vitray solution",
+    "results_label": "Results",
+    "results_title": "What was achieved",
+    "results_body": "The tangible outcomes this collaboration delivered for the organization.",
+    "testimonial_label": "In their words",
+    "testimonial_title": "What they say",
+    "related_badge": "More stories",
+    "related_title": "Other success stories",
+    "related_body": "See how other businesses became data-driven with Vitray."
   },
   "page_titles": {
     "site_name": "Vitray Solutions",
@@ -71,6 +90,7 @@
   "footer": {
     "solutions": "Solutions",
     "company": "Company",
+    "stories": "Success Stories",
     "templates": "Templates",
     "social": "Social",
     "bi": "Business Intelligence",
@@ -80,6 +100,7 @@
     "academy": "Academy",
     "about": "About",
     "contact": "Contact",
+    "blog": "Blog",
     "tpl_b2b": "B2B Sales",
     "tpl_distribution": "Distribution Sales",
     "tpl_finance": "Finance",
