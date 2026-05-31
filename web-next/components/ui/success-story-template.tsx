@@ -4,7 +4,6 @@ import { ArrowLeft, ArrowRight, BarChart3, CheckCircle2, Quote, Target, Wrench }
 import { SiteNav } from '@/components/ui/site-nav'
 import { Footer } from '@/components/ui/footer-section'
 import { CallToAction } from '@/components/ui/cta-3'
-import { GlowCard } from '@/components/ui/spotlight-card'
 import { Reveal } from '@/components/ui/reveal'
 import { getTranslations } from '@/lib/i18n.server'
 import type { Lang } from '@/lib/i18n'
@@ -153,22 +152,22 @@ export async function SuccessStoryTemplate({ story }: { story: SuccessStory }) {
       <div className="mx-auto max-w-5xl px-6 py-4">
         <div className="grid gap-4 md:grid-cols-2">
           <Reveal duration={0.7}>
-            <GlowCard customSize glowColor="orange" className="flex h-full flex-col p-7">
+            <div className="flex h-full flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-primary/5 via-transparent to-transparent p-7">
               <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-border/60 bg-muted/30">
                 <Target size={18} className="text-orange-300" />
               </div>
               <h3 className="mb-3 text-lg font-bold tracking-tight">{t('stories.challenge_label')}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{pick(story.challenge, lang)}</p>
-            </GlowCard>
+            </div>
           </Reveal>
           <Reveal duration={0.7} delay={0.08}>
-            <GlowCard customSize glowColor={story.accent} className="flex h-full flex-col p-7">
+            <div className="flex h-full flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-primary/5 via-transparent to-transparent p-7">
               <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-border/60 bg-muted/30">
                 <Wrench size={18} className="text-blue-300" />
               </div>
               <h3 className="mb-3 text-lg font-bold tracking-tight">{t('stories.solution_label')}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{pick(story.solution, lang)}</p>
-            </GlowCard>
+            </div>
           </Reveal>
         </div>
       </div>
