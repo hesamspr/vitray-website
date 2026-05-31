@@ -40,6 +40,16 @@
     "related_title": "Other success stories",
     "related_body": "See how other businesses became data-driven with Vitray."
   },
+  "notfound": {
+    "badge": "Error 404",
+    "widget_label": "Page status",
+    "chart_label": "No data found",
+    "title": "This page isn't in our data",
+    "body": "The address you were looking for doesn't exist or has moved. Don't worry — let's get you back on the data-driven track.",
+    "home": "Back to home",
+    "explore": "Explore solutions",
+    "links_label": "Or try one of these:"
+  },
   "page_titles": {
     "site_name": "Vitray Solutions",
     "home": "Home",
@@ -101,6 +111,7 @@
     "about": "About",
     "contact": "Contact",
     "blog": "Blog",
+    "downloads": "Power BI Downloads",
     "tpl_b2b": "B2B Sales",
     "tpl_distribution": "Distribution Sales",
     "tpl_finance": "Finance",
@@ -806,5 +817,25 @@
     "demo_badge": "Live Dashboard Sample",
     "demo_title": "See This Dashboard in Action",
     "demo_body": "A real Power BI sample built by the Vitray team — filter, drill down, and explore the data yourself right now."
+  },
+  "pbi_download": {
+    "badge": "Microsoft BI Downloads",
+    "hero_title": "Business Intelligence Software Downloads",
+    "hero_body": "Official Microsoft tools for building enterprise business intelligence — from Power BI and SQL Server to Visual Studio extensions, all in one place and ready to download.",
+    "cta": "Download",
+    "pbi_badge": "Power BI",
+    "pbi_title": "Download Power BI & Power BI Report Server — May 2025",
+    "pbi_body": "Power BI is Microsoft's business intelligence and data visualization tool. It lets you design outstanding management dashboards at remarkable speed. These dashboards amplify the impact of your data and let you monitor it on any device — desktop, laptop, tablet, or phone.",
+    "prs_caption": "On-premises report server",
+    "pbidesktop_caption": "Desktop edition compatible with Report Server",
+    "vs_badge": "Enterprise BI",
+    "vs_title": "Download Visual Studio + Extensions",
+    "vs_body": "At Vitray we follow the Enterprise BI method. After deploying SQL Server Analysis Services, every user — based on their access level and security — can build the dashboards and reports they need with either Excel or Power BI, without any technical knowledge.",
+    "vs_caption": "2022 — v17.10.5",
+    "sql_caption": "Enterprise edition — x64",
+    "ssms_caption": "SQL Server Management Studio",
+    "ssas_caption": "Analysis Services Projects extension",
+    "ssis_caption": "Integration Services Projects extension",
+    "note": "Vitray delivers business intelligence solutions using Microsoft tools — SSIS, SSAS, and Power BI."
   }
 }
