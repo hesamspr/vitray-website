@@ -74,8 +74,8 @@ export default async function BlogPostPage({ params }: Props) {
     ...(image && { image: image.src }),
     publisher: {
       '@type': 'Organization',
-      name: 'Polaris Insights',
-      url: 'https://polarisinsights.tech',
+      name: 'Vitray BI',
+      url: 'https://vitrayco.com',
     },
   }
 

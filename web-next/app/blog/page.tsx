@@ -8,10 +8,10 @@ import { PostsSkeleton } from '@/components/blog/PostsSkeleton'
 import { Footer } from '@/components/ui/footer-section'
 
 export const metadata: Metadata = {
-  title: 'Blog | Polaris Insights',
-  description: 'Insights and articles on Business Intelligence, Data Engineering, and Data Analysis from the Polaris Insights team.',
+  title: 'Blog | Vitray BI',
+  description: 'Insights and articles on Business Intelligence, Data Engineering, and Data Analysis from the Vitray BI team.',
   openGraph: {
-    title: 'Blog | Polaris Insights',
+    title: 'Blog | Vitray BI',
     description: 'Insights and articles on Business Intelligence, Data Engineering, and Data Analysis.',
     url: 'https://vitrayco.com/blog',
   },

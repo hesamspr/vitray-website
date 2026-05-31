@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'polarisinsights.tech',
+        hostname: 'vitrayco.com',
         pathname: '/wp-content/uploads/**',
       },
     ],

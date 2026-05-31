@@ -1,4 +1,4 @@
-const WP_API = 'https://polarisinsights.tech/wp-json/wp/v2'
+const WP_API = 'https://vitrayco.com/wp-json/wp/v2'
 
 export interface WPCategory {
   id: number
