@@ -10,6 +10,7 @@ const staticRoutes: Array<{ path: string; priority: number; changeFrequency: Met
   { path: '/contact', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/success-stories', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/bi-solution', priority: 0.9, changeFrequency: 'monthly' },
+  { path: '/pbi-download', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/plex', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/pixel', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/pulse', priority: 0.8, changeFrequency: 'monthly' },
@@ -32,6 +33,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: route.changeFrequency,
     priority: route.priority,
   }))
+
+  // Individual success-story pages.
+  for (const story of successStories) {
+    routes.push({
+      url: `${BASE_URL}/success-stories/${story.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    })
+  }
 
   // Blog posts are best-effort — a WordPress outage must not break the sitemap.
   try {
