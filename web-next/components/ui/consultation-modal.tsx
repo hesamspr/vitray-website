@@ -9,8 +9,6 @@ interface ConsultationModalProps {
   onClose: () => void
 }
 
-const WEBHOOK_URL = 'https://n8n.vitray.ir/webhook/contact-us-form'
-
 const inputClass =
   'w-full rounded-2xl bg-white/10 border border-white/20 px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none focus:bg-white/20 focus:border-white/40 transition-all duration-200 shadow-lg'
 
@@ -40,17 +38,22 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
     setError('')
 
     const controller = new AbortController()
-    const timer = setTimeout(() => controller.abort(), 10000)
+    const timer = setTimeout(() => controller.abort(), 15000)
 
     try {
-      await fetch(WEBHOOK_URL, {
+      // Post same-origin to our own API, which persists the lead and forwards
+      // it to the webhook. Success only on a real ok response.
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(form),
-        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, source: 'consultation' }),
         signal: controller.signal,
       })
-      setSubmitted(true)
+      if (res.ok) {
+        setSubmitted(true)
+      } else {
+        setError(t('modal.error_generic'))
+      }
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') {
         setError(t('modal.error_timeout'))

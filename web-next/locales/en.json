@@ -217,7 +217,9 @@
     "form_submit": "Send Message",
     "form_submitting": "Sending...",
     "success_title": "Message Sent",
-    "success_body": "We'll be in touch with you shortly."
+    "success_body": "We'll be in touch with you shortly.",
+    "form_error": "Something went wrong. Please try again.",
+    "form_error_timeout": "Request timed out. Please try again."
   },
   "plex_hero": {
     "badge": "Plex",

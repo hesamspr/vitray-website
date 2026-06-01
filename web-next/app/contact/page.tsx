@@ -17,24 +17,34 @@ export function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', mobile: '', company: '', details: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 10000);
+    const timer = setTimeout(() => controller.abort(), 15000);
     try {
-      await fetch('https://n8n.vitray.ir/webhook/contact-us-form', {
+      // Post same-origin to our own API, which persists the lead and forwards
+      // it to the webhook. We trust the real response: success only on res.ok.
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(form),
-        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, source: 'contact' }),
         signal: controller.signal,
       });
-      setSubmitted(true);
-    } catch {
-      // still show success — request was fired
-      setSubmitted(true);
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        setError(t('contact.form_error'));
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error && err.name === 'AbortError'
+          ? t('contact.form_error_timeout')
+          : t('contact.form_error'),
+      );
     } finally {
       clearTimeout(timer);
       setLoading(false);
@@ -189,6 +199,8 @@ export function ContactPage() {
                     placeholder={t('contact.form_details_placeholder')}
                   />
                 </div>
+
+                {error && <p className="text-xs text-red-400">{error}</p>}
 
                 <ShineBorder
                   color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
