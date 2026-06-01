@@ -4,9 +4,8 @@ import { Reveal } from '@/components/ui/reveal';
 import { PrLinkCard, type PrLinkItem } from '@/components/ui/pr-link-card';
 
 const contents: PrLinkItem[] = [
-  { label: 'فایل ارائه', href: 'https://vitrayco.com/wp-content/uploads/2022/05/Vitray-Intro-V2.1.pdf', hint: 'PDF' },
-  { label: 'BI Adoption Roadmap', href: 'https://vitrayco.com/wp-content/uploads/2022/07/Power-BI-Adoption.pdf', hint: 'PDF' },
-  { label: 'راهکار پالـس', href: 'https://vitrayco.com/wp-content/uploads/2023/09/Pulse.pdf', hint: 'PDF' },
+  { label: 'فایل ارائه', href: '/Vitray%20Intro%20V2.1.pdf', hint: 'PDF' },
+  { label: 'BI Adoption Roadmap', href: '/Power-BI-Adoption.pdf', hint: 'PDF' },
 ];
 
 const stories: PrLinkItem[] = [
@@ -36,7 +35,7 @@ export default function PrPage() {
 
       {/* محتواها */}
       <div className="mx-auto max-w-5xl px-6 pt-32 py-8">
-        <Reveal duration={0.7} className="mb-8 flex flex-col items-start gap-2">
+        <Reveal duration={0.7} className="mb-8 flex flex-col items-center gap-2 text-center">
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
             بخش اول
           </div>
@@ -57,7 +56,7 @@ export default function PrPage() {
 
       {/* نمونه داشبوردها */}
       <div className="mx-auto max-w-5xl px-6 py-8">
-        <Reveal duration={0.7} className="mb-8 flex flex-col items-start gap-2">
+        <Reveal duration={0.7} className="mb-8 flex flex-col items-center gap-2 text-center">
           <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
             بخش دوم
           </div>
