@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getPost, getFeaturedImage, getPostCategories, formatDate } from '@/lib/wordpress'
+import { getPost, getFeaturedImage, getPostCategories, formatDate, stripHtml } from '@/lib/wordpress'
 import { BlogNavBar } from '@/components/ui/blog-navbar'
 import { BlogPostShell } from '@/components/blog/BlogPostShell'
 import { CallToAction } from '@/components/ui/cta-3'
@@ -19,29 +19,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {}
 
   const yoast = post.yoast_head_json
-  const image = getFeaturedImage(post) ?? yoast.og_image?.[0]
+  const image = getFeaturedImage(post) ?? yoast?.og_image?.[0]
+  const description = yoast?.og_description || stripHtml(post.excerpt.rendered)
 
   return {
-    title: yoast.title || post.title.rendered,
-    description: yoast.og_description,
+    title: yoast?.title || post.title.rendered,
+    description,
     alternates: {
       canonical: `https://vitrayco.com/blog/${slug}`,
     },
     openGraph: {
-      title: yoast.og_title || post.title.rendered,
-      description: yoast.og_description,
+      title: yoast?.og_title || post.title.rendered,
+      description,
       url: `https://vitrayco.com/blog/${slug}`,
       type: 'article',
-      publishedTime: yoast.article_published_time ?? post.date,
-      modifiedTime: yoast.article_modified_time ?? post.modified,
+      publishedTime: yoast?.article_published_time ?? post.date,
+      modifiedTime: yoast?.article_modified_time ?? post.modified,
       ...(image && {
         images: [{ url: typeof image === 'object' && 'src' in image ? image.src : image.url }],
       }),
     },
     twitter: {
       card: 'summary_large_image',
-      title: yoast.og_title || post.title.rendered,
-      description: yoast.og_description,
+      title: yoast?.og_title || post.title.rendered,
+      description,
       ...(image && {
         images: [typeof image === 'object' && 'src' in image ? image.src : image.url],
       }),

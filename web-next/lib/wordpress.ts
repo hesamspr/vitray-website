@@ -16,8 +16,8 @@ export interface WPPost {
   content: { rendered: string }
   featured_media: number
   categories: number[]
-  yoast_head_json: {
-    title: string
+  yoast_head_json?: {
+    title?: string
     og_title?: string
     og_description?: string
     og_url?: string
