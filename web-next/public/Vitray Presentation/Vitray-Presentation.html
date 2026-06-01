@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ویترای — راهکارهای هوش تجاری</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://esm.sh" crossorigin>
+<link rel="dns-prefetch" href="https://esm.sh">
+<!-- Start downloading the shader modules in parallel with HTML parsing so
+     the Warp shader is ready as soon as possible on first load (the file://
+     cold-start gotcha that previously left a blank background until refresh). -->
+<link rel="modulepreload" href="https://esm.sh/react@18.3.1" crossorigin>
+<link rel="modulepreload" href="https://esm.sh/react-dom@18.3.1/client?deps=react@18.3.1" crossorigin>
+<link rel="modulepreload" href="https://esm.sh/@paper-design/shaders-react?deps=react@18.3.1,react-dom@18.3.1" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  :root {
+    --bg-deep: #03050d;
+    --gold: #f5b932;
+    --gold-soft: rgba(245, 185, 50, 0.85);
+    --text: rgba(255, 255, 255, 0.95);
+    --text-dim: rgba(255, 255, 255, 0.65);
+    --glass-bg: rgba(10, 20, 30, 0.28);
+    --glass-border: rgba(255, 255, 255, 0.14);
+    --glass-strong: rgba(10, 20, 30, 0.38);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: var(--bg-deep);
+    font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* --- Shader Background --- */
+  #bg-shader {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 80% at 20% 30%, hsl(220, 90%, 28%) 0%, transparent 60%),
+      radial-gradient(70% 70% at 80% 70%, hsl(225, 85%, 22%) 0%, transparent 60%),
+      radial-gradient(80% 80% at 50% 50%, hsl(215, 80%, 18%) 0%, transparent 70%),
+      linear-gradient(135deg, hsl(225, 100%, 6%) 0%, hsl(220, 90%, 12%) 100%);
+    background-size: 200% 200%, 220% 220%, 180% 180%, 100% 100%;
+    background-position: 0% 0%, 100% 100%, 50% 50%, 0% 0%;
+    animation: shaderFallback 18s ease-in-out infinite alternate;
+  }
+
+  @keyframes shaderFallback {
+    0%   { background-position: 0% 0%, 100% 100%, 50% 50%, 0% 0%; }
+    50%  { background-position: 60% 30%, 40% 60%, 30% 70%, 0% 0%; }
+    100% { background-position: 100% 100%, 0% 0%, 70% 30%, 0% 0%; }
+  }
+
+  #bg-shader > * {
+    width: 100% !important;
+    height: 100% !important;
+    background: transparent !important;
+    /* Fade the live shader in once it's actually rendered so the handoff
+       from the CSS fallback isn't a jarring snap. */
+    opacity: 0;
+    transition: opacity 900ms ease-out;
+  }
+
+  #bg-shader.shader-ready > * {
+    opacity: 1;
+  }
+
+  /* When the shader is fully ready, drop the gradient fallback underneath. */
+  #bg-shader.shader-ready {
+    background: hsl(225, 100%, 6%);
+    animation: none;
+  }
+
+  /* Subtle dark overlay on top of the shader to keep text readable */
+  #bg-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at center, rgba(3, 5, 13, 0.15) 0%, rgba(3, 5, 13, 0.55) 100%);
+  }
+
+  /* Subtle grain overlay */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.18;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* --- Slides Container --- */
+  .deck {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+  }
+
+  /* The slide itself stays at opacity:1; the fade happens on .stagger children.
+     This prevents the parent opacity from killing the child backdrop-filter
+     mid-transition (the cause of the "pop-in" glass effect). */
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vh 6vw;
+    visibility: hidden;
+    pointer-events: none;
+    isolation: isolate;
+    transition: visibility 0s linear 700ms;
+  }
+
+  .slide.active {
+    visibility: visible;
+    pointer-events: auto;
+    transition: visibility 0s linear 0s;
+  }
+
+  /* Stagger child animations on active slide.
+     Using translate3d + will-change forces a GPU compositing layer so
+     backdrop-filter renders during the opacity transition (instead of
+     popping in at the end). */
+  .slide .stagger {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+    will-change: opacity, transform;
+    transition: opacity 700ms ease, transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .slide.active .stagger {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .slide.active .stagger:nth-child(1) { transition-delay: 100ms; }
+  .slide.active .stagger:nth-child(2) { transition-delay: 200ms; }
+  .slide.active .stagger:nth-child(3) { transition-delay: 300ms; }
+  .slide.active .stagger:nth-child(4) { transition-delay: 400ms; }
+  .slide.active .stagger:nth-child(5) { transition-delay: 500ms; }
+  .slide.active .stagger:nth-child(6) { transition-delay: 600ms; }
+
+  /* --- Glassmorphism core ---
+     The translateZ(0) and will-change:backdrop-filter promote each card
+     to its own compositing layer so the blur stays rendered consistently
+     instead of popping in after the fade. */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    will-change: backdrop-filter;
+  }
+
+  .glass-strong {
+    background: var(--glass-strong);
+    backdrop-filter: blur(30px) saturate(160%);
+    -webkit-backdrop-filter: blur(30px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    will-change: backdrop-filter;
+  }
+
+  /* --- Typography --- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: clamp(0.75rem, 1vw, 0.95rem);
+    font-weight: 500;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 8px 18px;
+    background: rgba(245, 185, 50, 0.1);
+    border: 1px solid rgba(245, 185, 50, 0.3);
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
+
+  .eyebrow .lucide {
+    width: 14px;
+    height: 14px;
+  }
+
+  h1.hero {
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.65) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  h2.title {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+
+  h2.title .accent {
+    color: var(--gold);
+  }
+
+  p.subtitle {
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+    color: var(--text-dim);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* --- Slide 1: Cover --- */
+  .cover {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2.5rem;
+  }
+
+  .cover-logo {
+    width: clamp(220px, 28vw, 360px);
+    height: auto;
+    filter: drop-shadow(0 8px 30px rgba(245, 185, 50, 0.15));
+  }
+
+  .cover-tagline {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    color: var(--text-dim);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  .cover-divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0.5rem auto;
+  }
+
+  .cover-foot {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-top: 1rem;
+    font-weight: 400;
+  }
+
+  /* --- Slide 2: Customers carousel --- */
+  .customers-wrap {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  /* `direction: ltr` is CRITICAL here. The page is RTL, which means an
+     element with `width: max-content` would anchor to the RIGHT edge of its
+     parent and overflow leftward. Then translate(-N%) shifts it further
+     left — entirely off-screen, leaving the viewport empty (exactly the
+     "blank rows" bug we were seeing). Forcing LTR inside the marquee
+     anchors the track to the LEFT edge and the math behaves normally. */
+  .marquee {
+    width: 100%;
+    overflow: hidden;
+    direction: ltr;
+    mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+  }
+
+  /* Force LTR layout inside the track so flex order and translate math behave
+     predictably regardless of the page's RTL direction. Track is tripled
+     in JS, animation moves it -33.333% so the seam never reaches the viewport. */
+  .marquee-track {
+    display: flex;
+    direction: ltr;
+    width: max-content;
+    animation: marquee var(--marquee-duration, 80s) linear infinite;
+    animation-direction: var(--marquee-direction, normal);
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-33.333%, 0, 0); }
+  }
+
+  .logo-card {
+    flex-shrink: 0;
+    width: 195px;
+    height: 104px;
+    margin: 0 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 8px 14px;
+    transition: background 300ms ease, border-color 300ms ease, transform 300ms ease;
+  }
+
+  .logo-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(245, 185, 50, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .logo-card img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    opacity: 0.95;
+    transition: opacity 300ms ease;
+  }
+
+  .logo-card:hover img {
+    opacity: 1;
+  }
+
+  /* --- Slide 3: Problem cards --- */
+  .problems-grid {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .problems-header {
+    text-align: center;
+  }
+
+  .problems-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+  }
+
+  .problem-card {
+    padding: 1.75rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    min-height: 220px;
+    transition: all 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .problem-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(245, 185, 50, 0.4);
+  }
+
+  .problem-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(245, 185, 50, 0.2), rgba(245, 185, 50, 0.05));
+    border: 1px solid rgba(245, 185, 50, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+  }
+
+  .problem-icon .lucide {
+    width: 24px;
+    height: 24px;
+  }
+
+  .problem-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  /* Emphasized key phrase inside each problem card */
+  .problem-text .key {
+    color: var(--gold);
+    font-weight: 700;
+    /* Tiny letter-spacing tweak helps the bold Persian letters breathe */
+    letter-spacing: -0.005em;
+  }
+
+  /* --- Slide 4: Product portfolio --- */
+  .portfolio {
+    width: 100%;
+    max-width: 1300px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .portfolio-header {
+    text-align: center;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+    width: 100%;
+  }
+
+  .product-card {
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    text-align: center;
+    align-items: center;
+    transition: all 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(245, 185, 50, 0.12) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 500ms ease;
+    pointer-events: none;
+  }
+
+  .product-card:hover::before {
+    opacity: 1;
+  }
+
+  .product-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(245, 185, 50, 0.4);
+  }
+
+  .product-logo-wrap {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 16px;
+  }
+
+  .product-logo-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .product-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .product-name .en {
+    color: var(--gold);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-right: 6px;
+  }
+
+  .product-desc {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  /* Secondary product row (smaller, side-by-side layout) */
+  .product-grid-secondary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .product-card-mini {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    text-align: right;
+    transition: all 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .product-card-mini:hover {
+    transform: translateY(-4px);
+    border-color: rgba(245, 185, 50, 0.35);
+  }
+
+  .product-card-mini .product-logo-wrap {
+    width: 56px;
+    height: 56px;
+    padding: 10px;
+    border-radius: 14px;
+    flex-shrink: 0;
+  }
+
+  .product-card-mini .product-mini-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    text-align: right;
+  }
+
+  .product-card-mini .product-name {
+    font-size: 1.1rem;
+  }
+
+  .product-card-mini .product-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  /* --- Slide 5-7: Product detail --- */
+  .product-detail {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .product-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+  }
+
+  .product-visual-logo {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 40px;
+    padding: 40px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .product-visual-logo::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 40px;
+    background: linear-gradient(135deg, rgba(245, 185, 50, 0.3), transparent);
+    z-index: -1;
+    filter: blur(20px);
+    opacity: 0.6;
+  }
+
+  .product-visual-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .product-visual-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .product-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    transition: all 300ms ease;
+  }
+
+  .feature-list li:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(245, 185, 50, 0.25);
+    transform: translateX(-6px);
+  }
+
+  .feature-list .check {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: rgba(245, 185, 50, 0.15);
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .feature-list .check .lucide {
+    width: 16px;
+    height: 16px;
+  }
+
+  .feature-list span {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* --- Slide 8: Plex examples --- */
+  .examples-wrap {
+    width: 100%;
+    max-width: 1300px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .examples-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .example-card {
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 280px;
+    transition: all 400ms ease;
+  }
+
+  .example-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(245, 185, 50, 0.35);
+  }
+
+  .example-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(245, 185, 50, 0.2), rgba(245, 185, 50, 0.05));
+    border: 1px solid rgba(245, 185, 50, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+  }
+
+  .example-icon .lucide {
+    width: 28px;
+    height: 28px;
+  }
+
+  .example-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .example-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .example-list li {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    padding-right: 14px;
+    position: relative;
+  }
+
+  .example-list li::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0.65em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* --- Slide 9: Ecosystem --- */
+  .ecosystem {
+    width: 100%;
+    max-width: 1300px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .eco-flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: stretch;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .eco-node {
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    align-items: center;
+    transition: all 400ms ease;
+  }
+
+  .eco-node:hover {
+    border-color: rgba(245, 185, 50, 0.4);
+    transform: translateY(-4px);
+  }
+
+  .eco-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(245, 185, 50, 0.25), rgba(245, 185, 50, 0.08));
+    border: 1px solid rgba(245, 185, 50, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+  }
+
+  .eco-icon .lucide {
+    width: 30px;
+    height: 30px;
+  }
+
+  .eco-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .eco-desc {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .eco-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  .eco-arrow .lucide {
+    width: 28px;
+    height: 28px;
+  }
+
+  .eco-result {
+    text-align: center;
+    padding: 1.5rem 2.5rem;
+    background: rgba(245, 185, 50, 0.08);
+    border: 1px solid rgba(245, 185, 50, 0.25);
+    border-radius: 20px;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .eco-result .accent {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* --- Slide 10: Outcomes --- */
+  .outcomes {
+    width: 100%;
+    max-width: 1300px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    width: 100%;
+  }
+
+  .outcome-card {
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    transition: all 400ms ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .outcome-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 500ms ease;
+  }
+
+  .outcome-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(245, 185, 50, 0.4);
+  }
+
+  .outcome-card:hover::before {
+    opacity: 1;
+  }
+
+  .outcome-icon-wrap {
+    width: 90px;
+    height: 90px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(245, 185, 50, 0.25), rgba(245, 185, 50, 0.05));
+    border: 1px solid rgba(245, 185, 50, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+  }
+
+  .outcome-icon-wrap .lucide {
+    width: 44px;
+    height: 44px;
+  }
+
+  .outcome-text {
+    font-size: 1.65rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #fff;
+  }
+
+  /* --- Slide 11: Why Vitray --- */
+  .why-grid {
+    width: 100%;
+    max-width: 1300px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .why-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .why-card {
+    padding: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: all 400ms ease;
+  }
+
+  .why-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(245, 185, 50, 0.4);
+  }
+
+  .why-icon {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(245, 185, 50, 0.2), rgba(245, 185, 50, 0.05));
+    border: 1px solid rgba(245, 185, 50, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+  }
+
+  .why-icon .lucide {
+    width: 28px;
+    height: 28px;
+  }
+
+  .why-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .why-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .why-desc {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* --- Slide 12: CTA --- */
+  .cta {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2.5rem;
+  }
+
+  .cta-hero {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .cta-line-1 {
+    color: var(--text);
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .cta-line-2 {
+    color: var(--gold);
+    background: linear-gradient(135deg, var(--gold) 0%, #f8d56e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .cta-divider {
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .cta-contact {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .cta-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.75rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    font-size: 1.05rem;
+    color: var(--text);
+    transition: all 300ms ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .cta-contact-item:hover {
+    border-color: rgba(245, 185, 50, 0.4);
+    background: rgba(245, 185, 50, 0.05);
+  }
+
+  .cta-contact-item .lucide {
+    width: 18px;
+    height: 18px;
+    color: var(--gold);
+  }
+
+  /* --- Navigation Controls --- */
+  .nav-controls {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 100;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+  }
+
+  .nav-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 200ms ease;
+  }
+
+  .nav-btn:hover {
+    background: rgba(245, 185, 50, 0.2);
+    color: var(--gold);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .nav-btn .lucide {
+    width: 18px;
+    height: 18px;
+  }
+
+  .slide-counter {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+    min-width: 50px;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  .slide-counter .current {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* Progress dots */
+  .dots {
+    position: fixed;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 100;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 300ms ease;
+  }
+
+  .dot.active {
+    width: 22px;
+    border-radius: 4px;
+    background: var(--gold);
+  }
+
+  .dot:hover {
+    background: rgba(245, 185, 50, 0.6);
+  }
+
+  /* Hint */
+  .hint {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    z-index: 100;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hint kbd {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    font-family: monospace;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .problems-cards { grid-template-columns: repeat(3, 1fr); }
+    .product-grid { grid-template-columns: 1fr; }
+    .product-detail { grid-template-columns: 1fr; gap: 2rem; }
+    .examples-grid { grid-template-columns: repeat(2, 1fr); }
+    .eco-flow { grid-template-columns: 1fr; }
+    .eco-arrow { transform: rotate(90deg); padding: 0.5rem 0; }
+    .outcomes-grid { grid-template-columns: 1fr; }
+    .why-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="bg-shader"></div>
+<div id="bg-overlay"></div>
+<div class="grain"></div>
+
+<div class="deck" id="deck">
+
+  <!-- Slide 1: Cover -->
+  <section class="slide cover active">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 2.5rem;">
+      <img class="cover-logo stagger" src="Logo/Vitray%20W%20v2.png" alt="Vitray" />
+      <div class="cover-divider stagger"></div>
+      <p class="cover-tagline stagger">راهکارهای هوش تجاری</p>
+      <p class="cover-foot stagger">معرفی محصولات و خدمات</p>
+    </div>
+  </section>
+
+  <!-- Slide 2: Customers -->
+  <section class="slide">
+    <div class="customers-wrap">
+      <div class="stagger" style="text-align: center;">
+        <div class="eyebrow"><i data-lucide="award"></i>مشتریان ویترای</div>
+        <h2 class="title">برندهایی که به ما <span class="accent">اعتماد</span> کرده‌اند</h2>
+      </div>
+
+      <div class="marquee stagger">
+        <div class="marquee-track" id="marquee-row-1" style="--marquee-duration: 70s;"></div>
+      </div>
+      <div class="marquee stagger">
+        <div class="marquee-track" id="marquee-row-2" style="--marquee-duration: 90s; --marquee-direction: reverse;"></div>
+      </div>
+      <div class="marquee stagger">
+        <div class="marquee-track" id="marquee-row-3" style="--marquee-duration: 80s;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3: Problems -->
+  <section class="slide">
+    <div class="problems-grid">
+      <div class="problems-header stagger">
+        <div class="eyebrow"><i data-lucide="alert-triangle"></i>چالش‌های امروز</div>
+        <h2 class="title">آنچه میان داده و تصمیم <span class="accent">فاصله می‌اندازد</span></h2>
+      </div>
+
+      <div class="problems-cards">
+        <div class="problem-card glass stagger">
+          <div class="problem-icon"><i data-lucide="clock"></i></div>
+          <div class="problem-text"><span class="key">زمان‌بر</span> بودن تهیه گزارش‌ها</div>
+        </div>
+        <div class="problem-card glass stagger">
+          <div class="problem-icon"><i data-lucide="git-compare"></i></div>
+          <div class="problem-text"><span class="key">تناقض</span> در داده‌های ارائه‌شده از واحدهای متفاوت</div>
+        </div>
+        <div class="problem-card glass stagger">
+          <div class="problem-icon"><i data-lucide="user-cog"></i></div>
+          <div class="problem-text"><span class="key">متکی به فرد</span> بودن به علت پیچیدگی محاسبات</div>
+        </div>
+        <div class="problem-card glass stagger">
+          <div class="problem-icon"><i data-lucide="file-x"></i></div>
+          <div class="problem-text"><span class="key">عدم امکان محاسبه</span> به دلیل محدودیت‌های اکسل و نرم‌افزارهای موجود</div>
+        </div>
+        <div class="problem-card glass stagger">
+          <div class="problem-icon"><i data-lucide="alarm-clock-off"></i></div>
+          <div class="problem-text"><span class="key">عدم دسترسی</span> به داده در زمان تصمیم‌گیری</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 4: Product portfolio -->
+  <section class="slide">
+    <div class="portfolio">
+      <div class="portfolio-header stagger">
+        <div class="eyebrow"><i data-lucide="layers"></i>سبد محصولات ویترای</div>
+        <h2 class="title">سه راهکار، <span class="accent">یک هدف</span></h2>
+      </div>
+
+      <div class="product-grid">
+        <div class="product-card glass stagger">
+          <div class="product-logo-wrap">
+            <img src="Logo/Vitray%20Fav.png" alt="BI" />
+          </div>
+          <div class="product-name"><span class="en">BI</span> هوش تجاری</div>
+          <div class="product-desc">پیاده‌سازی کاملاً سفارشی هوش تجاری برای سازمان‌ها — از مدل داده تا داشبوردهای مدیریتی</div>
+        </div>
+        <div class="product-card glass stagger">
+          <div class="product-logo-wrap">
+            <img src="Logo/Pulse%20Fav%20W.png" alt="Pulse" />
+          </div>
+          <div class="product-name"><span class="en">Pulse</span> پالس</div>
+          <div class="product-desc">پورتال متمرکز انتشار و اشتراک‌گذاری گزارش‌های Power BI با رابط فارسی و تقویم شمسی</div>
+        </div>
+        <div class="product-card glass stagger">
+          <div class="product-logo-wrap">
+            <img src="Logo/plex%20fav%20white.png" alt="Plex" />
+          </div>
+          <div class="product-name"><span class="en">Plex</span> پلکس</div>
+          <div class="product-desc">پلتفرم بدون کد برای ساخت اپلیکیشن سازمانی، فرم‌ها و گردش‌کارهای هوشمند</div>
+        </div>
+      </div>
+
+      <div class="product-grid-secondary">
+        <div class="product-card-mini glass stagger">
+          <div class="product-logo-wrap">
+            <img src="Logo/Pixel%20Fav%20W.png" alt="Pixel" />
+          </div>
+          <div class="product-mini-body">
+            <div class="product-name"><span class="en">Pixel</span> پیکسل</div>
+            <div class="product-desc">راهکار اقتصادی و میزبانی‌شده در فضای ابری برای کسب‌وکارهای کوچک؛ با راه‌اندازی سریع، هزینه نگهداری پایین و داشبوردهای آماده برای تصمیم‌گیری روزانه.</div>
+          </div>
+        </div>
+        <div class="product-card-mini glass stagger">
+          <div class="product-logo-wrap">
+            <img src="Logo/Academy%20White%20v3.png" alt="Academy" />
+          </div>
+          <div class="product-mini-body">
+            <div class="product-name"><span class="en">Academy</span> آکادمی</div>
+            <div class="product-desc">دوره‌های تخصصی Power BI برای تحلیلگران داده و کارشناسان BI؛ از مقدماتی تا پیشرفته، با مدرک معتبر و پشتیبانی مستمر.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5: BI Solutions -->
+  <section class="slide">
+    <div class="product-detail">
+      <div class="product-visual stagger">
+        <div class="product-visual-logo">
+          <img src="Logo/Vitray%20Fav.png" alt="BI" />
+        </div>
+        <div class="product-visual-name">BI Solutions</div>
+      </div>
+      <div class="product-content">
+        <div class="stagger">
+          <div class="eyebrow"><i data-lucide="bar-chart-3"></i>هوش تجاری</div>
+          <h2 class="title">داده‌های خام را به <span class="accent">تصمیم</span> تبدیل می‌کنیم</h2>
+        </div>
+        <ul class="feature-list stagger">
+          <li><span class="check"><i data-lucide="check"></i></span><span>پیاده‌سازی کامل سفارشی هوش تجاری</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>از شناسایی نیاز تا داشبوردهای عملیاتی</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>مبتنی بر Power BI و SSAS Tabular</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>تمرکز بر کیفیت و حاکمیت داده</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 6: Pulse -->
+  <section class="slide">
+    <div class="product-detail">
+      <div class="product-visual stagger">
+        <div class="product-visual-logo">
+          <img src="Logo/Pulse%20Fav%20W.png" alt="Pulse" />
+        </div>
+        <div class="product-visual-name">Pulse</div>
+      </div>
+      <div class="product-content">
+        <div class="stagger">
+          <div class="eyebrow"><i data-lucide="share-2"></i>پالس</div>
+          <h2 class="title">گزارش‌های Power BI <span class="accent">به زبان فارسی</span></h2>
+        </div>
+        <ul class="feature-list stagger">
+          <li><span class="check"><i data-lucide="check"></i></span><span>پورتال متمرکز انتشار و اشتراک‌گذاری گزارش‌های Power BI</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>رابط کاملاً فارسی</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>تقویم شمسی</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>کنترل دسترسی دقیق بر اساس نقش و تیم</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 7: Plex -->
+  <section class="slide">
+    <div class="product-detail">
+      <div class="product-visual stagger">
+        <div class="product-visual-logo">
+          <img src="Logo/plex%20fav%20white.png" alt="Plex" />
+        </div>
+        <div class="product-visual-name">Plex</div>
+      </div>
+      <div class="product-content">
+        <div class="stagger">
+          <div class="eyebrow"><i data-lucide="blocks"></i>پلکس</div>
+          <h2 class="title">یک پلتفرم، <span class="accent">بی‌نهایت راه‌حل</span></h2>
+        </div>
+        <ul class="feature-list stagger">
+          <li><span class="check"><i data-lucide="check"></i></span><span>پلتفرم بدون کد برای ساخت اپلیکیشن سازمانی</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>ساخت سریع پنل، فرم و گردش‌کار</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>بدون نیاز به تیم توسعه</span></li>
+          <li><span class="check"><i data-lucide="check"></i></span><span>جایگزین ده‌ها ابزار پراکنده</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 8: Plex examples -->
+  <section class="slide">
+    <div class="examples-wrap">
+      <div class="stagger" style="text-align: center;">
+        <div class="eyebrow"><i data-lucide="folder-kanban"></i>نمونه‌های واقعی</div>
+        <h2 class="title">با Plex <span class="accent">چه ساخته‌ایم؟</span></h2>
+      </div>
+
+      <div class="examples-grid">
+        <div class="example-card glass stagger">
+          <div class="example-icon"><i data-lucide="wallet"></i></div>
+          <div class="example-title">پورتال مالی</div>
+          <ul class="example-list">
+            <li>مدیریت فاکتور و پرداخت</li>
+            <li>گزارش‌گیری مالی</li>
+            <li>تأیید هزینه‌ها</li>
+            <li>پیگیری بودجه</li>
+          </ul>
+        </div>
+        <div class="example-card glass stagger">
+          <div class="example-icon"><i data-lucide="users"></i></div>
+          <div class="example-title">پورتال پرسنلی</div>
+          <ul class="example-list">
+            <li>مدیریت کارمندان</li>
+            <li>درخواست مرخصی</li>
+            <li>ارزیابی عملکرد</li>
+            <li>مدیریت حقوق</li>
+          </ul>
+        </div>
+        <div class="example-card glass stagger">
+          <div class="example-icon"><i data-lucide="scale"></i></div>
+          <div class="example-title">پورتال حقوقی</div>
+          <ul class="example-list">
+            <li>مدیریت قراردادها</li>
+            <li>پیگیری پرونده‌ها</li>
+            <li>تقویم جلسات حقوقی</li>
+            <li>آرشیو اسناد</li>
+          </ul>
+        </div>
+        <div class="example-card glass stagger">
+          <div class="example-icon"><i data-lucide="user-round-check"></i></div>
+          <div class="example-title">پورتال مشتریان</div>
+          <ul class="example-list">
+            <li>مدیریت پروفایل مشتری</li>
+            <li>پیگیری سفارش‌ها</li>
+            <li>سیستم تیکتینگ</li>
+            <li>گزارش رضایت‌سنجی</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 9: Ecosystem -->
+  <section class="slide">
+    <div class="ecosystem">
+      <div class="stagger" style="text-align: center;">
+        <div class="eyebrow"><i data-lucide="workflow"></i>سه محصول، یک اکوسیستم</div>
+        <h2 class="title">از <span class="accent">ثبت داده</span> تا <span class="accent">تصمیم</span></h2>
+      </div>
+
+      <div class="eco-flow">
+        <div class="eco-node glass stagger">
+          <div class="eco-icon"><i data-lucide="blocks"></i></div>
+          <div class="eco-name">Plex</div>
+          <div class="eco-desc">ERP موجود شما را توسعه می‌دهد و خلأهای فرآیندی را پر می‌کند</div>
+        </div>
+        <div class="eco-arrow stagger"><i data-lucide="chevron-left"></i></div>
+        <div class="eco-node glass stagger">
+          <div class="eco-icon"><i data-lucide="bar-chart-3"></i></div>
+          <div class="eco-name">BI Solutions</div>
+          <div class="eco-desc">داده‌های پراکنده را تحلیل و تبدیل به بینش می‌کند</div>
+        </div>
+        <div class="eco-arrow stagger"><i data-lucide="chevron-left"></i></div>
+        <div class="eco-node glass stagger">
+          <div class="eco-icon"><i data-lucide="share-2"></i></div>
+          <div class="eco-name">Pulse</div>
+          <div class="eco-desc">نتایج را به‌صورت امن در سازمان منتشر می‌کند</div>
+        </div>
+      </div>
+
+      <div class="eco-result stagger">نتیجه: <span class="accent">چرخه کامل</span> از ثبت داده تا تصمیم</div>
+    </div>
+  </section>
+
+  <!-- Slide 10: Outcomes -->
+  <section class="slide">
+    <div class="outcomes">
+      <div class="stagger">
+        <div class="eyebrow"><i data-lucide="sparkles"></i>نتیجه‌ای که می‌گیرید</div>
+        <h2 class="title">با ویترای <span class="accent">چه چیزی</span> تغییر می‌کند؟</h2>
+      </div>
+
+      <div class="outcomes-grid">
+        <div class="outcome-card glass-strong stagger">
+          <div class="outcome-icon-wrap"><i data-lucide="zap"></i></div>
+          <div class="outcome-text">سریع‌تر<br/>مطلع شوید</div>
+        </div>
+        <div class="outcome-card glass-strong stagger">
+          <div class="outcome-icon-wrap"><i data-lucide="shield-check"></i></div>
+          <div class="outcome-text">بااطمینان‌تر<br/>تصمیم بگیرید</div>
+        </div>
+        <div class="outcome-card glass-strong stagger">
+          <div class="outcome-icon-wrap"><i data-lucide="layout-dashboard"></i></div>
+          <div class="outcome-text">راحت‌تر<br/>مدیریت کنید</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 11: Why Vitray -->
+  <section class="slide">
+    <div class="why-grid">
+      <div class="stagger" style="text-align: center;">
+        <div class="eyebrow"><i data-lucide="medal"></i>چرا ویترای؟</div>
+        <h2 class="title">چه چیزی ما را <span class="accent">متفاوت</span> می‌کند</h2>
+      </div>
+
+      <div class="why-cards">
+        <div class="why-card glass stagger">
+          <div class="why-icon"><i data-lucide="briefcase"></i></div>
+          <div class="why-body">
+            <div class="why-title">آشنایی عمیق با کسب‌وکار</div>
+            <div class="why-desc">نه فقط ابزار — ما با چالش‌ها، نیازها و فرصت‌های صنایع مختلف آشنا هستیم.</div>
+          </div>
+        </div>
+        <div class="why-card glass stagger">
+          <div class="why-icon"><i data-lucide="rocket"></i></div>
+          <div class="why-body">
+            <div class="why-title">سرعت اجرا</div>
+            <div class="why-desc">تجربه پروژه‌های متنوع باعث می‌شود سریع‌تر به نتیجه برسید.</div>
+          </div>
+        </div>
+        <div class="why-card glass stagger">
+          <div class="why-icon"><i data-lucide="settings-2"></i></div>
+          <div class="why-body">
+            <div class="why-title">ابزار و رویکرد درست</div>
+            <div class="why-desc">Semantic Layer مستقل و ETL پیشرفته — فراتر از محدودیت‌های معمول.</div>
+          </div>
+        </div>
+        <div class="why-card glass stagger">
+          <div class="why-icon"><i data-lucide="heart-handshake"></i></div>
+          <div class="why-body">
+            <div class="why-title">مشتری‌مداری</div>
+            <div class="why-desc">موفقیت شما مستقیماً به پیشرفت ما گره خورده است.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 12: CTA -->
+  <section class="slide cta">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 2.5rem; text-align: center;">
+      <div class="cta-hero">
+        <div class="cta-line-1 stagger">این یک تغییر سخت نیست</div>
+        <div class="cta-line-2 stagger">یک شروع آسان است</div>
+      </div>
+      <div class="cta-divider stagger"></div>
+      <div class="cta-contact stagger">
+        <div class="cta-contact-item">
+          <i data-lucide="phone"></i>
+          <span>۲۲۸۶ ۵۶۱۹</span>
+        </div>
+        <div class="cta-contact-item">
+          <i data-lucide="mail"></i>
+          <span>hello@vitrayco.com</span>
+        </div>
+        <div class="cta-contact-item">
+          <i data-lucide="globe"></i>
+          <span>vitrayco.com</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Dots indicator -->
+<div class="dots" id="dots"></div>
+
+<!-- Nav controls -->
+<div class="nav-controls">
+  <button class="nav-btn" id="prev" aria-label="قبلی"><i data-lucide="chevron-right"></i></button>
+  <div class="slide-counter"><span class="current" id="current">1</span> / <span id="total">12</span></div>
+  <button class="nav-btn" id="next" aria-label="بعدی"><i data-lucide="chevron-left"></i></button>
+</div>
+
+<!-- Warp shader: @paper-design/shaders-react, loaded via esm.sh with pinned deps -->
+<script type="module">
+  (async () => {
+    const host = document.getElementById('bg-shader');
+    try {
+      const reactUrl = 'https://esm.sh/react@18.3.1';
+      const reactDomClientUrl = 'https://esm.sh/react-dom@18.3.1/client?deps=react@18.3.1';
+      const shadersUrl = 'https://esm.sh/@paper-design/shaders-react?deps=react@18.3.1,react-dom@18.3.1';
+
+      const [ReactMod, ReactDOMMod, ShadersMod] = await Promise.all([
+        import(reactUrl),
+        import(reactDomClientUrl),
+        import(shadersUrl)
+      ]);
+
+      const React = ReactMod.default || ReactMod;
+      const createRoot = ReactDOMMod.createRoot || (ReactDOMMod.default && ReactDOMMod.default.createRoot);
+      const Warp = ShadersMod.Warp || (ShadersMod.default && ShadersMod.default.Warp);
+
+      if (!React || !createRoot || !Warp) {
+        console.error('[Warp] Missing export', { React: !!React, createRoot: !!createRoot, Warp: !!Warp });
+        return;
+      }
+
+      const root = createRoot(host);
+      root.render(
+        React.createElement(Warp, {
+          style: { height: '100%', width: '100%' },
+          proportion: 0.45,
+          softness: 1,
+          distortion: 0.25,
+          swirl: 0.8,
+          swirlIterations: 10,
+          shape: 'checks',
+          shapeScale: 0.1,
+          scale: 1,
+          rotation: 0,
+          speed: 1,
+          colors: [
+            'hsl(225, 100%, 6%)',
+            'hsl(220, 90%, 18%)',
+            'hsl(215, 80%, 30%)',
+            'hsl(220, 70%, 45%)'
+          ]
+        })
+      );
+      console.log('[Warp] mounted');
+
+      // Wait a couple of frames so the WebGL context is actually drawing,
+      // THEN cross-fade from the CSS fallback to the live shader. Avoids
+      // a black/empty flash between react render and first GL paint.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          host.classList.add('shader-ready');
+        });
+      });
+    } catch (err) {
+      console.error('[Warp] failed to load — falling back to animated CSS gradient', err);
+      host.classList.add('shader-fallback');
+    }
+  })();
+</script>
+
+<script>
+  // ====== Warp Shader Background (paper-design/shaders-react via esm.sh) ======
+  // The actual mounting happens in the <script type="module"> block below.
+  // This comment is just a placeholder so the rest of the script keeps flowing.
+
+  // ====== Customer logos for marquee ======
+  const customerLogos = [
+    "Damavand", "Coca Cola", "Mahsham", "Vitana", "Telavang", "Khoshgovar",
+    "Tohfe Food", "Haraz", "Doogh Abali", "Delester", "Behnoosh", "Alima",
+    "202 Food", "Miva", "Abadan", "Laleh", "Mehr", "Saba Energy",
+    "Ghadir", "Persi Gas", "Saam", "Foolad Saeb", "Padide Kavosh",
+    "Yaghoot Sanat Tabriz", "Dorpad Tabriz", "Midhco", "GFT", "Darik",
+    "Pak", "Dana Pakhsh", "Salamat Pakhsh", "Behin Pakhsh", "Telavang Pakhsh",
+    "Aysan Pakhsh", "Taban Pakhsh Salamat", "Clever", "Pakshooma",
+    "Maral", "Gerad", "Resana", "Simia cable", "Mashiz", "Tara",
+    "Paknaz", "Parmidaa", "Fanavaran", "Badr", "Chador Maloo",
+    "Pak Dairy", "Somaye", "Sara tel", "Depoint"
+  ];
+
+  function buildMarquee(elId, logos) {
+    const el = document.getElementById(elId);
+    if (!el || !logos.length) return;
+    // Build one set of cards. We do NOT hide failed images on error because
+    // that would desync the copies and break the loop — leave the card frame.
+    const oneSet = logos.map(name =>
+      `<div class="logo-card"><img src="Customer%20Logos/${encodeURIComponent(name)}.png" alt="${name}" /></div>`
+    ).join('');
+    // Triple-duplicate the content. Track width = 3 copies; animation moves
+    // it -33.333% (= one full copy width). So when the animation completes,
+    // copy 2 is now where copy 1 was, copy 3 is where copy 2 was, and the
+    // browser snaps back to start where copy 1 is again where copy 1 was —
+    // visually identical. Seamless infinite loop guaranteed even if the
+    // viewport is wider than a single copy.
+    el.innerHTML = oneSet + oneSet + oneSet;
+  }
+
+  // Split logos into three rows of roughly equal size, and give each row a
+  // different starting slice so the same brand doesn't appear in the same
+  // vertical column across rows.
+  const logoCount = customerLogos.length;
+  const perRow = Math.ceil(logoCount / 3);
+  const row1 = customerLogos.slice(0, perRow);
+  const row2 = customerLogos.slice(perRow, perRow * 2);
+  const row3 = customerLogos.slice(perRow * 2).concat(customerLogos.slice(0, Math.max(0, perRow * 3 - logoCount)));
+
+  buildMarquee('marquee-row-1', row1);
+  buildMarquee('marquee-row-2', row2);
+  buildMarquee('marquee-row-3', row3);
+
+  // ====== Slide navigation ======
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  const dotsWrap = document.getElementById('dots');
+  const totalEl = document.getElementById('total');
+  const currentEl = document.getElementById('current');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+
+  totalEl.textContent = total;
+
+  // Build dots
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  }
+  const dots = document.querySelectorAll('.dot');
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total || idx === current) return;
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    currentEl.textContent = current + 1;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', (e) => {
+    // In RTL, ArrowLeft = next, ArrowRight = prev (matches the chevron direction visually)
+    if (e.key === 'ArrowLeft' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      goTo(current + 1);
+    } else if (e.key === 'ArrowRight' || e.key === 'PageUp') {
+      e.preventDefault();
+      goTo(current - 1);
+    } else if (e.key === 'Home') {
+      goTo(0);
+    } else if (e.key === 'End') {
+      goTo(total - 1);
+    } else if (e.key === 'f') {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
+  });
+
+  // Swipe support for touch
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) < 50) return;
+    if (dx < 0) goTo(current + 1);
+    else goTo(current - 1);
+  }, { passive: true });
+
+  prevBtn.disabled = true;
+
+  // Initialize Lucide icons
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+</script>
+
+</body>
+</html>

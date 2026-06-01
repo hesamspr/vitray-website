@@ -5,6 +5,7 @@ import { PrLinkCard, type PrLinkItem } from '@/components/ui/pr-link-card';
 
 const contents: PrLinkItem[] = [
   { label: 'فایل ارائه', href: '/Vitray%20Intro%20V2.1.pdf', hint: 'PDF' },
+  { label: 'فایل ارائه نهایی', href: '/Vitray%20Presentation/Vitray-Presentation.html', hint: 'HTML' },
   { label: 'BI Adoption Roadmap', href: '/Power-BI-Adoption.pdf', hint: 'PDF' },
 ];
 
