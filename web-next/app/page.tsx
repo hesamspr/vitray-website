@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { PremiumHero } from '@/components/ui/hero'
 import { Button } from '@/components/ui/button'
 import { GlowCard } from '@/components/ui/spotlight-card'
-import { BarChart2, Briefcase, Database, Lightbulb, Target, TrendingUp } from 'lucide-react'
+import { BarChart2, Briefcase, Database, Lightbulb, Sparkles, Target, TrendingUp } from 'lucide-react'
 import { LogoCarousel } from '@/components/ui/logo-carousel'
 import { SiteNav } from '@/components/ui/site-nav'
 import { CallToAction } from '@/components/ui/cta-3'
@@ -152,6 +152,29 @@ export default async function HomePage() {
           </Reveal>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <GlowCard customSize glowColor="cyan" className="h-[360px] w-full">
+              <div className="flex items-start justify-between">
+                <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-200">
+                  <Sparkles size={12} />
+                  {t('home.daana_badge')}
+                </div>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 text-black">
+                  <Sparkles size={16} />
+                </span>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl">{t('home.daana_title')}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {t('home.daana_body')}
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href="/daana">{t('home.learn_more')}</Link>
+                  </Button>
+                </div>
+              </div>
+            </GlowCard>
+
             <GlowCard customSize glowColor="purple" className="h-[360px] w-full">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
@@ -232,29 +255,27 @@ export default async function HomePage() {
               </div>
             </GlowCard>
 
-            <div className="col-span-1 md:col-span-2 flex justify-center">
-              <GlowCard customSize glowColor="blue" className="h-[360px] w-full md:w-[calc(50%-8px)]">
-                <div className="flex items-start justify-between">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
-                    {t('home.academy_badge')}
-                  </div>
-                  <Image src="/product logos/Academy FAV White.png" alt="Academy" width={32} height={32} className="h-8 w-8 object-contain" />
+            <GlowCard customSize glowColor="blue" className="h-[360px] w-full">
+              <div className="flex items-start justify-between">
+                <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
+                  {t('home.academy_badge')}
                 </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl">{t('home.academy_title')}</h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                    {t('home.academy_body')}
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
-                    <Button variant="secondary" size="sm" asChild>
-                      <a href="https://academy.vitrayco.com" target="_blank" rel="noopener noreferrer">
-                        {t('home.academy_link')}
-                      </a>
-                    </Button>
-                  </div>
+                <Image src="/product logos/Academy FAV White.png" alt="Academy" width={32} height={32} className="h-8 w-8 object-contain" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl">{t('home.academy_title')}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {t('home.academy_body')}
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
+                  <Button variant="secondary" size="sm" asChild>
+                    <a href="https://academy.vitrayco.com" target="_blank" rel="noopener noreferrer">
+                      {t('home.academy_link')}
+                    </a>
+                  </Button>
                 </div>
-              </GlowCard>
-            </div>
+              </div>
+            </GlowCard>
           </div>
         </section>
 

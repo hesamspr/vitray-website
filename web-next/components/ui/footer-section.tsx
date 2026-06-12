@@ -3,7 +3,7 @@
 import type { ComponentProps, ReactNode } from 'react'
 import { m, useReducedMotion } from 'motion/react'
 import Link from 'next/link'
-import { Phone, MapPin, Mail } from 'lucide-react'
+import { Phone, MapPin, Mail, Sparkles } from 'lucide-react'
 
 const LinkedinIcon = ({ className }: { className?: string }) => (
   <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -32,6 +32,7 @@ const PlexFooterIcon = ({ className }: { className?: string }) => <img src="/pro
 const PixelFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pixel%20Fav%20W.png" alt="Pixel" className={className} />
 const PulseFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pulse%20Fav%20W.png" alt="Pulse" className={className} />
 const AcademyFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Academy%20FAV%20White.png" alt="Academy" className={className} />
+const DaanaFooterIcon = ({ className }: { className?: string }) => <Sparkles className={className} />
 
 function AparatIcon({ className }: { className?: string }) {
   return (
@@ -49,6 +50,7 @@ function getFooterLinks(t: (k: string) => string): FooterSection[] {
     {
       label: t('footer.solutions'),
       links: [
+        { title: t('footer.daana'), href: '/daana', icon: DaanaFooterIcon },
         { title: t('footer.bi'), href: '/bi-solution', icon: BiFooterIcon },
         { title: t('footer.plex'), href: '/plex', icon: PlexFooterIcon },
         { title: t('footer.pulse'), href: '/pulse', icon: PulseFooterIcon },
@@ -103,7 +105,7 @@ export function Footer() {
       <div className="bg-foreground/20 absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full blur" />
 
       <div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
-        <AnimatedContainer className="space-y-4">
+        <AnimatedContainer className="space-y-4 order-last xl:order-none">
           <BrandLogo />
           <div className="space-y-3 pt-2">
             <div className="flex items-start gap-2">
@@ -121,7 +123,7 @@ export function Footer() {
           </div>
         </AnimatedContainer>
 
-        <div className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-4 xl:col-span-2 xl:mt-0">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 xl:col-span-2">
           {footerLinks.map((section, index) => (
             <AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
               <div className="mb-10 md:mb-0">

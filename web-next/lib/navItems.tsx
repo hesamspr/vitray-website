@@ -1,4 +1,4 @@
-import { Home, Info, Mail, Package, BookOpen, LayoutDashboard, Building2, Trophy, Download } from 'lucide-react'
+import { Home, Info, Mail, Package, BookOpen, LayoutDashboard, Building2, Trophy, Download, Sparkles } from 'lucide-react'
 
 const BiNavIcon = ({ className }: { className?: string }) => (
   <img src="/fav.png" alt="BI" className={className} />
@@ -15,6 +15,9 @@ const PulseNavIcon = ({ className }: { className?: string }) => (
 const AcademyNavIcon = ({ className }: { className?: string }) => (
   <img src="/product%20logos/Academy%20FAV%20White.png" alt="Academy" className={className} />
 )
+const DaanaNavIcon = ({ className }: { className?: string }) => (
+  <Sparkles className={className} />
+)
 
 export function getNavItems(t: (key: string) => string) {
   return [
@@ -23,8 +26,9 @@ export function getNavItems(t: (key: string) => string) {
       name: t('nav.solutions'),
       url: '/#products',
       icon: Package,
-      matchPrefixes: ['/bi-dashboards', '/bi-solution', '/plex', '/pulse', '/pixel'],
+      matchPrefixes: ['/bi-dashboards', '/bi-solution', '/plex', '/pulse', '/pixel', '/daana'],
       subItems: [
+        { name: t('nav.daana'), url: '/daana', icon: DaanaNavIcon },
         { name: t('nav.bi'), url: '/bi-solution', icon: BiNavIcon },
         { name: t('nav.plex'), url: '/plex', icon: PlexNavIcon },
         { name: t('nav.pulse'), url: '/pulse', icon: PulseNavIcon },
