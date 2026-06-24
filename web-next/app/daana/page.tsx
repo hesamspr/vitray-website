@@ -10,9 +10,9 @@ import { Reveal } from '@/components/ui/reveal';
 import {
   Bot,
   BookOpenText,
-  CalendarDays,
   CircleDollarSign,
   FileCode2,
+  KeyRound,
   Layers,
   MessagesSquare,
   Mic,
@@ -25,7 +25,6 @@ import {
   CheckCircle2,
   Building2,
   Server,
-  Languages,
 } from 'lucide-react';
 import { getTranslations } from '@/lib/i18n.server';
 import { cn } from '@/lib/utils';
@@ -58,8 +57,8 @@ export async function DaanaPage() {
   ];
 
   const aboutPills = [
-    { id: 'pill_rtl', icon: Languages, label: t('daana.pill_rtl') },
-    { id: 'pill_jalali', icon: CalendarDays, label: t('daana.pill_jalali') },
+    { id: 'pill_rtl', icon: BookOpenText, label: t('daana.pill_rtl') },
+    { id: 'pill_jalali', icon: KeyRound, label: t('daana.pill_jalali') },
     { id: 'pill_tenant', icon: Building2, label: t('daana.pill_tenant') },
     { id: 'pill_models', icon: Server, label: t('daana.pill_models') },
   ];

@@ -3,7 +3,7 @@ import { routeMetadata } from '@/lib/i18n.server'
 
 const title = 'پالس (Pulse)'
 const description =
-  'پالس پورتالی متمرکز برای مدیریت و اشتراک‌گذاری گزارش‌های Power BI است — با رابط کاملاً فارسی، تقویم شمسی و کنترل دسترسی دقیق.'
+  'پالس پرتال سازمانی فارسی‌محور برای Power BI Report Server است — احراز هویت سازمانی با MFA، مدیریت Active Directory، اعمال امنیت SSAS، و کاوش خودسرویس داده. نصب کاملاً محلی، بدون وابستگی به ابر.'
 
 const titleEn = 'Pulse'
 

@@ -6,12 +6,16 @@ import { GradientCard } from '@/components/ui/gradient-card';
 import { LampContainer } from '@/components/ui/lamp';
 import { Reveal } from '@/components/ui/reveal';
 import {
+  Activity,
   BarChart3,
-  CalendarDays,
+  Copy,
+  Database,
+  Eye,
   Globe,
+  History,
+  Layers,
   Link2,
-  RefreshCw,
-  Share2,
+  Server,
   ShieldCheck,
   Users,
 } from 'lucide-react';
@@ -24,28 +28,28 @@ export async function PulsePage() {
   const features = [
     {
       id: 'feat1',
-      icon: Share2,
+      icon: Globe,
       glow: 'orange' as const,
       title: t('pulse.feat1_title'),
       body: t('pulse.feat1_body'),
     },
     {
       id: 'feat2',
-      icon: CalendarDays,
+      icon: ShieldCheck,
       glow: 'blue' as const,
       title: t('pulse.feat2_title'),
       body: t('pulse.feat2_body'),
     },
     {
       id: 'feat3',
-      icon: Globe,
+      icon: Users,
       glow: 'purple' as const,
       title: t('pulse.feat3_title'),
       body: t('pulse.feat3_body'),
     },
     {
       id: 'feat4',
-      icon: ShieldCheck,
+      icon: BarChart3,
       glow: 'green' as const,
       title: t('pulse.feat4_title'),
       body: t('pulse.feat4_body'),
@@ -121,9 +125,9 @@ export async function PulsePage() {
               <div className="flex-shrink-0 grid grid-cols-2 gap-3 w-full md:w-[220px]">
                 {[
                   { id: 'pill_powerbi', icon: BarChart3, label: t('pulse.pill_powerbi') },
-                  { id: 'pill_calendar', icon: CalendarDays, label: t('pulse.pill_calendar') },
+                  { id: 'pill_calendar', icon: Users, label: t('pulse.pill_calendar') },
                   { id: 'pill_persian', icon: Globe, label: t('pulse.pill_persian') },
-                  { id: 'pill_team', icon: Users, label: t('pulse.pill_team') },
+                  { id: 'pill_team', icon: Server, label: t('pulse.pill_team') },
                 ].map(({ id, icon: Icon, label }) => (
                   <div
                     key={id}
@@ -141,25 +145,92 @@ export async function PulsePage() {
 
       <div className="h-10" />
 
-      {/* Independent software on top of PBRS */}
+      {/* Architecture */}
+      <div className="mx-auto max-w-5xl px-6 py-4">
+        <Reveal x={20} y={0} duration={0.7}>
+          <GradientCard
+            colors={["hsl(25,100%,18%)", "hsl(35,100%,50%)", "hsl(15,90%,35%)", "hsl(45,100%,60%)"]}
+            className="w-full"
+          >
+            <div className="flex flex-col p-7">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 mb-4">
+                <Link2 size={18} className="text-white/80" />
+              </div>
+              <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
+                {t('pulse.arch_badge')}
+              </div>
+              <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pulse.arch_title')}</h3>
+              <p className="text-sm text-white/60 leading-relaxed">
+                {t('pulse.arch_body')}
+              </p>
+            </div>
+          </GradientCard>
+        </Reveal>
+      </div>
+
+      <div className="h-10" />
+
+      {/* Administration features */}
+      <div className="mx-auto max-w-5xl px-6 py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 relative z-10 rounded-2xl border border-border/60 overflow-hidden">
+          {([
+            { id: 'adm1', icon: Layers, title: t('pulse.adm1_title'), body: t('pulse.adm1_body') },
+            { id: 'adm2', icon: Copy, title: t('pulse.adm2_title'), body: t('pulse.adm2_body') },
+            { id: 'adm3', icon: Database, title: t('pulse.adm3_title'), body: t('pulse.adm3_body') },
+            { id: 'adm4', icon: Activity, title: t('pulse.adm4_title'), body: t('pulse.adm4_body') },
+          ] as const).map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.id}
+                className={cn(
+                  "flex flex-col py-10 relative group/feature border-border/60",
+                  "lg:border-r",
+                  index === 0 && "lg:border-l",
+                  index < 2 && "sm:border-b lg:border-b-0",
+                  index % 2 === 0 && index < 3 && "sm:border-r lg:border-r-0",
+                )}
+              >
+                <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-muted/60 to-transparent pointer-events-none" />
+                <div className="mb-4 relative z-10 px-10 text-muted-foreground">
+                  <Icon size={22} />
+                </div>
+                <div className="text-base font-bold mb-2 relative z-10 px-10">
+                  <div className="absolute right-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tl-full rounded-bl-full bg-border group-hover/feature:bg-primary transition-all duration-200 origin-center" />
+                  <span className="group-hover/feature:-translate-x-2 transition duration-200 inline-block text-foreground">
+                    {item.title}
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground max-w-xs relative z-10 px-10 leading-relaxed">
+                  {item.body}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="h-10" />
+
+      {/* Permissions + Version history */}
       <div className="mx-auto max-w-5xl px-6 py-4">
         <div className="grid md:grid-cols-2 gap-4">
 
           <Reveal x={20} y={0} duration={0.7}>
             <GradientCard
-              colors={["hsl(25,100%,18%)", "hsl(35,100%,50%)", "hsl(15,90%,35%)", "hsl(45,100%,60%)"]}
+              colors={["hsl(25,100%,20%)", "hsl(35,100%,55%)", "hsl(15,90%,40%)", "hsl(45,100%,65%)"]}
               className="h-full"
             >
               <div className="flex flex-col p-7 h-full">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 mb-4">
-                  <Link2 size={18} className="text-white/80" />
+                  <Eye size={18} className="text-white/80" />
                 </div>
                 <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
-                  {t('pulse.arch_badge')}
+                  {t('pulse.perm_badge')}
                 </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pulse.arch_title')}</h3>
+                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pulse.perm_title')}</h3>
                 <p className="text-sm text-white/60 leading-relaxed">
-                  {t('pulse.arch_body')}
+                  {t('pulse.perm_body')}
                 </p>
               </div>
             </GradientCard>
@@ -172,14 +243,14 @@ export async function PulsePage() {
             >
               <div className="flex flex-col p-7 h-full">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 mb-4">
-                  <RefreshCw size={18} className="text-white/80" />
+                  <History size={18} className="text-white/80" />
                 </div>
                 <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
-                  {t('pulse.update_badge')}
+                  {t('pulse.ver_badge')}
                 </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pulse.update_title')}</h3>
+                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pulse.ver_title')}</h3>
                 <p className="text-sm text-white/60 leading-relaxed">
-                  {t('pulse.update_body')}
+                  {t('pulse.ver_body')}
                 </p>
               </div>
             </GradientCard>
@@ -202,6 +273,14 @@ export async function PulsePage() {
           <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
             {t('pulse.closing_title')}
           </h2>
+          <a
+            href="https://pulse.vitray.ir"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
+          >
+            {t('pulse.closing_demo')}
+          </a>
           <p className="text-xs text-white/40">
             {t('pulse.closing_body')}
           </p>
