@@ -35,8 +35,13 @@ export async function generateMetadata(): Promise<Metadata> {
       'BI',
       'داشبورد مدیریتی',
       'Power BI',
+      'Power BI Report Server',
+      'SSAS Tabular',
       'تحلیل داده',
       'داده‌کاوی',
+      'راهکار هوش تجاری',
+      'پیاده‌سازی BI',
+      'مشاوره هوش تجاری',
       'ویترای',
       'Vitray',
     ],
@@ -75,15 +80,65 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const organizationJsonLd = {
+const siteJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'ویترای',
-  alternateName: 'Vitray',
-  url: 'https://vitrayco.com',
-  logo: 'https://vitrayco.com/Vitray.png',
-  description:
-    'ویترای ارائه‌دهنده راهکارهای هوش تجاری، داشبوردهای مدیریتی و محصولات پلکس، پیکسل و پالس.',
+  '@graph': [
+  {
+    '@type': 'Organization',
+    '@id': 'https://vitrayco.com/#organization',
+    name: 'ویترای',
+    alternateName: 'Vitray',
+    url: 'https://vitrayco.com',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://vitrayco.com/Vitray.png',
+      width: 200,
+      height: 60,
+    },
+    image: 'https://vitrayco.com/Vitray.png',
+    description:
+      'ویترای ارائه‌دهنده راهکارهای هوش تجاری سازمانی — داشبوردهای مدیریتی Power BI، مدل SSAS Tabular، پلتفرم‌های Plex، Pixel و Pulse، و فضای کاری هوش مصنوعی Daana.',
+    foundingDate: '2019',
+    telephone: '+98-21-2286-5619',
+    email: 'hello@vitrayco.com',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'واحد ۵، پلاک ۲۸، نگارستان ۴، پاسداران',
+      addressLocality: 'تهران',
+      addressCountry: 'IR',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+98-21-2286-5619',
+      contactType: 'customer service',
+      areaServed: 'IR',
+      availableLanguage: 'Persian',
+    },
+    sameAs: [
+      'https://www.linkedin.com/company/vitrayco',
+      'https://www.instagram.com/vitrayco',
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'راهکارها و محصولات ویترای',
+      itemListElement: [
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'راهکار هوش تجاری', url: 'https://vitrayco.com/bi-solution' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'SoftwareApplication', name: 'Plex', url: 'https://vitrayco.com/plex' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'SoftwareApplication', name: 'Pixel', url: 'https://vitrayco.com/pixel' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'SoftwareApplication', name: 'Pulse', url: 'https://vitrayco.com/pulse' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'SoftwareApplication', name: 'Daana', url: 'https://vitrayco.com/daana' } },
+      ],
+    },
+  },
+  {
+    '@type': 'WebSite',
+    '@id': 'https://vitrayco.com/#website',
+    url: 'https://vitrayco.com',
+    name: 'ویترای',
+    publisher: { '@id': 'https://vitrayco.com/#organization' },
+    inLanguage: 'fa',
+  },
+  ],
 }
 
 export default async function RootLayout({
@@ -99,7 +154,7 @@ export default async function RootLayout({
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
         />
         <LanguageProvider lang={lang} dict={dict}>
           <MotionProvider>{children}</MotionProvider>

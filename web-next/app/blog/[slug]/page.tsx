@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: yoast?.title || post.title.rendered,
     description,
     alternates: {
-      canonical: `https://vitrayco.com/blog/${slug}`,
+      canonical: `/blog/${slug}`,
     },
     openGraph: {
       title: yoast?.og_title || post.title.rendered,
@@ -67,16 +67,32 @@ export default async function BlogPostPage({ params }: Props) {
   // JSON-LD structured data (Article schema)
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     headline: post.title.rendered,
     datePublished: post.date,
     dateModified: post.modified,
     url: `https://vitrayco.com/blog/${post.slug}`,
-    ...(image && { image: image.src }),
+    inLanguage: 'fa',
+    ...(image && { image: { '@type': 'ImageObject', url: image.src } }),
+    author: {
+      '@type': 'Organization',
+      name: 'ویترای',
+      url: 'https://vitrayco.com',
+    },
     publisher: {
       '@type': 'Organization',
-      name: 'Vitray BI',
+      name: 'ویترای',
+      alternateName: 'Vitray',
       url: 'https://vitrayco.com',
+      logo: { '@type': 'ImageObject', url: 'https://vitrayco.com/Vitray.png' },
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'خانه', item: 'https://vitrayco.com' },
+        { '@type': 'ListItem', position: 2, name: 'بلاگ', item: 'https://vitrayco.com/blog' },
+        { '@type': 'ListItem', position: 3, name: post.title.rendered, item: `https://vitrayco.com/blog/${post.slug}` },
+      ],
     },
   }
 

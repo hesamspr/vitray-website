@@ -17,9 +17,9 @@
     "portal": "Customer Portal"
   },
   "blog": {
-    "badge": "Polaris Insights Blog",
+    "badge": "Vitray Blog",
     "title": "Data & BI Insights",
-    "subtitle": "Expert articles on Business Intelligence, Data Engineering, and Analytics — from the team at Polaris Insights.",
+    "subtitle": "Articles on Business Intelligence, data engineering, and analytics — written by the Vitray team.",
     "empty": "No posts found.",
     "read_more": "Read more",
     "back": "Back to all posts",

@@ -1,10 +1,16 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { ArrowLeft, ArrowRight, Home, LayoutGrid, TrendingDown } from 'lucide-react'
 
 import { SiteNav } from '@/components/ui/site-nav'
 import { Footer } from '@/components/ui/footer-section'
 import { Reveal } from '@/components/ui/reveal'
 import { getTranslations } from '@/lib/i18n.server'
+
+export const metadata: Metadata = {
+  title: 'صفحه پیدا نشد',
+  robots: { index: false, follow: false },
+}
 
 export default async function NotFound() {
   const { t, lang } = await getTranslations()
