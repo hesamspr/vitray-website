@@ -13,6 +13,7 @@ import { Reveal } from '@/components/ui/reveal'
 import { CategoryList, type Category } from '@/components/ui/category-list'
 import { cn } from '@/lib/utils'
 import { getTranslations } from '@/lib/i18n.server'
+import { DataWorlds } from '@/components/ui/data-worlds'
 
 // Brand names are intentionally kept in Persian — proper nouns, not translated
 const customerSuccessCards = [
@@ -277,6 +278,26 @@ export default async function HomePage() {
               </div>
             </GlowCard>
           </div>
+        </section>
+
+        <div className="h-24" />
+
+        <section id="ecosystem" className="space-y-10">
+          <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4">
+            <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
+              {t('home.ecosystem_badge')}
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
+              {t('home.ecosystem_title')}
+            </h2>
+            <p className="text-muted-foreground text-sm md:text-base">
+              {t('home.ecosystem_body')}
+            </p>
+          </Reveal>
+
+          <Reveal>
+            <DataWorlds />
+          </Reveal>
         </section>
 
         <div className="h-24" />

@@ -1,9 +1,8 @@
+import Image from 'next/image'
 import { SiteNav } from '@/components/ui/site-nav'
 import { Footer } from '@/components/ui/footer-section'
 import { CallToAction } from '@/components/ui/cta-3'
 import { AnimatedBackground } from '@/components/ui/animated-background'
-import { LampContainer } from '@/components/ui/lamp'
-import { LazyMeshGradient as MeshGradient } from '@/components/ui/lazy-shaders'
 import { Reveal } from '@/components/ui/reveal'
 import { BiConsultationButton } from '@/components/ui/bi-consultation-button'
 import { Grid } from '@/components/ui/feature-section-with-card-gradient'
@@ -11,6 +10,7 @@ import Link from 'next/link'
 import {
   BarChart3,
   CheckCircle2,
+  ChevronDown,
   Database,
   DollarSign,
   GraduationCap,
@@ -233,6 +233,41 @@ const dashboards = [
   },
 ]
 
+const faqs = [
+  {
+    q: 'هوش تجاری (BI) چیست؟',
+    a: 'هوش تجاری (Business Intelligence) مجموعه‌ای از فرآیندها، فناوری‌ها و ابزارهایی است که داده‌های خام سازمان را به اطلاعات معنادار و بینش‌های عملی تبدیل می‌کند تا مدیران بتوانند تصمیم‌های بهتری بگیرند.',
+  },
+  {
+    q: 'هوش تجاری چه مراحلی دارد؟',
+    a: 'پیاده‌سازی هوش تجاری معمولاً چهار مرحله دارد: آماده‌سازی داده‌ها (ETL و Data Warehouse)، پرس‌وجو و تحلیل (SSAS و مدل‌سازی)، توزیع شاخص‌های کلیدی (Power BI و گزارش‌ها)، و تأثیر بر تصمیمات تجاری (Insights و Action).',
+  },
+  {
+    q: 'مزایای هوش تجاری برای سازمان‌ها چیست؟',
+    a: 'هوش تجاری به سازمان‌ها کمک می‌کند: تصمیم‌های سریع‌تر و مبتنی بر داده بگیرند، الگوهای پنهان را کشف کنند، هزینه‌ها را کاهش دهند، فرصت‌های رشد را شناسایی کنند، و عملکرد واحدهای مختلف را به‌صورت یکپارچه پایش کنند.',
+  },
+  {
+    q: 'تفاوت هوش تجاری (BI) و هوش مصنوعی (AI) چیست؟',
+    a: 'هوش تجاری بر تحلیل داده‌های تاریخی و گزارش‌دهی تمرکز دارد (چه اتفاقی افتاد؟)، در حالی که هوش مصنوعی از یادگیری ماشین برای پیش‌بینی و خودکارسازی استفاده می‌کند (چه اتفاقی خواهد افتاد؟). بسیاری از پلتفرم‌های مدرن مانند Daana ویترای هر دو قابلیت را ترکیب می‌کنند.',
+  },
+  {
+    q: 'Power BI چیست و چه نقشی در هوش تجاری دارد؟',
+    a: 'Power BI ابزار تجسم داده مایکروسافت است که به تیم‌ها امکان می‌دهد داشبوردهای تعاملی و گزارش‌های مدیریتی بسازند. در پروژه‌های هوش تجاری ویترای، Power BI لایه نمایش داده است که به مدل SSAS Tabular متصل می‌شود.',
+  },
+  {
+    q: 'پیاده‌سازی هوش تجاری چقدر طول می‌کشد؟',
+    a: 'بسته به پیچیدگی سازمان و تعداد منابع داده، یک پروژه BI معمولاً بین ۴ تا ۱۶ هفته طول می‌کشد. ویترای پروژه را در پنج مرحله اجرا می‌کند: شناسایی نیاز، جمع‌آوری داده، مدل‌سازی، ساخت داشبورد، و پشتیبانی مستمر.',
+  },
+  {
+    q: 'هوش تجاری برای چه صنایعی مناسب است؟',
+    a: 'هوش تجاری برای تمام صنایع مناسب است. ویترای پروژه‌های BI موفق در صنایع تولیدی، پخش و توزیع، لبنیات و غذایی، فولاد و معدن، انرژی، خدمات مالی، خرده‌فروشی، و هلدینگ‌های سازمانی انجام داده است.',
+  },
+  {
+    q: 'داشبورد مدیریتی چیست؟',
+    a: 'داشبورد مدیریتی یک صفحه نمایش تعاملی است که شاخص‌های کلیدی عملکرد (KPI) سازمان را به‌صورت تصویری و لحظه‌ای نشان می‌دهد. نمونه‌هایی از داشبوردهای مدیریتی: داشبورد فروش، مالی، HR، تولید، انبار و نگهداری.',
+  },
+]
+
 export default function BusinessIntelligencePage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -248,43 +283,53 @@ export default function BusinessIntelligencePage() {
       <SiteNav />
 
       {/* ─── Hero ─────────────────────────────────────────────────── */}
-      <div className="relative w-full overflow-hidden" style={{ height: '100vh', minHeight: 520 }}>
-        <MeshGradient
-          className="absolute inset-0 w-full h-full"
-          colors={['#000000', '#3730a3', '#1e1b4b', '#0f172a', '#4338ca']}
-          speed={0.3}
+      <div className="relative w-full overflow-hidden flex items-center justify-center" style={{ minHeight: '92vh' }}>
+        {/* Static gradient — zero JS, no WebGL */}
+        <div className="absolute inset-0" style={{ background: '#07071a' }} />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 0%, #2d2a6e 0%, transparent 70%)' }}
         />
-        <MeshGradient
-          className="absolute inset-0 w-full h-full opacity-40"
-          colors={['#000000', '#ffffff', '#3730a3', '#6366f1']}
-          speed={0.2}
+        {/* Dot grid */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(99,102,241,0.18) 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
+          }}
         />
+        {/* Bottom fade */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute bottom-0 left-0 right-0 h-48 z-10"
           style={{ background: 'linear-gradient(to bottom, transparent, hsl(var(--background)))' }}
         />
-        <div className="absolute inset-0 flex items-center justify-center z-20 px-6">
-          <Reveal
-            onMount
-            y={24}
-            delay={0.15}
-            duration={0.9}
-            className="flex flex-col items-center max-w-[720px] text-center space-y-5"
-          >
-            <div className="inline-flex items-center gap-2 border border-white/20 bg-white/5 backdrop-blur-sm py-1 px-4 rounded-lg text-sm text-white/70 w-fit">
-              <BarChart3 size={13} />
-              هوش تجاری (Business Intelligence)
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-white leading-tight">
-              اهمیت هوش تجاری در کسب‌وکار شما
-              <br />
-              <span className="text-indigo-300">+ ۸ نمونه داشبورد مدیریتی</span>
-            </h1>
-            <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-lg">
-              هوش تجاری داده‌های خام را به بینش‌های عملی تبدیل می‌کند تا مدیران بتوانند آگاهانه‌تر تصمیم بگیرند، درآمد را افزایش دهند و مزیت رقابتی ایجاد کنند.
-            </p>
-          </Reveal>
+
+        <div className="relative z-20 flex flex-col items-center max-w-[720px] mx-auto px-6 text-center space-y-6">
+          <div className="inline-flex items-center gap-2 border border-white/20 bg-white/5 backdrop-blur-sm py-1 px-4 rounded-lg text-sm text-white/70">
+            <BarChart3 size={13} />
+            هوش تجاری (Business Intelligence)
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-white leading-tight">
+            اهمیت هوش تجاری در کسب‌وکار شما
+            <br />
+            <span className="text-indigo-300">+ ۸ نمونه داشبورد مدیریتی</span>
+          </h1>
+          <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-lg">
+            هوش تجاری داده‌های خام را به بینش‌های عملی تبدیل می‌کند تا مدیران بتوانند آگاهانه‌تر تصمیم بگیرند، درآمد را افزایش دهند و مزیت رقابتی ایجاد کنند.
+          </p>
+          {/* CTA — only animated element in the hero */}
+          <style>{`
+            @keyframes hero-cta-glow {
+              0%, 100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+              50%       { box-shadow: 0 0 28px 10px rgba(99,102,241,0.38); }
+            }
+            .hero-cta-glow { animation: hero-cta-glow 2.8s ease-in-out infinite; border-radius: 0.75rem; }
+          `}</style>
+          <div className="hero-cta-glow mt-2">
+            <BiConsultationButton label="دریافت مشاوره رایگان" />
+          </div>
         </div>
       </div>
 
@@ -548,23 +593,100 @@ export default function BusinessIntelligencePage() {
         </Reveal>
       </div>
 
-      {/* ─── Closing CTA ──────────────────────────────────────────── */}
-      <LampContainer color="purple" className="min-h-[44rem] mb-[-14rem]">
-        <Reveal
-          y={60}
-          fromOpacity={0.5}
-          delay={0.3}
-          ease="easeInOut"
-          className="flex flex-col items-center gap-5 text-center"
-        >
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-white">
-            یک قدم تا داده‌محوری فاصله دارید
-          </h2>
-          <BiConsultationButton label="دریافت مشاوره رایگان" />
-        </Reveal>
-      </LampContainer>
+      <div className="h-24" />
 
-      <div className="h-16" />
+      {/* ─── FAQ ──────────────────────────────────────────────────── */}
+      <div className="mx-auto max-w-5xl px-6 py-4">
+        <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12">
+          <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
+            پرسش‌های متداول
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
+            سوالات متداول درباره هوش تجاری
+          </h2>
+        </Reveal>
+
+        <Reveal y={16} delay={0.1} duration={0.9}>
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <details
+                key={i}
+                className="group rounded-2xl border border-border/60 bg-gradient-to-r from-primary/5 via-transparent to-transparent overflow-hidden"
+              >
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none select-none px-6 py-5 font-bold text-foreground text-sm md:text-base">
+                  {faq.q}
+                  <ChevronDown
+                    size={16}
+                    className="shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
+                  />
+                </summary>
+                <p className="px-6 pb-5 pt-4 text-sm text-muted-foreground leading-relaxed border-t border-border/40">
+                  {faq.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+
+      <div className="h-24" />
+
+      {/* ─── Next steps ───────────────────────────────────────────── */}
+      <div className="mx-auto max-w-5xl px-6 py-4">
+        <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4 mb-12">
+          <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
+            گام بعدی
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
+            هوش تجاری را در سازمان خود پیاده کنید
+          </h2>
+          <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
+            از اجرای پروژه BI تا انتشار حرفه‌ای گزارش‌ها — ویترای برای هر مرحله از مسیر داده‌محوری راهکاری دارد.
+          </p>
+        </Reveal>
+
+        <Reveal y={16} delay={0.1} duration={0.9}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Link
+              href="/bi-solution"
+              className="group flex flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-indigo-950/30 via-background to-background p-8 hover:border-indigo-500/40 transition-colors"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/60 bg-muted/30 mb-5 overflow-hidden">
+                <Image src="/fav.png" alt="راهکار هوش تجاری ویترای" width={28} height={28} className="object-contain" />
+              </div>
+              <span className="text-xs font-mono text-muted-foreground mb-2">راهکار پیاده‌سازی</span>
+              <h3 className="text-xl font-bold tracking-tight text-foreground mb-3 group-hover:text-indigo-300 transition-colors">
+                راهکار هوش تجاری ویترای
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                از جمع‌آوری داده تا تحویل داشبورد — تیم ویترای پروژه BI را از صفر تا صد، در کنار شما اجرا می‌کند.
+              </p>
+              <span className="mt-6 text-sm text-indigo-400 group-hover:text-indigo-300 transition-colors">
+                مشاهده راهکار ←
+              </span>
+            </Link>
+
+            <Link
+              href="/pulse"
+              className="group flex flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-indigo-950/30 via-background to-background p-8 hover:border-indigo-500/40 transition-colors"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/60 bg-muted/30 mb-5 overflow-hidden">
+                <Image src="/product logos/Pulse Fav W.png" alt="Pulse" width={28} height={28} className="object-contain" />
+              </div>
+              <span className="text-xs font-mono text-muted-foreground mb-2">پرتال BI سازمانی</span>
+              <h3 className="text-xl font-bold tracking-tight text-foreground mb-3 group-hover:text-indigo-300 transition-colors">
+                Pulse — پرتال فارسی Power BI
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                رابط پیش‌فرض Power BI Report Server را با یک تجربه مدرن و فارسی‌محور جایگزین کنید — نصب روی سرورهای خودتان با مدیریت دسترسی سازمانی.
+              </p>
+              <span className="mt-6 text-sm text-indigo-400 group-hover:text-indigo-300 transition-colors">
+                بیشتر درباره Pulse ←
+              </span>
+            </Link>
+          </div>
+        </Reveal>
+      </div>
 
       <div className="mx-auto max-w-5xl px-6 py-20 overflow-visible">
         <CallToAction />

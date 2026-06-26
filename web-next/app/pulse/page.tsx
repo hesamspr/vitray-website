@@ -2,7 +2,6 @@ import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { PulseHero } from '@/components/ui/pulse-hero';
-import { GradientCard } from '@/components/ui/gradient-card';
 import { LampContainer } from '@/components/ui/lamp';
 import { Reveal } from '@/components/ui/reveal';
 import {
@@ -106,19 +105,17 @@ export async function PulsePage() {
       {/* Main description */}
       <div className="mx-auto max-w-5xl px-6 py-4">
         <Reveal>
-          <GradientCard
-            colors={["hsl(25,100%,20%)", "hsl(35,100%,55%)", "hsl(15,90%,40%)", "hsl(45,100%,65%)"]}
-            className="w-full"
-          >
+          <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden w-full">
+            <div className="absolute top-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
             <div className="flex flex-col md:flex-row items-center gap-10 p-8 md:p-12">
               <div className="flex-1 space-y-4">
-                <div className="border border-white/20 py-1 px-4 rounded-lg text-sm text-white/60 w-fit">
+                <div className="border border-orange-500/25 py-1 px-4 rounded-lg text-sm text-orange-400/70 w-fit">
                   {t('pulse.about_badge')}
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-white">
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-foreground">
                   {t('pulse.about_title')}
                 </h2>
-                <p className="text-white/60 text-sm leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed">
                   {t('pulse.about_body')}
                 </p>
               </div>
@@ -131,15 +128,15 @@ export async function PulsePage() {
                 ].map(({ id, icon: Icon, label }) => (
                   <div
                     key={id}
-                    className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 p-4 text-center"
+                    className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/[0.04] p-4 text-center"
                   >
-                    <Icon size={18} className="text-white/80" />
-                    <span className="text-xs text-white/50">{label}</span>
+                    <Icon size={18} className="text-orange-400/80" />
+                    <span className="text-xs text-muted-foreground">{label}</span>
                   </div>
                 ))}
               </div>
             </div>
-          </GradientCard>
+          </div>
         </Reveal>
       </div>
 
@@ -148,23 +145,21 @@ export async function PulsePage() {
       {/* Architecture */}
       <div className="mx-auto max-w-5xl px-6 py-4">
         <Reveal x={20} y={0} duration={0.7}>
-          <GradientCard
-            colors={["hsl(25,100%,18%)", "hsl(35,100%,50%)", "hsl(15,90%,35%)", "hsl(45,100%,60%)"]}
-            className="w-full"
-          >
+          <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden w-full">
+            <div className="absolute top-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
             <div className="flex flex-col p-7">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 mb-4">
-                <Link2 size={18} className="text-white/80" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-500/20 bg-orange-500/5 mb-4">
+                <Link2 size={18} className="text-orange-400/80" />
               </div>
-              <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
+              <div className="border border-orange-500/20 py-1 px-3 rounded-lg text-xs text-orange-400/60 w-fit mb-3">
                 {t('pulse.arch_badge')}
               </div>
-              <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pulse.arch_title')}</h3>
-              <p className="text-sm text-white/60 leading-relaxed">
+              <h3 className="text-xl font-bold tracking-tighter mb-2 text-foreground">{t('pulse.arch_title')}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 {t('pulse.arch_body')}
               </p>
             </div>
-          </GradientCard>
+          </div>
         </Reveal>
       </div>
 
@@ -217,43 +212,39 @@ export async function PulsePage() {
         <div className="grid md:grid-cols-2 gap-4">
 
           <Reveal x={20} y={0} duration={0.7}>
-            <GradientCard
-              colors={["hsl(25,100%,20%)", "hsl(35,100%,55%)", "hsl(15,90%,40%)", "hsl(45,100%,65%)"]}
-              className="h-full"
-            >
+            <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden h-full">
+              <div className="absolute top-0 left-10 right-10 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
               <div className="flex flex-col p-7 h-full">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 mb-4">
-                  <Eye size={18} className="text-white/80" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-500/20 bg-orange-500/5 mb-4">
+                  <Eye size={18} className="text-orange-400/80" />
                 </div>
-                <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
+                <div className="border border-orange-500/20 py-1 px-3 rounded-lg text-xs text-orange-400/60 w-fit mb-3">
                   {t('pulse.perm_badge')}
                 </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pulse.perm_title')}</h3>
-                <p className="text-sm text-white/60 leading-relaxed">
+                <h3 className="text-xl font-bold tracking-tighter mb-2 text-foreground">{t('pulse.perm_title')}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {t('pulse.perm_body')}
                 </p>
               </div>
-            </GradientCard>
+            </div>
           </Reveal>
 
           <Reveal x={-20} y={0} duration={0.7} delay={0.15}>
-            <GradientCard
-              colors={["hsl(15,100%,18%)", "hsl(25,100%,50%)", "hsl(5,90%,35%)", "hsl(35,100%,60%)"]}
-              className="h-full"
-            >
+            <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden h-full">
+              <div className="absolute top-0 left-10 right-10 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
               <div className="flex flex-col p-7 h-full">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 mb-4">
-                  <History size={18} className="text-white/80" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-500/20 bg-orange-500/5 mb-4">
+                  <History size={18} className="text-orange-400/80" />
                 </div>
-                <div className="border border-white/20 py-1 px-3 rounded-lg text-xs text-white/50 w-fit mb-3">
+                <div className="border border-orange-500/20 py-1 px-3 rounded-lg text-xs text-orange-400/60 w-fit mb-3">
                   {t('pulse.ver_badge')}
                 </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-white">{t('pulse.ver_title')}</h3>
-                <p className="text-sm text-white/60 leading-relaxed">
+                <h3 className="text-xl font-bold tracking-tighter mb-2 text-foreground">{t('pulse.ver_title')}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {t('pulse.ver_body')}
                 </p>
               </div>
-            </GradientCard>
+            </div>
           </Reveal>
 
         </div>

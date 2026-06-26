@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
@@ -9,6 +10,7 @@ import { LazyMeshGradient as MeshGradient } from "@/components/ui/lazy-shaders";
 import { Reveal } from '@/components/ui/reveal';
 import {
   BarChart3,
+  BookOpen,
   CheckCircle2,
   Database,
   LayoutDashboard,
@@ -103,6 +105,13 @@ export async function BiSolutionPage() {
             <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-md">
               {t('bi.hero_body')}
             </p>
+            <Link
+              href="/business-intelligence"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-5 py-2.5 text-sm text-white/60 hover:text-white hover:border-white/25 hover:bg-white/10 transition-colors"
+            >
+              <BookOpen size={13} />
+              هوش تجاری چیست؟
+            </Link>
           </Reveal>
         </div>
       </div>

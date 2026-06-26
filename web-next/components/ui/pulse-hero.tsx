@@ -18,9 +18,9 @@ export function PulseHero() {
         speed={0.3}
       />
       <MeshGradient
-        className="absolute inset-0 w-full h-full opacity-40"
-        colors={["#000000", "#ffffff", "#f97316", "#ea580c"]}
-        speed={0.2}
+        className="absolute inset-0 w-full h-full opacity-10"
+        colors={["#000000", "#c2410c", "#1e1e2e", "#0f172a"]}
+        speed={0.15}
       />
 
       <div
