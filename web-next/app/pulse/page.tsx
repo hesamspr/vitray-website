@@ -4,54 +4,94 @@ import { CallToAction } from '@/components/ui/cta-3';
 import { PulseHero } from '@/components/ui/pulse-hero';
 import { LampContainer } from '@/components/ui/lamp';
 import { Reveal } from '@/components/ui/reveal';
+import { PulseFeatureShowcase } from '@/components/ui/pulse-feature-showcase';
 import {
   Activity,
   BarChart3,
+  CalendarDays,
+  Check,
   Copy,
   Database,
   Eye,
   Globe,
   History,
   Layers,
+  LayoutTemplate,
   Link2,
   Server,
   ShieldCheck,
   Users,
 } from 'lucide-react';
 import { getTranslations } from '@/lib/i18n.server';
-import { cn } from '@/lib/utils';
 
 export async function PulsePage() {
   const { t } = await getTranslations();
 
-  const features = [
+  const showcaseFeatures = [
+    {
+      id: 'cal',
+      icon: <CalendarDays size={18} />,
+      title: t('pulse.cal_title'),
+      body: t('pulse.cal_body'),
+      media: { src: '/pulse/farsi-calendar.gif', width: 572, height: 444, alt: t('pulse.cal_title') },
+    },
+    {
+      id: 'tab',
+      icon: <LayoutTemplate size={18} />,
+      title: t('pulse.tab_title'),
+      body: t('pulse.tab_body'),
+      media: { src: '/pulse/multi-tab.gif', width: 718, height: 468, alt: t('pulse.tab_title') },
+    },
     {
       id: 'feat1',
-      icon: Globe,
-      glow: 'orange' as const,
+      icon: <Globe size={18} />,
       title: t('pulse.feat1_title'),
       body: t('pulse.feat1_body'),
     },
     {
       id: 'feat2',
-      icon: ShieldCheck,
-      glow: 'blue' as const,
+      icon: <ShieldCheck size={18} />,
       title: t('pulse.feat2_title'),
       body: t('pulse.feat2_body'),
+      media: { src: '/pulse/security.gif', width: 1800, height: 938, alt: t('pulse.feat2_title') },
     },
     {
       id: 'feat3',
-      icon: Users,
-      glow: 'purple' as const,
+      icon: <Users size={18} />,
       title: t('pulse.feat3_title'),
       body: t('pulse.feat3_body'),
     },
     {
       id: 'feat4',
-      icon: BarChart3,
-      glow: 'green' as const,
+      icon: <BarChart3 size={18} />,
       title: t('pulse.feat4_title'),
       body: t('pulse.feat4_body'),
+    },
+    {
+      id: 'adm1',
+      icon: <Layers size={18} />,
+      title: t('pulse.adm1_title'),
+      body: t('pulse.adm1_body'),
+      media: { src: '/pulse/access-management.gif', width: 1798, height: 978, alt: t('pulse.adm1_title') },
+    },
+    {
+      id: 'adm2',
+      icon: <Copy size={18} />,
+      title: t('pulse.adm2_title'),
+      body: t('pulse.adm2_body'),
+    },
+    {
+      id: 'adm3',
+      icon: <Database size={18} />,
+      title: t('pulse.adm3_title'),
+      body: t('pulse.adm3_body'),
+    },
+    {
+      id: 'adm4',
+      icon: <Activity size={18} />,
+      title: t('pulse.adm4_title'),
+      body: t('pulse.adm4_body'),
+      media: { src: '/pulse/analytics.gif', width: 1800, height: 976, alt: t('pulse.adm4_title') },
     },
   ];
 
@@ -63,44 +103,95 @@ export async function PulsePage() {
 
       <div id="features" className="h-4" />
 
-      {/* Core features */}
+      {/* Feature showcase */}
+      <div className="mx-auto max-w-5xl px-6 py-4 space-y-6">
+        <div className="space-y-2 text-center">
+          <p className="text-xs text-orange-400/60 font-medium tracking-wide uppercase">
+            {t('pulse.features_badge')}
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-foreground">
+            {t('pulse.features_title')}
+          </h2>
+        </div>
+        <PulseFeatureShowcase features={showcaseFeatures} />
+      </div>
+
+      <div className="h-16" />
+
+      {/* Tier section */}
       <div className="mx-auto max-w-5xl px-6 py-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 relative z-10 rounded-2xl border border-border/60 overflow-hidden">
-          {features.map((feat, index) => {
-            const Icon = feat.icon;
-            const isLastRow = index >= features.length - (features.length % 4 || 4);
-            return (
-              <div
-                key={feat.id}
-                className={cn(
-                  "flex flex-col py-10 relative group/feature border-border/60",
-                  "lg:border-r",
-                  (index === 0) && "lg:border-l",
-                  !isLastRow && "lg:border-b",
-                  index < 2 && "sm:border-b lg:border-b-0",
-                  index % 2 === 0 && index < features.length - 1 && "sm:border-r lg:border-r-0",
-                )}
-              >
-                <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-muted/60 to-transparent pointer-events-none" />
-                <div className="mb-4 relative z-10 px-10 text-muted-foreground">
-                  <Icon size={22} />
-                </div>
-                <div className="text-base font-bold mb-2 relative z-10 px-10">
-                  <div className="absolute right-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tl-full rounded-bl-full bg-border group-hover/feature:bg-primary transition-all duration-200 origin-center" />
-                  <span className="group-hover/feature:-translate-x-2 transition duration-200 inline-block text-foreground">
-                    {feat.title}
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground max-w-xs relative z-10 px-10 leading-relaxed">
-                  {feat.body}
-                </p>
+        <div className="space-y-2 text-center mb-8">
+          <p className="text-xs text-orange-400/60 font-medium tracking-wide uppercase">
+            {t('pulse.tier_badge')}
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-foreground">
+            {t('pulse.tier_title')}
+          </h2>
+          <p className="text-sm text-muted-foreground max-w-xl mx-auto">
+            {t('pulse.tier_body')}
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-4">
+          {/* Standard */}
+          <Reveal x={20} y={0} duration={0.7}>
+            <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden h-full">
+              <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <div className="flex flex-col p-6 h-full">
+                <p className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/50 mb-1">{t('pulse.tier_standard_tagline')}</p>
+                <h3 className="text-lg font-bold text-foreground mb-4">{t('pulse.tier_standard_name')}</h3>
+                <ul className="space-y-2.5 flex-1">
+                  {['feat1','feat2','feat3','feat4','feat5'].map(k => (
+                    <li key={k} className="flex items-start gap-2.5">
+                      <Check size={13} className="text-muted-foreground/50 mt-0.5 flex-shrink-0" />
+                      <span className="text-xs text-muted-foreground/80">{t(`pulse.tier_standard_${k}`)}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            );
-          })}
+            </div>
+          </Reveal>
+
+          {/* Advanced */}
+          <Reveal y={0} duration={0.7} delay={0.1}>
+            <div className="relative rounded-3xl border border-orange-500/25 bg-orange-500/[0.04] backdrop-blur-sm overflow-hidden h-full">
+              <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
+              <div className="flex flex-col p-6 h-full">
+                <p className="text-[10px] font-medium tracking-widest uppercase text-orange-400/50 mb-1">{t('pulse.tier_advanced_tagline')}</p>
+                <h3 className="text-lg font-bold text-foreground mb-4">{t('pulse.tier_advanced_name')}</h3>
+                <ul className="space-y-2.5 flex-1">
+                  {['feat1','feat2','feat3','feat4','feat5'].map(k => (
+                    <li key={k} className="flex items-start gap-2.5">
+                      <Check size={13} className="text-orange-400/70 mt-0.5 flex-shrink-0" />
+                      <span className="text-xs text-muted-foreground/80">{t(`pulse.tier_advanced_${k}`)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Premium */}
+          <Reveal x={-20} y={0} duration={0.7} delay={0.2}>
+            <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden h-full">
+              <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <div className="flex flex-col p-6 h-full">
+                <p className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/50 mb-1">{t('pulse.tier_premium_tagline')}</p>
+                <h3 className="text-lg font-bold text-foreground mb-4">{t('pulse.tier_premium_name')}</h3>
+                <ul className="space-y-2.5 flex-1">
+                  {['feat1','feat2','feat3','feat4','feat5'].map(k => (
+                    <li key={k} className="flex items-start gap-2.5">
+                      <Check size={13} className="text-muted-foreground/50 mt-0.5 flex-shrink-0" />
+                      <span className="text-xs text-muted-foreground/80">{t(`pulse.tier_premium_${k}`)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
 
-      <div className="h-24" />
+      <div className="h-10" />
 
       {/* Main description */}
       <div className="mx-auto max-w-5xl px-6 py-4">
@@ -161,48 +252,6 @@ export async function PulsePage() {
             </div>
           </div>
         </Reveal>
-      </div>
-
-      <div className="h-10" />
-
-      {/* Administration features */}
-      <div className="mx-auto max-w-5xl px-6 py-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 relative z-10 rounded-2xl border border-border/60 overflow-hidden">
-          {([
-            { id: 'adm1', icon: Layers, title: t('pulse.adm1_title'), body: t('pulse.adm1_body') },
-            { id: 'adm2', icon: Copy, title: t('pulse.adm2_title'), body: t('pulse.adm2_body') },
-            { id: 'adm3', icon: Database, title: t('pulse.adm3_title'), body: t('pulse.adm3_body') },
-            { id: 'adm4', icon: Activity, title: t('pulse.adm4_title'), body: t('pulse.adm4_body') },
-          ] as const).map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.id}
-                className={cn(
-                  "flex flex-col py-10 relative group/feature border-border/60",
-                  "lg:border-r",
-                  index === 0 && "lg:border-l",
-                  index < 2 && "sm:border-b lg:border-b-0",
-                  index % 2 === 0 && index < 3 && "sm:border-r lg:border-r-0",
-                )}
-              >
-                <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-muted/60 to-transparent pointer-events-none" />
-                <div className="mb-4 relative z-10 px-10 text-muted-foreground">
-                  <Icon size={22} />
-                </div>
-                <div className="text-base font-bold mb-2 relative z-10 px-10">
-                  <div className="absolute right-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tl-full rounded-bl-full bg-border group-hover/feature:bg-primary transition-all duration-200 origin-center" />
-                  <span className="group-hover/feature:-translate-x-2 transition duration-200 inline-block text-foreground">
-                    {item.title}
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground max-w-xs relative z-10 px-10 leading-relaxed">
-                  {item.body}
-                </p>
-              </div>
-            );
-          })}
-        </div>
       </div>
 
       <div className="h-10" />
