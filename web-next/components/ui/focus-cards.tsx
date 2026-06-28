@@ -197,7 +197,7 @@ export function FocusCards({ cards }: { cards: CardType[] }) {
       <div
         ref={sectionRef}
         dir="ltr"
-        className="relative w-full"
+        className="relative w-full overflow-hidden"
         onMouseEnter={() => setHoverPaused(true)}
         onMouseLeave={() => setHoverPaused(false)}
       >
