@@ -4,11 +4,10 @@ import { CallToAction } from '@/components/ui/cta-3';
 import { PulseHero } from '@/components/ui/pulse-hero';
 import { LampContainer } from '@/components/ui/lamp';
 import { Reveal } from '@/components/ui/reveal';
-import { PulseFeatureShowcase } from '@/components/ui/pulse-feature-showcase';
+import { PulseGifViewer } from '@/components/ui/pulse-gif-viewer';
 import {
   Activity,
   BarChart3,
-  CalendarDays,
   Check,
   Copy,
   Database,
@@ -20,6 +19,7 @@ import {
   Link2,
   Server,
   ShieldCheck,
+  UserCheck,
   Users,
 } from 'lucide-react';
 import { getTranslations } from '@/lib/i18n.server';
@@ -27,93 +27,175 @@ import { getTranslations } from '@/lib/i18n.server';
 export async function PulsePage() {
   const { t } = await getTranslations();
 
-  const showcaseFeatures = [
-    {
-      id: 'cal',
-      icon: <CalendarDays size={18} />,
-      title: t('pulse.cal_title'),
-      body: t('pulse.cal_body'),
-      media: { src: '/pulse/farsi-calendar.gif', width: 572, height: 444, alt: t('pulse.cal_title') },
-    },
-    {
-      id: 'tab',
-      icon: <LayoutTemplate size={18} />,
-      title: t('pulse.tab_title'),
-      body: t('pulse.tab_body'),
-      media: { src: '/pulse/multi-tab.gif', width: 718, height: 468, alt: t('pulse.tab_title') },
-    },
-    {
-      id: 'feat1',
-      icon: <Globe size={18} />,
-      title: t('pulse.feat1_title'),
-      body: t('pulse.feat1_body'),
-    },
-    {
-      id: 'feat2',
-      icon: <ShieldCheck size={18} />,
-      title: t('pulse.feat2_title'),
-      body: t('pulse.feat2_body'),
-      media: { src: '/pulse/security.gif', width: 1800, height: 938, alt: t('pulse.feat2_title') },
-    },
-    {
-      id: 'feat3',
-      icon: <Users size={18} />,
-      title: t('pulse.feat3_title'),
-      body: t('pulse.feat3_body'),
-    },
-    {
-      id: 'feat4',
-      icon: <BarChart3 size={18} />,
-      title: t('pulse.feat4_title'),
-      body: t('pulse.feat4_body'),
-    },
-    {
-      id: 'adm1',
-      icon: <Layers size={18} />,
-      title: t('pulse.adm1_title'),
-      body: t('pulse.adm1_body'),
-      media: { src: '/pulse/access-management.gif', width: 1798, height: 978, alt: t('pulse.adm1_title') },
-    },
-    {
-      id: 'adm2',
-      icon: <Copy size={18} />,
-      title: t('pulse.adm2_title'),
-      body: t('pulse.adm2_body'),
-    },
-    {
-      id: 'adm3',
-      icon: <Database size={18} />,
-      title: t('pulse.adm3_title'),
-      body: t('pulse.adm3_body'),
-    },
-    {
-      id: 'adm4',
-      icon: <Activity size={18} />,
-      title: t('pulse.adm4_title'),
-      body: t('pulse.adm4_body'),
-      media: { src: '/pulse/analytics.gif', width: 1800, height: 976, alt: t('pulse.adm4_title') },
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
 
       <PulseHero />
 
-      <div id="features" className="h-4" />
+      <div id="features" className="h-12" />
 
-      {/* Feature showcase */}
-      <div className="mx-auto max-w-5xl px-6 py-4 space-y-6">
-        <div className="space-y-2 text-center">
-          <p className="text-xs text-orange-400/60 font-medium tracking-wide uppercase">
-            {t('pulse.features_badge')}
+      {/* ── Group 1: The Portal ── */}
+      <div className="mx-auto max-w-5xl px-6">
+        <Reveal className="mb-8 text-center">
+          <p className="text-xs text-orange-400/60 font-medium tracking-widest uppercase mb-2">
+            {t('pulse.group1_badge')}
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-foreground">
-            {t('pulse.features_title')}
+            {t('pulse.group1_title')}
           </h2>
+        </Reveal>
+
+        {/* Hero 1: Jalali calendar — text right, GIF left */}
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="space-y-3">
+            <span className="inline-block text-[10px] font-medium tracking-widest uppercase text-orange-400/60 border border-orange-500/20 rounded-md px-2 py-0.5">
+              {t('pulse.cal_badge')}
+            </span>
+            <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.cal_title')}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.cal_body')}</p>
+          </div>
+          <div className="md:col-span-2">
+            <PulseGifViewer src="/pulse/farsi-calendar.gif" alt={t('pulse.cal_title')} />
+          </div>
         </div>
-        <PulseFeatureShowcase features={showcaseFeatures} />
+
+        <div className="h-6" />
+
+        {/* Hero 2: Multi-tab — text right, GIF left */}
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="space-y-3">
+            <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.tab_title')}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.tab_body')}</p>
+          </div>
+          <div className="md:col-span-2">
+            <PulseGifViewer src="/pulse/multi-tab.gif" alt={t('pulse.tab_title')} />
+          </div>
+        </div>
+
+        <div className="h-6" />
+
+        {/* Strip card: Persian RTL */}
+        <Reveal fromOpacity={0.2}>
+          <div className="relative flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+            <div className="absolute top-0 left-10 right-10 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+            <Globe size={17} className="text-orange-400/70 flex-shrink-0 mt-1" />
+            <div className="space-y-3">
+              <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.feat1_title')}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.feat1_body')}</p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+
+      <div className="h-20" />
+
+      {/* ── Group 2: Security & Access ── */}
+      <div className="mx-auto max-w-5xl px-6">
+        <Reveal className="mb-8 text-center">
+          <p className="text-xs text-orange-400/60 font-medium tracking-widest uppercase mb-2">
+            {t('pulse.group2_badge')}
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-foreground">
+            {t('pulse.group2_title')}
+          </h2>
+        </Reveal>
+
+        {/* Hero 1: Security — text right, GIF left */}
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="space-y-3">
+            <ShieldCheck size={22} className="text-orange-400/70" />
+            <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.feat2_title')}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.feat2_body')}</p>
+          </div>
+          <div className="md:col-span-2">
+            <PulseGifViewer src="/pulse/security.gif" alt={t('pulse.feat2_title')} />
+          </div>
+        </div>
+
+        <div className="h-6" />
+
+        {/* Hero 2: Access management — text right, GIF left */}
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="space-y-3">
+            <Layers size={22} className="text-orange-400/70" />
+            <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.adm1_title')}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.adm1_body')}</p>
+          </div>
+          <div className="md:col-span-2">
+            <PulseGifViewer src="/pulse/access-management.gif" alt={t('pulse.adm1_title')} />
+          </div>
+        </div>
+
+        <div className="h-6" />
+
+        {/* Mini-cards: feat3, adm2, adm3 */}
+        <Reveal fromOpacity={0.2}>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              { id: 'copyfrom', icon: <UserCheck size={15} />, title: t('pulse.copyfrom_title'), body: t('pulse.copyfrom_body') },
+              { id: 'adm2', icon: <Copy size={15} />, title: t('pulse.adm2_title'), body: t('pulse.adm2_body') },
+              { id: 'adm3', icon: <Database size={15} />, title: t('pulse.adm3_title'), body: t('pulse.adm3_body') },
+            ].map(f => (
+              <div key={f.id} className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+                <div className="space-y-3">
+                  <div className="text-orange-400/70">{f.icon}</div>
+                  <h3 className="text-xl font-bold tracking-tighter text-foreground">{f.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{f.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+
+      <div className="h-20" />
+
+      {/* ── Group 3: Analytics ── */}
+      <div className="mx-auto max-w-5xl px-6">
+        <Reveal className="mb-8 text-center">
+          <p className="text-xs text-orange-400/60 font-medium tracking-widest uppercase mb-2">
+            {t('pulse.group3_badge')}
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-foreground">
+            {t('pulse.group3_title')}
+          </h2>
+        </Reveal>
+
+        {/* Hero: Usage analytics — text right, GIF left */}
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="space-y-3">
+            <Activity size={22} className="text-orange-400/70" />
+            <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.adm4_title')}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.adm4_body')}</p>
+          </div>
+          <div className="md:col-span-2">
+            <PulseGifViewer src="/pulse/analytics.gif" alt={t('pulse.adm4_title')} />
+          </div>
+        </div>
+
+        <div className="h-6" />
+
+        {/* Mini-cards: feat4, perm, ver */}
+        <Reveal fromOpacity={0.2}>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              { id: 'feat4', icon: <BarChart3 size={15} />, title: t('pulse.feat4_title'), body: t('pulse.feat4_body') },
+              { id: 'perm', icon: <Eye size={15} />, title: t('pulse.perm_title'), body: t('pulse.perm_body') },
+              { id: 'ver', icon: <History size={15} />, title: t('pulse.ver_title'), body: t('pulse.ver_body') },
+            ].map(f => (
+              <div key={f.id} className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+                <div className="space-y-3">
+                  <div className="text-orange-400/70">{f.icon}</div>
+                  <h3 className="text-xl font-bold tracking-tighter text-foreground">{f.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{f.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
 
       <div className="h-16" />
@@ -137,13 +219,13 @@ export async function PulsePage() {
             <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden h-full">
               <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               <div className="flex flex-col p-6 h-full">
-                <p className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/50 mb-1">{t('pulse.tier_standard_tagline')}</p>
-                <h3 className="text-lg font-bold text-foreground mb-4">{t('pulse.tier_standard_name')}</h3>
-                <ul className="space-y-2.5 flex-1">
+                <p className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/50 mb-1 text-center">{t('pulse.tier_standard_tagline')}</p>
+                <h3 className="text-xl font-bold tracking-tighter text-foreground mb-4 text-center pb-4 border-b border-white/10">{t('pulse.tier_standard_name')}</h3>
+                <ul className="space-y-3 flex-1">
                   {['feat1','feat2','feat3','feat4','feat5'].map(k => (
                     <li key={k} className="flex items-start gap-2.5">
                       <Check size={13} className="text-muted-foreground/50 mt-0.5 flex-shrink-0" />
-                      <span className="text-xs text-muted-foreground/80">{t(`pulse.tier_standard_${k}`)}</span>
+                      <span className="text-sm text-muted-foreground/80">{t(`pulse.tier_standard_${k}`)}</span>
                     </li>
                   ))}
                 </ul>
@@ -156,13 +238,13 @@ export async function PulsePage() {
             <div className="relative rounded-3xl border border-orange-500/25 bg-orange-500/[0.04] backdrop-blur-sm overflow-hidden h-full">
               <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
               <div className="flex flex-col p-6 h-full">
-                <p className="text-[10px] font-medium tracking-widest uppercase text-orange-400/50 mb-1">{t('pulse.tier_advanced_tagline')}</p>
-                <h3 className="text-lg font-bold text-foreground mb-4">{t('pulse.tier_advanced_name')}</h3>
-                <ul className="space-y-2.5 flex-1">
+                <p className="text-[10px] font-medium tracking-widest uppercase text-orange-400/50 mb-1 text-center">{t('pulse.tier_advanced_tagline')}</p>
+                <h3 className="text-xl font-bold tracking-tighter text-foreground mb-4 text-center pb-4 border-b border-white/10">{t('pulse.tier_advanced_name')}</h3>
+                <ul className="space-y-3 flex-1">
                   {['feat1','feat2','feat3','feat4','feat5'].map(k => (
                     <li key={k} className="flex items-start gap-2.5">
                       <Check size={13} className="text-orange-400/70 mt-0.5 flex-shrink-0" />
-                      <span className="text-xs text-muted-foreground/80">{t(`pulse.tier_advanced_${k}`)}</span>
+                      <span className="text-sm text-muted-foreground/80">{t(`pulse.tier_advanced_${k}`)}</span>
                     </li>
                   ))}
                 </ul>
@@ -175,13 +257,13 @@ export async function PulsePage() {
             <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden h-full">
               <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               <div className="flex flex-col p-6 h-full">
-                <p className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/50 mb-1">{t('pulse.tier_premium_tagline')}</p>
-                <h3 className="text-lg font-bold text-foreground mb-4">{t('pulse.tier_premium_name')}</h3>
-                <ul className="space-y-2.5 flex-1">
+                <p className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/50 mb-1 text-center">{t('pulse.tier_premium_tagline')}</p>
+                <h3 className="text-xl font-bold tracking-tighter text-foreground mb-4 text-center pb-4 border-b border-white/10">{t('pulse.tier_premium_name')}</h3>
+                <ul className="space-y-3 flex-1">
                   {['feat1','feat2','feat3','feat4','feat5'].map(k => (
                     <li key={k} className="flex items-start gap-2.5">
                       <Check size={13} className="text-muted-foreground/50 mt-0.5 flex-shrink-0" />
-                      <span className="text-xs text-muted-foreground/80">{t(`pulse.tier_premium_${k}`)}</span>
+                      <span className="text-sm text-muted-foreground/80">{t(`pulse.tier_premium_${k}`)}</span>
                     </li>
                   ))}
                 </ul>
@@ -252,51 +334,6 @@ export async function PulsePage() {
             </div>
           </div>
         </Reveal>
-      </div>
-
-      <div className="h-10" />
-
-      {/* Permissions + Version history */}
-      <div className="mx-auto max-w-5xl px-6 py-4">
-        <div className="grid md:grid-cols-2 gap-4">
-
-          <Reveal x={20} y={0} duration={0.7}>
-            <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden h-full">
-              <div className="absolute top-0 left-10 right-10 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
-              <div className="flex flex-col p-7 h-full">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-500/20 bg-orange-500/5 mb-4">
-                  <Eye size={18} className="text-orange-400/80" />
-                </div>
-                <div className="border border-orange-500/20 py-1 px-3 rounded-lg text-xs text-orange-400/60 w-fit mb-3">
-                  {t('pulse.perm_badge')}
-                </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-foreground">{t('pulse.perm_title')}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {t('pulse.perm_body')}
-                </p>
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal x={-20} y={0} duration={0.7} delay={0.15}>
-            <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden h-full">
-              <div className="absolute top-0 left-10 right-10 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
-              <div className="flex flex-col p-7 h-full">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-500/20 bg-orange-500/5 mb-4">
-                  <History size={18} className="text-orange-400/80" />
-                </div>
-                <div className="border border-orange-500/20 py-1 px-3 rounded-lg text-xs text-orange-400/60 w-fit mb-3">
-                  {t('pulse.ver_badge')}
-                </div>
-                <h3 className="text-xl font-bold tracking-tighter mb-2 text-foreground">{t('pulse.ver_title')}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {t('pulse.ver_body')}
-                </p>
-              </div>
-            </div>
-          </Reveal>
-
-        </div>
       </div>
 
       <div className="h-16" />
