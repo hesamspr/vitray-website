@@ -152,7 +152,7 @@ export default async function HomePage() {
             </p>
           </Reveal>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
             {/* DAANA — temporarily hidden until product is ready
             <GlowCard customSize glowColor="cyan" className="h-[360px] w-full">
               <div className="flex items-start justify-between">
@@ -178,7 +178,7 @@ export default async function HomePage() {
             </GlowCard>
             */}
 
-            <GlowCard customSize glowColor="purple" className="h-[360px] w-full">
+            <GlowCard customSize glowColor="purple" className="h-[360px] w-full md:col-span-2">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   {t('home.bi_badge')}
@@ -198,7 +198,7 @@ export default async function HomePage() {
               </div>
             </GlowCard>
 
-            <GlowCard customSize className="h-[360px] w-full">
+            <GlowCard customSize className="h-[360px] w-full md:col-span-2">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   {t('home.plex_badge')}
@@ -218,7 +218,7 @@ export default async function HomePage() {
               </div>
             </GlowCard>
 
-            <GlowCard customSize glowColor="orange" className="h-[360px] w-full">
+            <GlowCard customSize glowColor="orange" className="h-[360px] w-full md:col-span-2">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   {t('home.pulse_badge')}
@@ -238,7 +238,7 @@ export default async function HomePage() {
               </div>
             </GlowCard>
 
-            <GlowCard customSize glowColor="green" className="h-[360px] w-full">
+            <GlowCard customSize glowColor="green" className="h-[360px] w-full md:col-span-2">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   {t('home.pixel_badge')}
@@ -258,7 +258,7 @@ export default async function HomePage() {
               </div>
             </GlowCard>
 
-            <GlowCard customSize glowColor="blue" className="h-[360px] w-full md:col-span-2">
+            <GlowCard customSize glowColor="blue" className="h-[360px] w-full md:col-span-2 md:col-start-2">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   {t('home.academy_badge')}
