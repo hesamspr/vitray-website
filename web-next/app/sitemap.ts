@@ -11,7 +11,7 @@ const staticRoutes: Array<{ path: string; priority: number; changeFrequency: Met
   { path: '/success-stories', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/business-intelligence', priority: 1.0, changeFrequency: 'monthly' },
   { path: '/bi-solution', priority: 0.9, changeFrequency: 'monthly' },
-  { path: '/daana', priority: 0.9, changeFrequency: 'monthly' },
+  // { path: '/daana', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/pbi-download', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/plex', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/plexserver', priority: 0.6, changeFrequency: 'monthly' },

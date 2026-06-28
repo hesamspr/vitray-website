@@ -26,9 +26,9 @@ export function getNavItems(t: (key: string) => string) {
       name: t('nav.solutions'),
       url: '/#products',
       icon: Package,
-      matchPrefixes: ['/bi-dashboards', '/bi-solution', '/plex', '/pulse', '/pixel', '/daana'],
+      matchPrefixes: ['/bi-dashboards', '/bi-solution', '/plex', '/pulse', '/pixel' /*, '/daana'*/],
       subItems: [
-        { name: t('nav.daana'), url: '/daana', icon: DaanaNavIcon },
+        // { name: t('nav.daana'), url: '/daana', icon: DaanaNavIcon },
         { name: t('nav.bi'), url: '/bi-solution', icon: BiNavIcon },
         { name: t('nav.plex'), url: '/plex', icon: PlexNavIcon },
         { name: t('nav.pulse'), url: '/pulse', icon: PulseNavIcon },

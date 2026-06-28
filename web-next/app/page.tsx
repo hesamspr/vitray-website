@@ -153,6 +153,7 @@ export default async function HomePage() {
           </Reveal>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {/* DAANA — temporarily hidden until product is ready
             <GlowCard customSize glowColor="cyan" className="h-[360px] w-full">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-200">
@@ -175,6 +176,7 @@ export default async function HomePage() {
                 </div>
               </div>
             </GlowCard>
+            */}
 
             <GlowCard customSize glowColor="purple" className="h-[360px] w-full">
               <div className="flex items-start justify-between">
@@ -256,7 +258,7 @@ export default async function HomePage() {
               </div>
             </GlowCard>
 
-            <GlowCard customSize glowColor="blue" className="h-[360px] w-full">
+            <GlowCard customSize glowColor="blue" className="h-[360px] w-full md:col-span-2">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
                   {t('home.academy_badge')}
@@ -280,6 +282,7 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* ECOSYSTEM SECTION — temporarily hidden
         <div className="h-24" />
 
         <section id="ecosystem" className="space-y-10">
@@ -301,6 +304,7 @@ export default async function HomePage() {
         </section>
 
         <div className="h-24" />
+        */}
 
         <section id="testimonials" className="space-y-8">
           <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4">

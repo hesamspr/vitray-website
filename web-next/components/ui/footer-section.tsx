@@ -50,7 +50,7 @@ function getFooterLinks(t: (k: string) => string): FooterSection[] {
     {
       label: t('footer.solutions'),
       links: [
-        { title: t('footer.daana'), href: '/daana', icon: DaanaFooterIcon },
+        // { title: t('footer.daana'), href: '/daana', icon: DaanaFooterIcon },
         { title: t('footer.bi'), href: '/bi-solution', icon: BiFooterIcon },
         { title: t('footer.plex'), href: '/plex', icon: PlexFooterIcon },
         { title: t('footer.pulse'), href: '/pulse', icon: PulseFooterIcon },
