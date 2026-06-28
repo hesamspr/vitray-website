@@ -74,7 +74,7 @@ export function NavBar({ items, className }: NavBarProps) {
 
   const itemClass = (isActive: boolean) =>
     cn(
-      "relative cursor-pointer text-sm font-semibold px-5 py-2 rounded-full transition-colors flex items-center gap-1.5",
+      "relative cursor-pointer text-sm font-semibold px-2 md:px-5 py-2 rounded-full transition-colors flex items-center gap-1.5",
       "text-foreground/80 hover:text-primary",
       isActive && "text-primary",
     )
