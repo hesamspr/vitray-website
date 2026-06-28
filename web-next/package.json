@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "eslint"
   },
+  "optionalDependencies": {
+    "sharp": "0.32.6"
+  },
   "dependencies": {
     "@paper-design/shaders-react": "^0.0.72",
     "@radix-ui/react-slot": "^1.2.4",

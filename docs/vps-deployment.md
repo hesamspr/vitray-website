@@ -1,160 +1,76 @@
 # VPS Deployment Guide — vitrayco.com
 
-Migrating the Next.js app to a Ubuntu VPS while keeping WordPress as a headless CMS.
+Next.js app on Ubuntu VPS, WordPress stays on the old Iranian shared hosting — proxied by Nginx using the hosting server IP directly.
 
 ## Architecture
 
 ```
-vitrayco.com  →  Ubuntu VPS (Nginx)
+vitrayco.com  →  Ubuntu VPS (5.159.49.68) — Nginx
                      │
-                     ├── /wp-json/*     ──proxy──▶  WordPress (cms.vitrayco.com)
-                     ├── /wp-content/*  ──proxy──▶  WordPress (cms.vitrayco.com)
-                     ├── /wp-admin/*    ──proxy──▶  WordPress (cms.vitrayco.com)
+                     ├── /wp-json/*     ──proxy──▶  185.88.153.233 (old hosting, Host: vitrayco.com)
+                     ├── /wp-content/*  ──proxy──▶  185.88.153.233
+                     ├── /wp-admin/*    ──proxy──▶  185.88.153.233
                      └── everything else ────────▶  Next.js (localhost:3000)
 ```
 
----
-
-## Part 1 — Move WordPress to a subdomain
-
-Do this **before** changing DNS to the VPS.
-
-### 1.1 Create the subdomain on your Iranian host
-
-In cPanel (or your host's panel):
-- Add subdomain: `cms.vitrayco.com`
-- Point it to the same WordPress files directory
-
-### 1.2 Update WordPress settings
-
-In WordPress admin → **Settings → General**:
-- **WordPress Address (URL):** `https://cms.vitrayco.com`
-- **Site Address (URL):** `https://cms.vitrayco.com`
-- Save
-
-> ⚠️ After saving, you'll be logged out. Log back in at `cms.vitrayco.com/wp-admin`.
-
-### 1.3 Search & replace old URLs in the database
-
-Install the **Better Search Replace** plugin (or use WP-CLI):
-
-- Search for: `https://vitrayco.com`
-- Replace with: `https://cms.vitrayco.com`
-- Run on all tables
-- Do a dry run first, then the real run
-
-This fixes image URLs inside post content so they point to `cms.vitrayco.com/wp-content/uploads/...`.
-
-### 1.4 Update the Next.js app
-
-Two files need updating after WordPress moves:
-
-**`web-next/lib/wordpress.ts` line 1:**
-```ts
-const WP_API = 'https://cms.vitrayco.com/wp-json/wp/v2'
-```
-
-**`web-next/next.config.ts` — image remote patterns:**
-```ts
-remotePatterns: [
-  {
-    protocol: 'https',
-    hostname: 'cms.vitrayco.com',
-    pathname: '/wp-content/uploads/**',
-  },
-],
-```
-
-### 1.5 SSL for cms.vitrayco.com
-
-In your Iranian hosting cPanel → **SSL/TLS** → issue a Let's Encrypt cert for `cms.vitrayco.com`.
+WordPress never moved. Its Site URL remains `vitrayco.com`. No DNS subdomain needed.
+The Next.js app fetches from `vitrayco.com/wp-json/` which routes through Nginx to the old host.
 
 ---
 
-## Part 2 — VPS Setup
+## What was done (completed)
 
-### 2.1 Initial server (run as root, then switch to a sudo user)
+- [x] Ubuntu VPS at `5.159.49.68`
+- [x] Node.js 22, PM2, Nginx installed
+- [x] Next.js app deployed to `/var/www/vitrayco/web-next`, running as PM2 process `vitrayco`
+- [x] Nginx configured — WordPress paths proxied to `185.88.153.233`, everything else → Next.js
+- [x] SSL cert issued via Certbot (auto-renews, expires 2026-09-26)
+- [x] UFW firewall: ports 22, 80, 443 only
+- [x] Fail2ban, SSH key-only auth, auto security updates
+- [x] DNS A record `vitrayco.com` → `5.159.49.68` (TTL 300)
+- [x] WordPress permalink structure changed to `/blog/%postname%/`
+- [x] Old WordPress root-slug redirects added to `next.config.ts` (auto-fetched at build time)
 
-```bash
-apt update && apt upgrade -y
+---
 
-# Create a non-root user
-adduser deploy
-usermod -aG sudo deploy
-
-# Harden SSH (optional but recommended)
-# Edit /etc/ssh/sshd_config:
-#   PermitRootLogin no
-#   PasswordAuthentication no
-systemctl restart ssh
-```
-
-### 2.2 Install Node.js 22 (LTS)
+## Deploy updates
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-apt install -y nodejs
-node -v  # confirm
+# From project root on local Mac:
+rsync -az \
+  --iconv=utf-8-mac,utf-8 \
+  --exclude 'node_modules' --exclude '.next' --exclude '.git' \
+  -e "ssh -i deploy/keys/private-key-file.pem" \
+  web-next/ \
+  root@5.159.49.68:/var/www/vitrayco/web-next/
+
+ssh -i deploy/keys/private-key-file.pem root@5.159.49.68 \
+  "cd /var/www/vitrayco/web-next && npm install && npm run build && pm2 restart vitrayco"
 ```
 
-### 2.3 Install PM2
+> `--iconv=utf-8-mac,utf-8` is required — converts macOS NFD filenames (Persian) to Linux NFC.
+> Without it, Persian-named files in `public/` serve as 404.
 
-```bash
-npm install -g pm2
-pm2 startup  # follow the printed command to enable auto-start on reboot
-```
+---
 
-### 2.4 Install Nginx
+## Nginx config
 
-```bash
-apt install -y nginx
-systemctl enable nginx
-systemctl start nginx
-```
-
-### 2.5 Deploy the Next.js app
-
-```bash
-# As the deploy user:
-git clone https://github.com/your-org/Website.git /var/www/vitrayco
-cd /var/www/vitrayco/web-next
-
-npm install
-npm run build
-
-pm2 start npm --name "vitrayco" -- start
-pm2 save
-```
-
-For future deploys:
-```bash
-cd /var/www/vitrayco/web-next
-git pull
-npm install
-npm run build
-pm2 restart vitrayco
-```
-
-### 2.6 Configure Nginx
-
-Create `/etc/nginx/sites-available/vitrayco`:
+File: `/etc/nginx/sites-available/vitrayco`
 
 ```nginx
 server {
-    listen 80;
     server_name vitrayco.com www.vitrayco.com;
 
-    # Proxy WordPress-specific paths to the CMS subdomain
     location ~* ^/(wp-json|wp-content|wp-admin|wp-login\.php) {
-        proxy_pass https://cms.vitrayco.com;
-        proxy_set_header Host cms.vitrayco.com;
+        proxy_pass https://185.88.153.233;
+        proxy_set_header Host vitrayco.com;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_ssl_verify off;
         proxy_ssl_server_name on;
     }
 
-    # Everything else → Next.js
     location / {
         proxy_pass http://localhost:3000;
         proxy_http_version 1.1;
@@ -166,48 +82,42 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
     }
+
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/vitrayco.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/vitrayco.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+
+server {
+    if ($host = www.vitrayco.com) { return 301 https://$host$request_uri; }
+    if ($host = vitrayco.com) { return 301 https://$host$request_uri; }
+    listen 80;
+    server_name vitrayco.com www.vitrayco.com;
+    return 404;
 }
 ```
 
-Enable it:
+To update Nginx config:
 ```bash
-ln -s /etc/nginx/sites-available/vitrayco /etc/nginx/sites-enabled/
-nginx -t          # verify config
-systemctl reload nginx
+scp -i deploy/keys/private-key-file.pem <local-config> root@5.159.49.68:/etc/nginx/sites-available/vitrayco
+ssh -i deploy/keys/private-key-file.pem root@5.159.49.68 "nginx -t && systemctl reload nginx"
 ```
-
-### 2.7 SSL with Let's Encrypt
-
-```bash
-apt install -y certbot python3-certbot-nginx
-certbot --nginx -d vitrayco.com -d www.vitrayco.com
-```
-
-Certbot edits the Nginx config automatically and sets up auto-renewal.
 
 ---
 
-## Part 3 — DNS Cutover
+## Known server quirks
 
-Once VPS is ready and tested (test by adding a hosts entry locally first):
-
-1. In your DNS provider, change the **A record** for `vitrayco.com` to the VPS IP
-2. Change the **A record** for `www.vitrayco.com` to the same VPS IP
-3. Set TTL to 300 (5 min) before cutover, so propagation is fast
-4. Monitor with `dig vitrayco.com` until it resolves to the VPS IP
+- **CPU has no AVX2** — `sharp` must stay pinned to `0.32.6` (set in `package.json` optionalDependencies). Do not upgrade it.
+- **Abrha intercepts plain HTTP `.js` files** — always use HTTPS. HTTP works for HTML/images but JS chunks get redirected to an internal IP on port 80.
+- **macOS → Linux rsync** — always use `--iconv=utf-8-mac,utf-8` for Persian filenames.
 
 ---
 
-## Checklist before going live
+## SSL renewal
 
-- [ ] WordPress is live and accessible at `cms.vitrayco.com`
-- [ ] All images load correctly from `cms.vitrayco.com/wp-content/uploads/...`
-- [ ] `web-next/lib/wordpress.ts` WP_API points to `cms.vitrayco.com`
-- [ ] `web-next/next.config.ts` image pattern updated to `cms.vitrayco.com`
-- [ ] Next.js builds without errors on the VPS
-- [ ] PM2 is running and survives a reboot (`pm2 list`)
-- [ ] Nginx config passes `nginx -t`
-- [ ] SSL cert issued and HTTPS works
-- [ ] Test old URLs redirect correctly: `vitrayco.com/elecomp1402` → `vitrayco.com/blog/elecomp1402`
-- [ ] DNS updated and propagated
-- [ ] Submit updated sitemap to Google Search Console
+Certbot auto-renews. To renew manually:
+```bash
+ssh -i deploy/keys/private-key-file.pem root@5.159.49.68 "certbot renew"
+```

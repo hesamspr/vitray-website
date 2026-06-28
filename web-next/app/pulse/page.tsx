@@ -5,9 +5,11 @@ import { PulseHero } from '@/components/ui/pulse-hero';
 import { LampContainer } from '@/components/ui/lamp';
 import { Reveal } from '@/components/ui/reveal';
 import { PulseGifViewer } from '@/components/ui/pulse-gif-viewer';
+import { AnimatedBackground } from '@/components/ui/animated-background';
 import {
   Activity,
   BarChart3,
+  Building2,
   Check,
   Copy,
   Database,
@@ -15,7 +17,6 @@ import {
   Globe,
   History,
   Layers,
-  LayoutTemplate,
   Link2,
   Server,
   ShieldCheck,
@@ -129,11 +130,24 @@ export async function PulsePage() {
 
         <div className="h-6" />
 
-        {/* Mini-cards: feat3, adm2, adm3 */}
+        {/* Hero 3: Copy from existing user */}
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="space-y-3">
+            <UserCheck size={22} className="text-orange-400/70" />
+            <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.copyfrom_title')}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.copyfrom_body')}</p>
+          </div>
+          <div className="md:col-span-2">
+            <PulseGifViewer src="/pulse/copy-from.gif" alt={t('pulse.copyfrom_title')} />
+          </div>
+        </div>
+
+        <div className="h-6" />
+
+        {/* Mini-cards: adm2, adm3 */}
         <Reveal fromOpacity={0.2}>
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             {[
-              { id: 'copyfrom', icon: <UserCheck size={15} />, title: t('pulse.copyfrom_title'), body: t('pulse.copyfrom_body') },
               { id: 'adm2', icon: <Copy size={15} />, title: t('pulse.adm2_title'), body: t('pulse.adm2_body') },
               { id: 'adm3', icon: <Database size={15} />, title: t('pulse.adm3_title'), body: t('pulse.adm3_body') },
             ].map(f => (
@@ -177,25 +191,111 @@ export async function PulsePage() {
 
         <div className="h-6" />
 
-        {/* Mini-cards: feat4, perm, ver */}
+        {/* Hero 2: Effective Permissions */}
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="space-y-3">
+            <Eye size={22} className="text-orange-400/70" />
+            <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.perm_title')}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.perm_body')}</p>
+          </div>
+          <div className="md:col-span-2">
+            <PulseGifViewer src="/pulse/effective-permissions.gif" alt={t('pulse.perm_title')} />
+          </div>
+        </div>
+
+        <div className="h-6" />
+
+        {/* Hero 3: Version Control */}
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="space-y-3">
+            <History size={22} className="text-orange-400/70" />
+            <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.ver_title')}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.ver_body')}</p>
+          </div>
+          <div className="md:col-span-2">
+            <PulseGifViewer src="/pulse/version-ctrl.gif" alt={t('pulse.ver_title')} />
+          </div>
+        </div>
+
+        <div className="h-6" />
+
+        {/* Mini-card: feat4 */}
         <Reveal fromOpacity={0.2}>
-          <div className="grid md:grid-cols-3 gap-4">
-            {[
-              { id: 'feat4', icon: <BarChart3 size={15} />, title: t('pulse.feat4_title'), body: t('pulse.feat4_body') },
-              { id: 'perm', icon: <Eye size={15} />, title: t('pulse.perm_title'), body: t('pulse.perm_body') },
-              { id: 'ver', icon: <History size={15} />, title: t('pulse.ver_title'), body: t('pulse.ver_body') },
-            ].map(f => (
-              <div key={f.id} className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
-                <div className="space-y-3">
-                  <div className="text-orange-400/70">{f.icon}</div>
-                  <h3 className="text-xl font-bold tracking-tighter text-foreground">{f.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{f.body}</p>
-                </div>
+          <div className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+            <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+            <div className="flex items-start gap-4">
+              <BarChart3 size={17} className="text-orange-400/70 flex-shrink-0 mt-1" />
+              <div className="space-y-3">
+                <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.feat4_title')}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.feat4_body')}</p>
               </div>
-            ))}
+            </div>
           </div>
         </Reveal>
+      </div>
+
+      <div className="h-10" />
+
+      {/* Why Pulse */}
+      <div className="mx-auto max-w-5xl px-6 py-4">
+        <Reveal className="mb-8 text-center">
+          <p className="text-xs text-orange-400/60 font-medium tracking-widest uppercase mb-2">
+            {t('pulse.why_badge')}
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-foreground">
+            {t('pulse.why_title')}
+          </h2>
+          <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto">
+            {t('pulse.why_subtitle')}
+          </p>
+        </Reveal>
+
+        <AnimatedBackground
+          enableHover
+          className="flex flex-col gap-3"
+        >
+          {/* Card 1: On-prem deployment */}
+          <div
+            data-id="about"
+            className="rounded-2xl border border-border/60 bg-gradient-to-r from-orange-500/5 via-transparent to-transparent p-6"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/60 bg-muted/30">
+                <Server size={16} className="text-muted-foreground" />
+              </div>
+              <h3 className="text-base font-bold tracking-tight text-foreground">{t('pulse.about_title')}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.about_body')}</p>
+          </div>
+
+          {/* Card 2: Non-invasive architecture */}
+          <div
+            data-id="arch"
+            className="rounded-2xl border border-border/60 bg-gradient-to-r from-orange-500/5 via-transparent to-transparent p-6"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/60 bg-muted/30">
+                <Link2 size={16} className="text-muted-foreground" />
+              </div>
+              <h3 className="text-base font-bold tracking-tight text-foreground">{t('pulse.arch_title')}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.arch_body')}</p>
+          </div>
+
+          {/* Card 3: Enterprise architecture compliance */}
+          <div
+            data-id="compliance"
+            className="rounded-2xl border border-border/60 bg-gradient-to-r from-orange-500/5 via-transparent to-transparent p-6"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/60 bg-muted/30">
+                <Building2 size={16} className="text-muted-foreground" />
+              </div>
+              <h3 className="text-base font-bold tracking-tight text-foreground">{t('pulse.compliance_title')}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.compliance_body')}</p>
+          </div>
+        </AnimatedBackground>
       </div>
 
       <div className="h-16" />
@@ -271,69 +371,6 @@ export async function PulsePage() {
             </div>
           </Reveal>
         </div>
-      </div>
-
-      <div className="h-10" />
-
-      {/* Main description */}
-      <div className="mx-auto max-w-5xl px-6 py-4">
-        <Reveal>
-          <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden w-full">
-            <div className="absolute top-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
-            <div className="flex flex-col md:flex-row items-center gap-10 p-8 md:p-12">
-              <div className="flex-1 space-y-4">
-                <div className="border border-orange-500/25 py-1 px-4 rounded-lg text-sm text-orange-400/70 w-fit">
-                  {t('pulse.about_badge')}
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-foreground">
-                  {t('pulse.about_title')}
-                </h2>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {t('pulse.about_body')}
-                </p>
-              </div>
-              <div className="flex-shrink-0 grid grid-cols-2 gap-3 w-full md:w-[220px]">
-                {[
-                  { id: 'pill_powerbi', icon: BarChart3, label: t('pulse.pill_powerbi') },
-                  { id: 'pill_calendar', icon: Users, label: t('pulse.pill_calendar') },
-                  { id: 'pill_persian', icon: Globe, label: t('pulse.pill_persian') },
-                  { id: 'pill_team', icon: Server, label: t('pulse.pill_team') },
-                ].map(({ id, icon: Icon, label }) => (
-                  <div
-                    key={id}
-                    className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/[0.04] p-4 text-center"
-                  >
-                    <Icon size={18} className="text-orange-400/80" />
-                    <span className="text-xs text-muted-foreground">{label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </div>
-
-      <div className="h-10" />
-
-      {/* Architecture */}
-      <div className="mx-auto max-w-5xl px-6 py-4">
-        <Reveal x={20} y={0} duration={0.7}>
-          <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden w-full">
-            <div className="absolute top-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
-            <div className="flex flex-col p-7">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-500/20 bg-orange-500/5 mb-4">
-                <Link2 size={18} className="text-orange-400/80" />
-              </div>
-              <div className="border border-orange-500/20 py-1 px-3 rounded-lg text-xs text-orange-400/60 w-fit mb-3">
-                {t('pulse.arch_badge')}
-              </div>
-              <h3 className="text-xl font-bold tracking-tighter mb-2 text-foreground">{t('pulse.arch_title')}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t('pulse.arch_body')}
-              </p>
-            </div>
-          </div>
-        </Reveal>
       </div>
 
       <div className="h-16" />
