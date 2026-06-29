@@ -378,17 +378,15 @@ export async function PlexPage() {
             {t('plex.closing_title')}
           </h2>
           <a
-            href="#"
+            href="https://plexdemo.vitray.ir/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
           >
             {t('plex.closing_demo')}
           </a>
-          <p className="text-xs text-white/40" dir="ltr">
-            user: <span className="text-white/60">user</span>
-            {' '}|{' '}
-            pass: <span className="text-white/60">user</span>
+          <p className="text-xs text-white/40" dir="rtl">
+            برای دریافت نام کاربری و رمز عبور دمو، با ما تماس بگیرید.
           </p>
         </Reveal>
       </LampContainer>
