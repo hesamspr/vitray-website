@@ -41,6 +41,19 @@ function checkAuth(request: Request, user: string, pass: string): boolean {
   return okUser && okPass;
 }
 
+function formatTehranTime(iso: string): string {
+  return new Date(iso).toLocaleString('en-GB', {
+    timeZone: 'Asia/Tehran',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+}
+
 const esc = (v: unknown): string =>
   String(v ?? '')
     .replace(/&/g, '&amp;')
@@ -57,7 +70,7 @@ function renderPage(rows: StoredSubmission[]): string {
   const body = rows
     .map(
       (r) => `<tr>
-        <td>${esc(new Date(r.created_at).toLocaleString())}</td>
+        <td>${esc(formatTehranTime(r.created_at))}</td>
         <td>${esc(r.source)}</td>
         <td>${esc(r.name)}</td>
         <td><a href="mailto:${esc(r.email)}">${esc(r.email)}</a></td>
@@ -97,7 +110,7 @@ ${
     ? '<div class="empty">No submissions yet.</div>'
     : `<div class="wrap"><table>
   <thead><tr>
-    <th>Time</th><th>Source</th><th>Name</th><th>Email</th><th>Mobile</th><th>Company</th><th>Message</th><th>Webhook</th>
+    <th>Time (Tehran)</th><th>Source</th><th>Name</th><th>Email</th><th>Mobile</th><th>Company</th><th>Message</th><th>Webhook</th>
   </tr></thead>
   <tbody>${body}</tbody>
 </table></div>`
