@@ -7,6 +7,8 @@ import {
   type WebhookStatus,
 } from '@/lib/contact-store';
 import { sendLeadNotification } from '@/lib/notify-email';
+import { isRateLimited } from '@/lib/rate-limit';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 // Run on the Node.js runtime (not Edge) — we need fs access for the local store.
 export const runtime = 'nodejs';
@@ -14,10 +16,19 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const WEBHOOK_URL =
-  process.env.CONTACT_WEBHOOK_URL || 'https://n8n.vitray.ir/webhook/contact-us-form';
+  process.env.CONTACT_WEBHOOK_URL || 'https://n8n.saeidpour.com/webhook/contact-us-form';
 
 const WEBHOOK_TIMEOUT_MS = 10_000;
 const MAX_FIELD_LEN = 5000;
+// Forms render a timestamp and echo it back on submit. A human can't fill
+// name/email/mobile/details faster than this; bots that submit instantly do.
+const MIN_FILL_TIME_MS = 1000;
+
+function clientIp(request: Request): string {
+  const forwarded = request.headers.get('x-forwarded-for');
+  if (forwarded) return forwarded.split(',')[0].trim();
+  return request.headers.get('x-real-ip') || 'unknown';
+}
 
 function str(v: unknown): string {
   return typeof v === 'string' ? v.trim() : '';
@@ -90,7 +101,42 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'invalid_input' }, { status: 400 });
   }
 
-  const source = str((raw as Record<string, unknown>).source) || 'contact';
+  const b = raw as Record<string, unknown>;
+  const source = str(b.source) || 'contact';
+  const ip = clientIp(request);
+
+  // Real users never hit the rate limit; bots hammering the endpoint do.
+  // This is checked (and rejected honestly) before the spam heuristics below,
+  // which are designed to fail silently instead.
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
+  }
+
+  // --- Spam heuristics ---------------------------------------------------
+  // Any of these tripping means the request is almost certainly a bot. We
+  // report success anyway (without storing/forwarding/emailing) so scripted
+  // bots get no signal that they were caught and don't adapt.
+  const honeypotFilled = str(b.website).length > 0;
+  const renderedAt = Number(b.rendered_at);
+  const fillTimeMs = Number.isFinite(renderedAt) ? Date.now() - renderedAt : Infinity;
+  const tooFast = fillTimeMs < MIN_FILL_TIME_MS;
+
+  const turnstileToken = str(b.turnstile_token);
+  // A missing token (widget never loaded — e.g. blocked script, outage) is
+  // NOT treated as spam: we only reject when Cloudflare explicitly says the
+  // token is invalid.
+  const turnstileFailed =
+    turnstileToken.length > 0 && !(await verifyTurnstileToken(turnstileToken, ip));
+
+  if (honeypotFilled || tooFast || turnstileFailed) {
+    console.warn('[contact] silently dropped suspected spam', {
+      ip,
+      honeypotFilled,
+      tooFast,
+      turnstileFailed,
+    });
+    return NextResponse.json({ ok: true, webhook: 'skipped' });
+  }
 
   // Attempt the webhook first so we can record its real outcome, then persist.
   // The save is the final, always-reached step — a webhook failure or timeout

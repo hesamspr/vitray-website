@@ -4,8 +4,9 @@ import { NavBar } from '@/components/ui/tubelight-navbar';
 import { Footer } from '@/components/ui/footer-section';
 import { m } from 'motion/react';
 import { Mail, MapPin, Phone, Send } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useTurnstile } from '@/hooks/useTurnstile';
 import { getNavItems } from '@/lib/navItems';
 import { Button } from '@/components/ui/button';
 import { ShineBorder } from '@/components/ui/shine-border';
@@ -15,9 +16,12 @@ export function ContactPage() {
   const navItems = getNavItems(t);
 
   const [form, setForm] = useState({ name: '', email: '', mobile: '', company: '', details: '' });
+  const [honeypot, setHoneypot] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const renderedAt = useRef(Date.now());
+  const { containerRef: turnstileRef, getToken } = useTurnstile();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,12 +30,19 @@ export function ContactPage() {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 15000);
     try {
+      const turnstileToken = await getToken();
       // Post same-origin to our own API, which persists the lead and forwards
       // it to the webhook. We trust the real response: success only on res.ok.
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source: 'contact' }),
+        body: JSON.stringify({
+          ...form,
+          source: 'contact',
+          website: honeypot,
+          rendered_at: renderedAt.current,
+          turnstile_token: turnstileToken,
+        }),
         signal: controller.signal,
       });
       if (res.ok) {
@@ -140,6 +151,18 @@ export function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4" dir={lang === 'en' ? 'ltr' : 'rtl'}>
+                {/* Honeypot: hidden from real users, bots that auto-fill every field trip it. */}
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={e => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="absolute -left-[9999px] w-px h-px opacity-0"
+                />
+                <div ref={turnstileRef} />
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label className="text-xs text-muted-foreground">{t('contact.form_name')}</label>

@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { X, Zap, CheckCircle } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useTurnstile } from '@/hooks/useTurnstile'
 
 interface ConsultationModalProps {
   isOpen: boolean
@@ -17,9 +18,12 @@ const labelClass = 'block text-xs text-white/60 mb-1'
 export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
   const { t, lang } = useTranslation()
   const [form, setForm] = useState({ name: '', email: '', mobile: '', company: '', details: '' })
+  const [honeypot, setHoneypot] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const renderedAt = useRef(Date.now())
+  const { containerRef: turnstileRef, getToken } = useTurnstile()
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -32,6 +36,11 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
+  // Re-stamp the fill-time clock each time the modal is (re)opened.
+  useEffect(() => {
+    if (isOpen) renderedAt.current = Date.now()
+  }, [isOpen])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -41,12 +50,19 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
     const timer = setTimeout(() => controller.abort(), 15000)
 
     try {
+      const turnstileToken = await getToken()
       // Post same-origin to our own API, which persists the lead and forwards
       // it to the webhook. Success only on a real ok response.
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source: 'consultation' }),
+        body: JSON.stringify({
+          ...form,
+          source: 'consultation',
+          website: honeypot,
+          rendered_at: renderedAt.current,
+          turnstile_token: turnstileToken,
+        }),
         signal: controller.signal,
       })
       if (res.ok) {
@@ -71,6 +87,7 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
     setTimeout(() => {
       setSubmitted(false)
       setForm({ name: '', email: '', mobile: '', company: '', details: '' })
+      setHoneypot('')
       setError('')
     }, 300)
   }
@@ -140,6 +157,18 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-3" dir={lang === 'en' ? 'ltr' : 'rtl'}>
+                {/* Honeypot: hidden from real users, bots that auto-fill every field trip it. */}
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={e => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="absolute -left-[9999px] w-px h-px opacity-0"
+                />
+                <div ref={turnstileRef} />
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className={labelClass}>{t('modal.field_name')}</label>
