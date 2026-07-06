@@ -60,7 +60,7 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
           ...form,
           source: 'consultation',
           website: honeypot,
-          rendered_at: renderedAt.current,
+          elapsed_ms: Date.now() - renderedAt.current,
           turnstile_token: turnstileToken,
         }),
         signal: controller.signal,

@@ -117,8 +117,11 @@ export async function POST(request: Request) {
   // report success anyway (without storing/forwarding/emailing) so scripted
   // bots get no signal that they were caught and don't adapt.
   const honeypotFilled = str(b.website).length > 0;
-  const renderedAt = Number(b.rendered_at);
-  const fillTimeMs = Number.isFinite(renderedAt) ? Date.now() - renderedAt : Infinity;
+  // The client computes its own elapsed time and sends that single number
+  // (rather than us diffing a client timestamp against our own clock) so
+  // this check can't be thrown off by clock skew between the two machines.
+  const elapsedMs = Number(b.elapsed_ms);
+  const fillTimeMs = Number.isFinite(elapsedMs) ? elapsedMs : Infinity;
   const tooFast = fillTimeMs < MIN_FILL_TIME_MS;
 
   const turnstileToken = str(b.turnstile_token);
