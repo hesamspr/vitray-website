@@ -15,6 +15,12 @@ const stories: PrLinkItem[] = [
   { label: 'داستان موفقیت تلاونگ', href: 'https://vitrayco.com/telavang-cs/' },
 ];
 
+const demos: PrLinkItem[] = [
+  { label: 'Plex', href: 'https://plexdemo.vitray.ir/' },
+  { label: 'Pulse', href: 'https://pulse.vitray.ir' },
+  { label: 'Vortex', href: 'https://qa.daana.app/' },
+];
+
 const dashboards: PrLinkItem[] = [
   { label: 'داشبورد بازاریابی', href: 'https://app.powerbi.com/view?r=eyJrIjoiOTllMzU0YTYtYjRiOC00NDE5LTk5MWEtMDAyMGI4ODYyYjljIiwidCI6IjA5YTdiYjhiLTVkMDgtNDhhMi05ODk5LTYzZWU2N2FhY2Q5OSIsImMiOjF9' },
   { label: 'داشبورد فروش', href: 'https://app.powerbi.com/view?r=eyJrIjoiODRhZjJjY2YtYjY0Ni00ZjM4LThiOTktMGRlNDI3M2M2NGY5IiwidCI6IjA5YTdiYjhiLTVkMDgtNDhhMi05ODk5LTYzZWU2N2FhY2Q5OSIsImMiOjF9&pageName=ReportSection879071a21508da2e80b1' },
@@ -67,6 +73,24 @@ export default function PrPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {dashboards.map((item, i) => (
             <PrLinkCard key={item.href} item={item} index={i} icon="chart" />
+          ))}
+        </div>
+      </div>
+
+      <div className="h-12" />
+
+      {/* دمو محصولات */}
+      <div className="mx-auto max-w-5xl px-6 py-8">
+        <Reveal duration={0.7} className="mb-8 flex flex-col items-center gap-2 text-center">
+          <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
+            بخش سوم
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter">دمو محصولات</h2>
+        </Reveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {demos.map((item, i) => (
+            <PrLinkCard key={item.href} item={item} index={i} icon="demo" />
           ))}
         </div>
       </div>
