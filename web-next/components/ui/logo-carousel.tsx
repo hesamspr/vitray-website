@@ -46,9 +46,10 @@ const distributeLogos = (allLogos: Logo[], columnCount: number): Logo[][] => {
 // Each column manages its own cycling — avoids a parent tick re-rendering all children
 const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, paused }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || hovered) return;
     // Stagger column start times so columns don't all swap on the same frame
     const delay = index * 200;
     let intervalId: ReturnType<typeof setInterval>;
@@ -61,7 +62,7 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, paused
       clearTimeout(timeoutId);
       clearInterval(intervalId);
     };
-  }, [logos.length, index, paused]);
+  }, [logos.length, index, paused, hovered]);
 
   const current = logos[currentIndex];
 
@@ -75,6 +76,8 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, paused
         duration: 0.5,
         ease: "easeOut",
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <AnimatePresence mode="wait">
         <m.div
@@ -98,7 +101,12 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, paused
             width={192}
             height={192}
             sizes="(max-width: 768px) 112px, 192px"
-            className="max-h-[80%] max-w-[80%] object-contain invert grayscale"
+            className="max-h-[80%] max-w-[80%] object-contain transition-all duration-300"
+            style={{
+              filter: hovered
+                ? "drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff)"
+                : "invert(1) grayscale(1)",
+            }}
           />
         </m.div>
       </AnimatePresence>

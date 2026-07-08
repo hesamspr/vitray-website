@@ -142,15 +142,16 @@ export async function SuccessStoryTemplate({ story }: { story: SuccessStory }) {
             {/* Key-result highlight card */}
             {highlight && (
               <Reveal onMount y={24} delay={0.25} duration={0.9} className="md:col-span-5">
-                <div className="relative overflow-hidden rounded-3xl border border-white/[0.12] bg-white/[0.04] p-7 backdrop-blur-sm">
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -end-10 -top-10 h-32 w-32 rounded-full blur-2xl"
-                    style={{ backgroundColor: `rgba(${rgb}, 0.35)` }}
-                  />
+                <div className="relative rounded-3xl border border-white/[0.12] bg-white/[0.04] p-7 backdrop-blur-sm">
+                  <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
+                    <div
+                      className="absolute -end-10 -top-10 h-32 w-32 rounded-full blur-2xl"
+                      style={{ backgroundColor: `rgba(${rgb}, 0.35)` }}
+                    />
+                  </div>
                   <div className="relative">
-                    <div className="text-xs font-semibold uppercase tracking-wider text-white/45">{t('stories.results_label')}</div>
-                    <div className={`mt-3 bg-gradient-to-br bg-clip-text text-5xl font-bold tracking-tighter text-transparent md:text-6xl ${accent.value}`}>
+                    <div className="text-xs font-semibold uppercase leading-relaxed tracking-wider text-white/45">{t('stories.results_label')}</div>
+                    <div className={`mt-3 bg-gradient-to-br bg-clip-text pb-2 text-5xl font-bold leading-[1.25] tracking-tighter text-transparent md:text-6xl ${accent.value}`}>
                       {pick(highlight.value, lang)}
                     </div>
                     <div className="mt-2 text-sm text-white/70">{pick(highlight.label, lang)}</div>
