@@ -219,19 +219,33 @@ export async function PulsePage() {
 
         <div className="h-6" />
 
-        {/* Mini-card: feat4 */}
-        <Reveal fromOpacity={0.2}>
-          <div className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-            <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
-            <div className="flex items-start gap-4">
-              <BarChart3 size={17} className="text-orange-400/70 flex-shrink-0 mt-1" />
-              <div className="space-y-3">
-                <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.feat4_title')}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.feat4_body')}</p>
-              </div>
-            </div>
+        {/* Hero 4: Self-service pivot */}
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="space-y-3">
+            <BarChart3 size={22} className="text-orange-400/70" />
+            <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.feat4_title')}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.feat4_body')}</p>
           </div>
-        </Reveal>
+          <div className="md:col-span-2">
+            <PulseGifViewer src="/pulse/pivot.gif" alt={t('pulse.feat4_title')} />
+          </div>
+        </div>
+
+        <div className="h-6" />
+
+        {/* Hero 5: Report subscriptions */}
+        <div className="grid md:grid-cols-3 gap-6 items-center">
+          <div className="space-y-3">
+            <span className="inline-block text-[10px] font-medium tracking-widest uppercase text-orange-400/60 border border-orange-500/20 rounded-md px-2 py-0.5">
+              {t('pulse.sub_badge')}
+            </span>
+            <h3 className="text-xl font-bold tracking-tighter text-foreground">{t('pulse.sub_title')}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">{t('pulse.sub_body')}</p>
+          </div>
+          <div className="md:col-span-2">
+            <PulseGifViewer src="/pulse/subscription.gif" alt={t('pulse.sub_title')} />
+          </div>
+        </div>
       </div>
 
       <div className="h-10" />
@@ -360,7 +374,7 @@ export async function PulsePage() {
                 <p className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/50 mb-1 text-center">{t('pulse.tier_premium_tagline')}</p>
                 <h3 className="text-xl font-bold tracking-tighter text-foreground mb-4 text-center pb-4 border-b border-white/10">{t('pulse.tier_premium_name')}</h3>
                 <ul className="space-y-3 flex-1">
-                  {['feat1','feat2','feat3','feat4','feat5'].map(k => (
+                  {['feat1','feat2','feat3','feat4','feat5','feat6'].map(k => (
                     <li key={k} className="flex items-start gap-2.5">
                       <Check size={13} className="text-muted-foreground/50 mt-0.5 flex-shrink-0" />
                       <span className="text-sm text-muted-foreground/80">{t(`pulse.tier_premium_${k}`)}</span>

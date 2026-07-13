@@ -300,6 +300,9 @@
     "feat3_body": "AD group membership controls who can log in, which PBRS reports they see, and which SSAS roles they hold — all managed from one admin panel. If someone adds access directly in SSAS Management Studio, Pulse removes it on the next sync.",
     "feat4_title": "Self-service pivot on SSAS Tabular",
     "feat4_body": "Users can build pivot tables and charts directly on SSAS Tabular data — select fields, apply filters, export to Excel. Access restrictions apply automatically based on each user's existing roles.",
+    "sub_badge": "New",
+    "sub_title": "Scheduled report subscriptions",
+    "sub_body": "Users can subscribe to any report to receive it automatically on a schedule — daily, weekly, or monthly. Each delivery is rendered under the recipient's own row-level security, so every user only ever receives the data they're already permitted to see.",
     "about_badge": "About Pulse",
     "about_title": "Deployed on your infrastructure",
     "about_body": "Pulse installs on your existing server alongside PBRS. Each customer runs their own instance — data stays in your network, and your PBRS configuration is not modified.",
@@ -375,7 +378,8 @@
     "tier_premium_feat2": "Report usage analytics for administrators",
     "tier_premium_feat3": "SSAS perspective management",
     "tier_premium_feat4": "Adaptive risk-based authentication",
-    "tier_premium_feat5": "Excel export from live SSAS query results"
+    "tier_premium_feat5": "Excel export from live SSAS query results",
+    "tier_premium_feat6": "Scheduled report subscriptions with recipient-level RLS"
   },
   "daana": {
     "feat1_title": "Custom AI Agents",

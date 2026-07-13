@@ -36,6 +36,7 @@ async function fetchWPPostSlugs(): Promise<string[]> {
 }
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {
