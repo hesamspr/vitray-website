@@ -139,6 +139,22 @@ export default async function HomePage() {
 
         <div className="h-24" />
 
+        <section id="data-belief" className="py-8 text-center">
+          <Reveal className="flex flex-col items-center justify-center max-w-2xl mx-auto space-y-4">
+            <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
+              {t('home.data_belief_badge')}
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter">
+              {t('home.data_belief_title')}
+            </h2>
+            <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
+              {t('home.data_belief_body')}
+            </p>
+          </Reveal>
+        </section>
+
+        <div className="h-24" />
+
         <section id="products" className="space-y-8">
           <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4">
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
@@ -281,6 +297,8 @@ export default async function HomePage() {
             </GlowCard>
           </div>
         </section>
+
+        <div className="h-24" />
 
         {/* ECOSYSTEM SECTION — temporarily hidden
         <div className="h-24" />

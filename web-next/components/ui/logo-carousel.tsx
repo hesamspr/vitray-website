@@ -49,7 +49,7 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, paused
   const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    if (paused || hovered) return;
+    if (paused) return;
     // Stagger column start times so columns don't all swap on the same frame
     const delay = index * 200;
     let intervalId: ReturnType<typeof setInterval>;
@@ -62,7 +62,7 @@ const LogoColumn: React.FC<LogoColumnProps> = React.memo(({ logos, index, paused
       clearTimeout(timeoutId);
       clearInterval(intervalId);
     };
-  }, [logos.length, index, paused, hovered]);
+  }, [logos.length, index, paused]);
 
   const current = logos[currentIndex];
 
@@ -126,6 +126,7 @@ export function LogoCarousel({ columnCount = 2, mobileColumnCount = 3, logos }: 
   const [logoSets, setLogoSets] = useState<Logo[][]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [rowHovered, setRowHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -154,9 +155,14 @@ export function LogoCarousel({ columnCount = 2, mobileColumnCount = 3, logos }: 
   }, []);
 
   return (
-    <div ref={containerRef} className="flex gap-4">
+    <div
+      ref={containerRef}
+      className="flex gap-4"
+      onMouseEnter={() => setRowHovered(true)}
+      onMouseLeave={() => setRowHovered(false)}
+    >
       {logoSets.map((logos, index) => (
-        <LogoColumn key={index} logos={logos} index={index} paused={paused} />
+        <LogoColumn key={index} logos={logos} index={index} paused={paused || rowHovered} />
       ))}
     </div>
   );
