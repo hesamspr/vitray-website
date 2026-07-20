@@ -6,7 +6,7 @@ import { GradientCard } from '@/components/ui/gradient-card';
 import { AnimatedBackground } from '@/components/ui/animated-background';
 import { LampContainer } from '@/components/ui/lamp';
 import { DashboardTemplatesSection } from '@/components/ui/feature-section-with-card-gradient';
-import { LazyMeshGradient as MeshGradient } from "@/components/ui/lazy-shaders";
+import { LazyMeshGradient as MeshGradient, ShaderVisibilityGate } from "@/components/ui/lazy-shaders";
 import { Reveal } from '@/components/ui/reveal';
 import {
   BarChart3,
@@ -76,16 +76,18 @@ export async function BiSolutionPage() {
 
       {/* Hero */}
       <div className="relative w-full overflow-hidden" style={{ height: '100vh', minHeight: 520 }}>
-        <MeshGradient
-          className="absolute inset-0 w-full h-full"
-          colors={["#000000", "#3730a3", "#1e1b4b", "#0f172a", "#4338ca"]}
-          speed={0.3}
-        />
-        <MeshGradient
-          className="absolute inset-0 w-full h-full opacity-40"
-          colors={["#000000", "#ffffff", "#3730a3", "#6366f1"]}
-          speed={0.2}
-        />
+        <ShaderVisibilityGate>
+          <MeshGradient
+            className="absolute inset-0 w-full h-full"
+            colors={["#000000", "#3730a3", "#1e1b4b", "#0f172a", "#4338ca"]}
+            speed={0.3}
+          />
+          <MeshGradient
+            className="absolute inset-0 w-full h-full opacity-40"
+            colors={["#000000", "#ffffff", "#3730a3", "#6366f1"]}
+            speed={0.2}
+          />
+        </ShaderVisibilityGate>
         <div
           aria-hidden="true"
           className="pointer-events-none absolute bottom-0 left-0 right-0 h-48 z-10"

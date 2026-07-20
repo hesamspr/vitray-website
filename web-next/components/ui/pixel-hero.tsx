@@ -1,6 +1,6 @@
 'use client'
 
-import { LazyMeshGradient as MeshGradient } from "@/components/ui/lazy-shaders"
+import { LazyMeshGradient as MeshGradient, ShaderVisibilityGate } from "@/components/ui/lazy-shaders"
 import { m } from "motion/react"
 import { useTranslation } from "@/hooks/useTranslation"
 
@@ -12,16 +12,18 @@ export function PixelHero() {
       className="relative w-full overflow-hidden"
       style={{ height: "100vh", minHeight: 520 }}
     >
-      <MeshGradient
-        className="absolute inset-0 w-full h-full"
-        colors={["#000000", "#0e7490", "#164e63", "#0f172a", "#0891b2"]}
-        speed={0.3}
-      />
-      <MeshGradient
-        className="absolute inset-0 w-full h-full opacity-40"
-        colors={["#000000", "#ffffff", "#0e7490", "#0891b2"]}
-        speed={0.2}
-      />
+      <ShaderVisibilityGate>
+        <MeshGradient
+          className="absolute inset-0 w-full h-full"
+          colors={["#000000", "#0e7490", "#164e63", "#0f172a", "#0891b2"]}
+          speed={0.3}
+        />
+        <MeshGradient
+          className="absolute inset-0 w-full h-full opacity-40"
+          colors={["#000000", "#ffffff", "#0e7490", "#0891b2"]}
+          speed={0.2}
+        />
+      </ShaderVisibilityGate>
 
       <div
         aria-hidden="true"

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { m, AnimatePresence } from 'motion/react'
 import { Sparkles, ArrowUp } from 'lucide-react'
-import { LazyMeshGradient as MeshGradient } from '@/components/ui/lazy-shaders'
+import { LazyMeshGradient as MeshGradient, ShaderVisibilityGate } from '@/components/ui/lazy-shaders'
 import { useTranslation } from '@/hooks/useTranslation'
 
 const PROMPT_KEYS = ['daana_hero.prompt1', 'daana_hero.prompt2', 'daana_hero.prompt3', 'daana_hero.prompt4']
@@ -22,16 +22,18 @@ export function DaanaHero() {
       className="relative w-full overflow-hidden"
       style={{ height: '100vh', minHeight: 560 }}
     >
-      <MeshGradient
-        className="absolute inset-0 w-full h-full"
-        colors={['#000000', '#0e7490', '#164e63', '#0f172a', '#06b6d4']}
-        speed={0.3}
-      />
-      <MeshGradient
-        className="absolute inset-0 w-full h-full opacity-40"
-        colors={['#000000', '#ffffff', '#22d3ee', '#0891b2']}
-        speed={0.2}
-      />
+      <ShaderVisibilityGate>
+        <MeshGradient
+          className="absolute inset-0 w-full h-full"
+          colors={['#000000', '#0e7490', '#164e63', '#0f172a', '#06b6d4']}
+          speed={0.3}
+        />
+        <MeshGradient
+          className="absolute inset-0 w-full h-full opacity-40"
+          colors={['#000000', '#ffffff', '#22d3ee', '#0891b2']}
+          speed={0.2}
+        />
+      </ShaderVisibilityGate>
 
 
       <div

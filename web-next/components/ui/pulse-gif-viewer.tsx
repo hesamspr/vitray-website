@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { Maximize2, X } from 'lucide-react'
 
@@ -12,8 +12,23 @@ interface PulseGifViewerProps {
 export function PulseGifViewer({ src, alt }: PulseGifViewerProps) {
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [inView, setInView] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { setMounted(true) }, [])
+
+  // GIF decoding is CPU-bound and un-pausable, so we only keep the <img> mounted
+  // while its card is near the viewport — everything scrolled away stops decoding.
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: '200px 0px' },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
 
   const close = useCallback(() => setOpen(false), [])
 
@@ -25,13 +40,15 @@ export function PulseGifViewer({ src, alt }: PulseGifViewerProps) {
         className="group w-full block text-start cursor-zoom-in rounded-2xl overflow-hidden border border-white/10 bg-black/20"
       >
         {/* padding-top 56.25% = 16:9 — reliable in all grid/flex contexts */}
-        <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={src}
-            alt={alt}
-            className="absolute top-0 left-0 w-full h-full object-contain block"
-          />
+        <div ref={containerRef} className="relative w-full" style={{ paddingTop: '56.25%' }}>
+          {inView && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={src}
+              alt={alt}
+              className="absolute top-0 left-0 w-full h-full object-contain block"
+            />
+          )}
           <div className="absolute top-0 left-0 w-full h-full bg-black/0 group-hover:bg-black/25 transition-colors duration-200 flex items-center justify-center">
             <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center gap-2 bg-black/60 backdrop-blur-sm border border-white/20 rounded-xl px-3 py-2 text-white/80 text-xs">
               <Maximize2 size={13} />

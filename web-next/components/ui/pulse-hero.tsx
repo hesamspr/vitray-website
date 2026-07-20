@@ -1,6 +1,6 @@
 'use client'
 
-import { LazyMeshGradient as MeshGradient } from "@/components/ui/lazy-shaders"
+import { LazyMeshGradient as MeshGradient, ShaderVisibilityGate } from "@/components/ui/lazy-shaders"
 import { m } from "motion/react"
 import { useTranslation } from "@/hooks/useTranslation"
 
@@ -12,16 +12,18 @@ export function PulseHero() {
       className="relative w-full overflow-hidden"
       style={{ height: "100vh", minHeight: 520 }}
     >
-      <MeshGradient
-        className="absolute inset-0 w-full h-full"
-        colors={["#000000", "#c2410c", "#9a3412", "#0f172a", "#ea580c"]}
-        speed={0.3}
-      />
-      <MeshGradient
-        className="absolute inset-0 w-full h-full opacity-10"
-        colors={["#000000", "#c2410c", "#1e1e2e", "#0f172a"]}
-        speed={0.15}
-      />
+      <ShaderVisibilityGate>
+        <MeshGradient
+          className="absolute inset-0 w-full h-full"
+          colors={["#000000", "#c2410c", "#9a3412", "#0f172a", "#ea580c"]}
+          speed={0.3}
+        />
+        <MeshGradient
+          className="absolute inset-0 w-full h-full opacity-10"
+          colors={["#000000", "#c2410c", "#1e1e2e", "#0f172a"]}
+          speed={0.15}
+        />
+      </ShaderVisibilityGate>
 
       <div
         aria-hidden="true"
