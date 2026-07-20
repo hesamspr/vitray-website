@@ -12,7 +12,14 @@ export function PixelHero() {
       className="relative w-full overflow-hidden"
       style={{ height: "100vh", minHeight: 520 }}
     >
-      <ShaderVisibilityGate>
+      <ShaderVisibilityGate
+        fallback={
+          <div
+            className="absolute inset-0 w-full h-full"
+            style={{ background: "linear-gradient(135deg, #000000, #164e63, #0f172a, #0e7490)" }}
+          />
+        }
+      >
         <MeshGradient
           className="absolute inset-0 w-full h-full"
           colors={["#000000", "#0e7490", "#164e63", "#0f172a", "#0891b2"]}

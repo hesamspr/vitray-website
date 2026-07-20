@@ -12,7 +12,14 @@ export function PulseHero() {
       className="relative w-full overflow-hidden"
       style={{ height: "100vh", minHeight: 520 }}
     >
-      <ShaderVisibilityGate>
+      <ShaderVisibilityGate
+        fallback={
+          <div
+            className="absolute inset-0 w-full h-full"
+            style={{ background: "linear-gradient(135deg, #000000, #9a3412, #0f172a, #c2410c)" }}
+          />
+        }
+      >
         <MeshGradient
           className="absolute inset-0 w-full h-full"
           colors={["#000000", "#c2410c", "#9a3412", "#0f172a", "#ea580c"]}

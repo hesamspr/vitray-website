@@ -1,16 +1,39 @@
 'use client'
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as THREE from "three"
+import { useLowPerformance } from "@/hooks/useLowPerformance"
+
+// Shown instead of the WebGL canvas for reduced-motion/low-performance users —
+// a frozen shader frame reads as a rendering glitch, a gradient reads as a choice.
+const STATIC_FALLBACK_BG = "linear-gradient(135deg, #000000, #0f172a, #000000, #1e293b)"
 
 export function ShaderAnimation() {
+  const lowPerformance = useLowPerformance()
+  // Lazy init reads matchMedia synchronously on first client render — this
+  // component is only ever mounted client-side (dynamic import, ssr: false).
+  const [reduceMotion] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  )
+
+  if (lowPerformance || reduceMotion) {
+    return (
+      <div
+        className="w-full h-full absolute inset-0"
+        style={{ background: STATIC_FALLBACK_BG, overflow: "hidden" }}
+      />
+    )
+  }
+
+  return <ShaderCanvas />
+}
+
+function ShaderCanvas() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
     const vertexShader = `
       void main() {
@@ -92,7 +115,7 @@ export function ShaderAnimation() {
       renderer.render(scene, camera)
     }
 
-    const shouldRun = () => isVisible && isTabActive && !reduceMotion
+    const shouldRun = () => isVisible && isTabActive
 
     const tick = () => {
       animationId = requestAnimationFrame(tick)
@@ -132,12 +155,7 @@ export function ShaderAnimation() {
     }
     document.addEventListener("visibilitychange", onVisibilityChange)
 
-    // Reduced-motion users get a single still frame
-    if (reduceMotion) {
-      renderFrame()
-    } else {
-      sync()
-    }
+    sync()
 
     return () => {
       stop()

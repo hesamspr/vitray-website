@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic"
 import { useEffect, useRef, useState, type ReactNode } from "react"
+import { useLowPerformance } from "@/hooks/useLowPerformance"
 
 // Pulls @paper-design/shaders-react (~150 KB gzip) out of the initial bundle
 // so product/dashboard pages don't pay for the shader runtime up front.
@@ -19,9 +20,20 @@ export const LazyMeshGradient = dynamic(
 // scroll-away — a hero's WebGL canvases keep rendering underneath the rest of
 // the page for as long as it's mounted. This unmounts them (dropping the
 // GL context entirely) once scrolled well past, and remounts on the way back.
-export function ShaderVisibilityGate({ children }: { children: ReactNode }) {
+// It also unmounts for good — no remount — once the page is measured to be
+// struggling (low FPS, long tasks, or a low-core-count device).
+export function ShaderVisibilityGate({
+  children,
+  fallback,
+}: {
+  children: ReactNode
+  // A static CSS background (e.g. a linear-gradient built from the same colors
+  // as the shader) shown in place of the WebGL canvas. Defaults to plain black.
+  fallback?: ReactNode
+}) {
   const ref = useRef<HTMLDivElement>(null)
   const [inView, setInView] = useState(true)
+  const lowPerformance = useLowPerformance()
 
   useEffect(() => {
     const el = ref.current
@@ -36,7 +48,7 @@ export function ShaderVisibilityGate({ children }: { children: ReactNode }) {
 
   return (
     <div ref={ref} className="absolute inset-0 w-full h-full">
-      {inView ? children : <ShaderFallback />}
+      {inView && !lowPerformance ? children : (fallback ?? <ShaderFallback />)}
     </div>
   )
 }
