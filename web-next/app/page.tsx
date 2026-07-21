@@ -274,27 +274,6 @@ export default async function HomePage() {
               </div>
             </GlowCard>
 
-            <GlowCard customSize glowColor="blue" className="h-[360px] w-full md:col-span-2 md:col-start-2">
-              <div className="flex items-start justify-between">
-                <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
-                  {t('home.academy_badge')}
-                </div>
-                <Image src="/product logos/Academy FAV White.png" alt="Academy" width={32} height={32} className="h-8 w-8 object-contain" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-xl">{t('home.academy_title')}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {t('home.academy_body')}
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
-                  <Button variant="secondary" size="sm" asChild>
-                    <a href="https://academy.vitrayco.com" target="_blank" rel="noopener noreferrer">
-                      {t('home.academy_link')}
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            </GlowCard>
           </div>
         </section>
 

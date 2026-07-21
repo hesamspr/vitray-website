@@ -31,7 +31,6 @@ const BiFooterIcon = ({ className }: { className?: string }) => <img src="/fav.p
 const PlexFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/plex%20fav%20white.png" alt="Plex" className={className} />
 const PixelFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pixel%20Fav%20W.png" alt="Pixel" className={className} />
 const PulseFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pulse%20Fav%20W.png" alt="Pulse" className={className} />
-const AcademyFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Academy%20FAV%20White.png" alt="Academy" className={className} />
 const DaanaFooterIcon = ({ className }: { className?: string }) => <Sparkles className={className} />
 
 function AparatIcon({ className }: { className?: string }) {
@@ -55,7 +54,6 @@ function getFooterLinks(t: (k: string) => string): FooterSection[] {
         { title: t('footer.plex'), href: '/plex', icon: PlexFooterIcon },
         { title: t('footer.pulse'), href: '/pulse', icon: PulseFooterIcon },
         { title: t('footer.pixel'), href: '/pixel', icon: PixelFooterIcon },
-        { title: t('footer.academy'), href: 'https://academy.vitrayco.com', icon: AcademyFooterIcon },
       ],
     },
     {

@@ -12,9 +12,6 @@ const PixelNavIcon = ({ className }: { className?: string }) => (
 const PulseNavIcon = ({ className }: { className?: string }) => (
   <img src="/product%20logos/Pulse%20Fav%20W.png" alt="Pulse" className={className} />
 )
-const AcademyNavIcon = ({ className }: { className?: string }) => (
-  <img src="/product%20logos/Academy%20FAV%20White.png" alt="Academy" className={className} />
-)
 const DaanaNavIcon = ({ className }: { className?: string }) => (
   <Sparkles className={className} />
 )
@@ -33,7 +30,6 @@ export function getNavItems(t: (key: string) => string) {
         { name: t('nav.plex'), url: '/plex', icon: PlexNavIcon },
         { name: t('nav.pulse'), url: '/pulse', icon: PulseNavIcon },
         { name: t('nav.pixel'), url: '/pixel', icon: PixelNavIcon },
-        { name: t('nav.academy'), url: 'https://academy.vitrayco.com', icon: AcademyNavIcon },
       ],
     },
     {
