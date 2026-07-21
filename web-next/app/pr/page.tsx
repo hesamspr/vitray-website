@@ -19,7 +19,6 @@ const demos: PrLinkItem[] = [
   { label: 'Plex', href: 'https://plexdemo.vitray.ir/' },
   { label: 'Plex (on-prem host)', href: 'https://demo.vitray.ir' },
   { label: 'Pulse', href: 'https://pulse.vitray.ir' },
-  { label: 'Vortex', href: 'https://qa.daana.app/' },
   { label: 'Daana', href: 'https://demo.daana.app' },
   { label: 'Info', href: 'https://outline.vitray.ir/doc/demo-sites-eP4G2NspYW' },
 ];
