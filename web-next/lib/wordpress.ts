@@ -84,8 +84,36 @@ export function getPostCategories(post: WPPost): Array<{ id: number; name: strin
   return post._embedded?.['wp:term']?.[0] ?? []
 }
 
+const NAMED_ENTITIES: Record<string, string> = {
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: "'",
+  nbsp: ' ',
+  hellip: '…',
+  mdash: '—',
+  ndash: '–',
+  ldquo: '“',
+  rdquo: '”',
+  lsquo: '‘',
+  rsquo: '’',
+  laquo: '«',
+  raquo: '»',
+}
+
+// WordPress `.rendered` fields are pre-encoded HTML text, not plain text —
+// decode entities before using them anywhere that isn't dangerouslySetInnerHTML
+// (e.g. metadata title/description, JSON-LD), or they double-escape (`&#8230;` -> `&amp;#8230;`).
+export function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
+    .replace(/&([a-z]+);/gi, (match, name) => NAMED_ENTITIES[name.toLowerCase()] ?? match)
+}
+
 export function stripHtml(html: string): string {
-  return html.replace(/<[^>]+>/g, '').replace(/&[a-z]+;/gi, ' ').trim()
+  return decodeHtmlEntities(html.replace(/<[^>]+>/g, '')).trim()
 }
 
 export function formatDate(dateStr: string): string {

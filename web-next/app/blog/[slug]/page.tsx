@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getPost, getFeaturedImage, getPostCategories, formatDate, stripHtml } from '@/lib/wordpress'
+import { getPost, getFeaturedImage, getPostCategories, formatDate, stripHtml, decodeHtmlEntities } from '@/lib/wordpress'
 import { BlogNavBar } from '@/components/ui/blog-navbar'
 import { BlogPostShell } from '@/components/blog/BlogPostShell'
 import { CallToAction } from '@/components/ui/cta-3'
@@ -20,16 +20,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const yoast = post.yoast_head_json
   const image = getFeaturedImage(post) ?? yoast?.og_image?.[0]
+  const title = decodeHtmlEntities(post.title.rendered)
   const description = yoast?.og_description || stripHtml(post.excerpt.rendered)
 
   return {
-    title: yoast?.title || post.title.rendered,
+    title: yoast?.title || title,
     description,
     alternates: {
       canonical: `/blog/${slug}`,
     },
     openGraph: {
-      title: yoast?.og_title || post.title.rendered,
+      title: yoast?.og_title || title,
       description,
       url: `https://vitrayco.com/blog/${slug}`,
       type: 'article',
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: yoast?.og_title || post.title.rendered,
+      title: yoast?.og_title || title,
       description,
       ...(image && {
         images: [typeof image === 'object' && 'src' in image ? image.src : image.url],
@@ -63,12 +64,13 @@ export default async function BlogPostPage({ params }: Props) {
   const image = getFeaturedImage(post)
   const categories = getPostCategories(post)
   const readTime = estimateReadTime(post.content.rendered)
+  const title = decodeHtmlEntities(post.title.rendered)
 
   // JSON-LD structured data (Article schema)
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: post.title.rendered,
+    headline: title,
     datePublished: post.date,
     dateModified: post.modified,
     url: `https://vitrayco.com/blog/${post.slug}`,
@@ -91,7 +93,7 @@ export default async function BlogPostPage({ params }: Props) {
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'خانه', item: 'https://vitrayco.com' },
         { '@type': 'ListItem', position: 2, name: 'بلاگ', item: 'https://vitrayco.com/blog' },
-        { '@type': 'ListItem', position: 3, name: post.title.rendered, item: `https://vitrayco.com/blog/${post.slug}` },
+        { '@type': 'ListItem', position: 3, name: title, item: `https://vitrayco.com/blog/${post.slug}` },
       ],
     },
   }
