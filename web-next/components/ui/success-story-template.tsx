@@ -271,28 +271,30 @@ export async function SuccessStoryTemplate({ story }: { story: SuccessStory }) {
       <div className="h-20" />
 
       {/* Testimonials */}
-      <div className="mx-auto max-w-5xl px-6 py-4">
-        <Reveal className="mx-auto mb-10 flex max-w-[540px] flex-col items-center justify-center space-y-4 text-center">
-          <div className="w-fit rounded-lg border border-border/60 px-4 py-1 text-sm text-muted-foreground">
-            {t('stories.testimonial_label')}
-          </div>
-          <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl">{t('stories.testimonial_title')}</h2>
-        </Reveal>
-        <div className={`grid gap-4 ${story.testimonials.length > 1 ? 'md:grid-cols-2' : 'mx-auto max-w-2xl'}`}>
-          {story.testimonials.map((item, i) => (
-            <Reveal key={i} duration={0.7} delay={i * 0.08}>
-              <div className="flex h-full flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-primary/5 via-transparent to-transparent p-7">
-                <Quote size={22} className="mb-4 text-primary/50" />
-                <p className="flex-1 text-base leading-relaxed text-foreground/90">«{pick(item.quote, lang)}»</p>
-                <div className="mt-5 border-t border-border/40 pt-4">
-                  <div className="text-sm font-bold text-foreground">{pick(item.name, lang)}</div>
-                  <div className="text-xs text-muted-foreground">{pick(item.role, lang)}</div>
+      {story.testimonials.length > 0 && (
+        <div className="mx-auto max-w-5xl px-6 py-4">
+          <Reveal className="mx-auto mb-10 flex max-w-[540px] flex-col items-center justify-center space-y-4 text-center">
+            <div className="w-fit rounded-lg border border-border/60 px-4 py-1 text-sm text-muted-foreground">
+              {t('stories.testimonial_label')}
+            </div>
+            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl">{t('stories.testimonial_title')}</h2>
+          </Reveal>
+          <div className={`grid gap-4 ${story.testimonials.length > 1 ? 'md:grid-cols-2' : 'mx-auto max-w-2xl'}`}>
+            {story.testimonials.map((item, i) => (
+              <Reveal key={i} duration={0.7} delay={i * 0.08}>
+                <div className="flex h-full flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-primary/5 via-transparent to-transparent p-7">
+                  <Quote size={22} className="mb-4 text-primary/50" />
+                  <p className="flex-1 text-base leading-relaxed text-foreground/90">«{pick(item.quote, lang)}»</p>
+                  <div className="mt-5 border-t border-border/40 pt-4">
+                    <div className="text-sm font-bold text-foreground">{pick(item.name, lang)}</div>
+                    <div className="text-xs text-muted-foreground">{pick(item.role, lang)}</div>
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="h-12" />
 

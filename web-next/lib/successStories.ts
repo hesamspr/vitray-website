@@ -267,6 +267,48 @@ export const successStories: SuccessStory[] = [
       en: 'Telavang Egg Industries success story with Vitray: business-intelligence dashboards for precise responses to cost swings, demand and quality control.',
     },
   },
+  {
+    slug: 'saba-energy-holding',
+    company: { fa: 'هلدینگ صباانرژی', en: 'Saba Energy Holding' },
+    industry: { fa: 'هلدینگ سرمایه‌گذاری انرژی، پتروشیمی و فولاد', en: 'Energy, Petrochemical & Steel Investment Holding' },
+    summary: {
+      fa: 'رونمایی سامانه هوش تجاری برای هلدینگ ۲۴‌شرکته بخش انرژی صندوق بازنشستگی کشوری، با حضور مدیرعامل هلدینگ.',
+      en: 'Unveiling a BI system for the 24-subsidiary energy holding of Iran’s Civil Servants Pension Fund, in front of the holding’s CEO.',
+    },
+    intro: {
+      fa: 'چگونه ویترای سامانه هوش تجاری هلدینگ صباانرژی را طراحی کرد و آن را با حضور مدیرعامل و مدیران ارشد هلدینگ رونمایی کرد.',
+      en: 'How Vitray designed Saba Energy Holding’s BI system and unveiled it in front of the holding’s CEO and senior leadership.',
+    },
+    facts: [
+      { value: { fa: '۱۳۶۷', en: '1988' }, label: { fa: 'سال تأسیس', en: 'Founded' } },
+      { value: { fa: '۲۴', en: '24' }, label: { fa: 'شرکت زیرمجموعه', en: 'Subsidiaries' } },
+      { value: { fa: '۱۰', en: '10' }, label: { fa: 'شرکت بورسی', en: 'Listed companies' } },
+      { value: { fa: '+۶ میلیارد دلار', en: '$6B+' }, label: { fa: 'پروژه در دست اجرا', en: 'Active projects' } },
+    ],
+    about: {
+      fa: 'شرکت سرمایه‌گذاری صندوق بازنشستگی کشوری، معروف به «هلدینگ صباانرژی»، از سال ۱۳۶۷ به‌عنوان بازوی سرمایه‌گذاری بخش انرژی صندوق بازنشستگی کشوری فعالیت می‌کند و ۲۴ شرکت زیرمجموعه دارد؛ ۱۰ شرکت بورسی و ۱۴ شرکت خارج از بورس.\n\nاین هلدینگ در سال مالی ۱۳۹۸ از نظر بیشترین بازده فروش، رتبه دوم کشور را کسب کرد و امروز حدود ۶ میلیارد دلار پروژه در صنایع پتروشیمی، فولاد و نیروگاهی مدیریت می‌کند؛ از جمله پتروشیمی جم، امیرکبیر و مسجدسلیمان، صبا فولاد فارس و آکسین فولاد، و نیروگاه‌های تبریز و اندیمشک.',
+      en: 'The Civil Servants Pension Fund Investment Company, known as “Saba Energy Holding,” has operated since 1988 as the energy-sector investment arm of Iran’s Civil Servants Pension Fund, with 24 subsidiaries — 10 publicly listed and 14 unlisted.\n\nIn fiscal year 1398, the holding ranked second nationally by sales revenue, and today manages roughly $6 billion in projects across petrochemicals, steel and power generation — including Jam, Amirkabir and Masjed Soleiman petrochemicals, Saba Steel Fars and Axin Steel, and the Tabriz and Andimeshk power plants.',
+    },
+    challenge: {
+      fa: 'هلدینگ‌هایی با این مقیاس و تنوع صنعتی — از پتروشیمی و فولاد تا تولید برق — معمولاً با پراکندگی داده میان شرکت‌های زیرمجموعه روبه‌رو هستند. هر شرکت با سامانه‌ها و فرمت گزارش‌دهی خاص خود کار می‌کند و تجمیع دستی این گزارش‌ها برای رسیدن به یک تصویر واحد از عملکرد کل هلدینگ، زمان‌بر و مستعد خطاست.',
+      en: 'Holdings at this scale and industrial diversity — spanning petrochemicals, steel and power generation — typically face fragmented data across subsidiaries. Each company runs its own systems and reporting formats, making manual consolidation into a single view of holding-wide performance slow and error-prone.',
+    },
+    solution: {
+      fa: 'ویترای با پیروی از فرایند پنج‌مرحله‌ای خود (شناخت نیاز، یکپارچه‌سازی داده، مدل‌سازی، توسعه داشبورد و پشتیبانی مستمر)، سامانه هوش تجاری هلدینگ را طراحی و پیاده‌سازی کرد؛ سامانه‌ای که در رویدادی رسمی با حضور علی پناهی، مدیرعامل هلدینگ، و با ارائه پوریا چترچی، مدیرعامل ویترای، رونمایی شد.',
+      en: 'Following its standard five-phase process (discovery, data integration, modeling, dashboard development and ongoing support), Vitray designed and implemented the holding’s BI system — unveiled at a formal event attended by Ali Panahi, the holding’s CEO, with the presentation delivered by Vitray CEO Pouria Chatrchi.',
+    },
+    results: [
+      { value: { fa: 'سطح مدیرعامل', en: 'C-level' }, label: { fa: 'رونمایی با حضور مدیرعامل هلدینگ', en: 'Unveiling attended by the holding CEO' } },
+      { value: { fa: 'یکپارچه', en: 'Unified' }, label: { fa: 'داشبورد سطح هلدینگ', en: 'Holding-level dashboard' } },
+      { value: { fa: '۵ فاز', en: '5 phases' }, label: { fa: 'روش‌شناسی اجرای پروژه', en: 'Project methodology' } },
+    ],
+    testimonials: [],
+    accent: 'blue',
+    metaDescription: {
+      fa: 'داستان همکاری ویترای با هلدینگ صباانرژی: طراحی و رونمایی سامانه هوش تجاری برای هلدینگ ۲۴‌شرکته بخش انرژی صندوق بازنشستگی کشوری.',
+      en: 'Vitray’s work with Saba Energy Holding: designing and unveiling a BI system for the 24-subsidiary energy holding of Iran’s Civil Servants Pension Fund.',
+    },
+  },
 ]
 
 export function getStory(slug: string): SuccessStory | undefined {
