@@ -62,7 +62,9 @@ const nextConfig: NextConfig = {
       { source: '/blog/top-business-intelligence-tools', destination: '/blog/bi-comprehensive-guide' },
       { source: '/blog/ways-business-intelligence-can-improve-your-business', destination: '/blog/bi-benefits' },
       { source: '/blog/bi-vs-ds-2', destination: '/blog/bi-vs-ds' },
-      { source: '/blog/بازگشت-مشتری-چیست؟', destination: '/blog/customer-retention' },
+      // Next.js redirect regexes match the raw (still percent-encoded) request path,
+      // so non-ASCII slugs must be given percent-encoded here, not as decoded text.
+      { source: '/blog/%d8%a8%d8%a7%d8%b2%da%af%d8%b4%d8%aa-%d9%85%d8%b4%d8%aa%d8%b1%db%8c-%da%86%db%8c%d8%b3%d8%aa%d8%9f', destination: '/blog/customer-retention' },
     ]
 
     return [
