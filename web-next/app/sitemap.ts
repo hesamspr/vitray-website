@@ -18,6 +18,7 @@ const staticRoutes: Array<{ path: string; priority: number; changeFrequency: Met
   { path: '/pixel', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/pulse', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/blog', priority: 0.7, changeFrequency: 'daily' },
+  { path: '/bi-dashboards', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/bi-dashboards/b2b-sales', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/bi-dashboards/distribution-sales', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/bi-dashboards/finance', priority: 0.7, changeFrequency: 'monthly' },

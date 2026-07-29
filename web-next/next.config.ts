@@ -89,7 +89,7 @@ const nextConfig: NextConfig = {
       { source: '/power-bi-visuals', destination: '/pbi-download' },
       { source: '/webinar', destination: '/' },
       { source: '/pbichallenge', destination: '/' },
-      { source: '/dashboard-examples', destination: '/' },
+      { source: '/dashboard-examples', destination: '/bi-dashboards' },
       { source: '/glossary', destination: '/' },
       { source: '/budget', destination: '/' },
       { source: '/sales-agent', destination: '/' },

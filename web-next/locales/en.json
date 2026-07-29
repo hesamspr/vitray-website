@@ -270,6 +270,10 @@
     "prompt4": "Summarize this contract for me"
   },
   "dashboards": {
+    "index_badge": "Dashboard Gallery",
+    "index_title": "Vitray Management Dashboard Examples",
+    "index_subtitle": "Seven ready-made dashboards for sales, distribution, finance, HR, production, warehouse, and maintenance — each with industry-specific KPIs, integrated with your ERP and CRM.",
+    "index_cta": "View dashboard",
     "b2b_title": "B2B Sales",
     "b2b_desc": "Track sales opportunities, team performance, and enterprise client analysis at a glance.",
     "dist_title": "Distribution Sales",
