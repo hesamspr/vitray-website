@@ -1,9 +1,10 @@
+import Link from 'next/link';
 import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
 import { GradientCard } from '@/components/ui/gradient-card';
 import { Reveal } from '@/components/ui/reveal';
-import { Download, DownloadCloud } from 'lucide-react';
+import { ArrowLeft, Download, DownloadCloud, ShieldCheck } from 'lucide-react';
 import { getTranslations } from '@/lib/i18n.server';
 
 interface DownloadItem {
@@ -202,6 +203,37 @@ export default async function PbiDownloadPage() {
               </div>
             </div>
           </GradientCard>
+        </Reveal>
+      </div>
+
+      <div className="h-16" />
+
+      {/* Report Server → Pulse cross-link */}
+      <div className="mx-auto max-w-5xl px-6 py-4">
+        <Reveal>
+          <div className="flex flex-col items-start gap-6 rounded-2xl border border-border/60 bg-gradient-to-r from-primary/5 via-transparent to-transparent p-8 md:flex-row md:items-center md:p-10">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-muted/30 text-indigo-400">
+              <ShieldCheck size={22} />
+            </div>
+            <div className="flex-1 space-y-2">
+              <div className="w-fit rounded-lg border border-border/60 px-3 py-1 text-xs text-muted-foreground">
+                {t('pbi_download.prs_section_badge')}
+              </div>
+              <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+                {t('pbi_download.prs_section_title')}
+              </h2>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                {t('pbi_download.prs_section_body')}
+              </p>
+            </div>
+            <Link
+              href="/pulse"
+              className="group inline-flex shrink-0 items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-primary/40"
+            >
+              {t('pbi_download.prs_section_cta')}
+              <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-0.5 rtl:group-hover:translate-x-0.5" />
+            </Link>
+          </div>
         </Reveal>
       </div>
 

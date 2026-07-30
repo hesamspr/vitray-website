@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { SiteNav } from '@/components/ui/site-nav';
 import { Footer } from '@/components/ui/footer-section';
 import { CallToAction } from '@/components/ui/cta-3';
@@ -392,6 +393,12 @@ export async function PlexPage() {
       </LampContainer>
 
       <div className="h-16" />
+
+      <div className="mx-auto max-w-5xl px-6 text-center">
+        <Link href="/business-intelligence" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+          {t('common.bi_pillar_link')}
+        </Link>
+      </div>
 
       <div className="mx-auto max-w-5xl px-6 py-20 overflow-visible">
         <CallToAction />

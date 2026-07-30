@@ -70,6 +70,12 @@ export default async function BiDashboardsIndexPage() {
         </div>
       </div>
 
+      <div className="mx-auto max-w-5xl px-6 text-center">
+        <Link href="/business-intelligence" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+          {t('common.bi_pillar_link')}
+        </Link>
+      </div>
+
       <div className="mx-auto max-w-5xl overflow-visible px-6 py-20">
         <CallToAction />
       </div>

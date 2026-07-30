@@ -1,4 +1,7 @@
 {
+  "common": {
+    "bi_pillar_link": "What is Business Intelligence?"
+  },
   "nav": {
     "home": "Home",
     "solutions": "Solutions",
@@ -989,6 +992,10 @@
     "pbi_body": "Power BI is Microsoft's business intelligence and data visualization tool. It lets you design outstanding management dashboards at remarkable speed. These dashboards amplify the impact of your data and let you monitor it on any device — desktop, laptop, tablet, or phone.",
     "prs_caption": "On-premises report server",
     "pbidesktop_caption": "Desktop edition compatible with Report Server",
+    "prs_section_badge": "After installation",
+    "prs_section_title": "Installed Power BI Report Server — now how do you manage and secure it?",
+    "prs_section_body": "The default Power BI Report Server portal is English-only with limited access-management features. Vitray's Pulse is a Persian replacement interface with multi-factor authentication, Active Directory group management, and fine-grained access control on the exact same server — no migration or infrastructure change required.",
+    "prs_section_cta": "Explore Pulse",
     "vs_badge": "Enterprise BI",
     "vs_title": "Download Visual Studio + Extensions",
     "vs_body": "At Vitray we follow the Enterprise BI method. After deploying SQL Server Analysis Services, every user — based on their access level and security — can build the dashboards and reports they need with either Excel or Power BI, without any technical knowledge.",

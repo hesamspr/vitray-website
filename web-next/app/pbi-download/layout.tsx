@@ -71,10 +71,42 @@ const jsonLd = {
   },
 }
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'دانلود Power BI رایگان است؟',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'بله. Power BI Desktop توسط مایکروسافت به‌صورت کاملاً رایگان ارائه می‌شود. Power BI Report Server نیز برای سازمان‌هایی که لایسنس Power BI Premium یا SQL Server Enterprise دارند، رایگان است.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'تفاوت Power BI Desktop و Power BI Report Server چیست؟',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Power BI Desktop ابزار ساخت گزارش روی سیستم شخصی است، در حالی که Power BI Report Server یک سرور سازمانی برای انتشار، مدیریت دسترسی و اشتراک‌گذاری آن گزارش‌ها در داخل شبکه سازمان (On-Premise) است — بدون نیاز به اتصال ابری.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'بعد از نصب Power BI Report Server، چگونه آن را مدیریت و ایمن کنیم؟',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'پورتال پیش‌فرض Power BI Report Server امکانات محدودی برای مدیریت دسترسی و امنیت دارد. پالس (Pulse) ویترای یک رابط فارسی جایگزین با احراز هویت چندعاملی (MFA)، مدیریت گروه‌های Active Directory و کنترل دسترسی دقیق برای همین سرور فراهم می‌کند.',
+      },
+    },
+  ],
+}
+
 export default function PbiDownloadLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       {children}
     </>
   )
