@@ -13,6 +13,27 @@ type Props = {
   params: Promise<{ slug: string }>
 }
 
+// FAQPage schema for specific high-value posts where GSC shows real query
+// clusters (esp. casual/loanword phrasings like "kpi چیست") sitting just
+// below page 1 despite the article already covering the topic in prose —
+// this gives crawlers and AI answer engines a direct, structured match.
+const BLOG_FAQ_OVERRIDES: Record<string, Array<{ q: string; a: string }>> = {
+  'what-is-kpi': [
+    {
+      q: 'KPI چیست؟',
+      a: 'KPI (شاخص کلیدی عملکرد) یک مقدار قابل اندازه‌گیری است که نشان می‌دهد یک سازمان چقدر مؤثر به اهداف کسب‌وکاری خود دست پیدا کرده است. سازمان‌ها از KPI برای ارزیابی موفقیت در دستیابی به اهداف کوتاه‌مدت و بلندمدت استفاده می‌کنند.',
+    },
+    {
+      q: 'KPI مخفف چه عبارتی است؟',
+      a: 'KPI مخفف عبارت انگلیسی Key Performance Indicator است که در فارسی به «شاخص کلیدی عملکرد» ترجمه می‌شود.',
+    },
+    {
+      q: 'KPI با مثال چیست؟',
+      a: 'برای مثال، «نرخ تبدیل سرنخ به مشتری» یک KPI رایج در تیم فروش است: اگر از هر ۱۰۰ سرنخ، ۱۵ مورد به مشتری تبدیل شوند، نرخ تبدیل ۱۵٪ است. این عدد به‌صورت مستمر پایش می‌شود تا عملکرد تیم فروش نسبت به هدف تعیین‌شده سنجیده شود.',
+    },
+  ],
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = await getPost(slug)
@@ -98,12 +119,29 @@ export default async function BlogPostPage({ params }: Props) {
     },
   }
 
+  const faqEntries = BLOG_FAQ_OVERRIDES[slug]
+  const faqJsonLd = faqEntries && {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqEntries.map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  }
+
   return (
     <BlogPostShell>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <BlogNavBar />
 
