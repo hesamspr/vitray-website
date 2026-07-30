@@ -15,6 +15,11 @@ const stories: PrLinkItem[] = [
   { label: 'داستان موفقیت تلاونگ', href: 'https://vitrayco.com/telavang-cs/' },
 ];
 
+const downloads: PrLinkItem[] = [
+  { label: 'پیش‌نیازهای نصب Plex', href: 'https://vitrayco.com/plexserver', hint: 'Server' },
+  { label: 'دانلود Power BI Desktop', href: 'https://vitrayco.com/pbi-download', hint: 'Desktop' },
+];
+
 const demos: PrLinkItem[] = [
   { label: 'Plex', href: 'https://plexdemo.vitray.ir/' },
   { label: 'Plex (on-prem host)', href: 'https://demo.vitray.ir' },
@@ -93,6 +98,24 @@ export default function PrPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {demos.map((item, i) => (
             <PrLinkCard key={item.href} item={item} index={i} icon="demo" />
+          ))}
+        </div>
+      </div>
+
+      <div className="h-12" />
+
+      {/* مرکز دانلود */}
+      <div className="mx-auto max-w-5xl px-6 py-8">
+        <Reveal duration={0.7} className="mb-8 flex flex-col items-center gap-2 text-center">
+          <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
+            بخش چهارم
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter">مرکز دانلود</h2>
+        </Reveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {downloads.map((item, i) => (
+            <PrLinkCard key={item.href} item={item} index={i} icon="download" />
           ))}
         </div>
       </div>

@@ -33,7 +33,7 @@ interface PlexContent {
   access_2: string;
 }
 
-const UBUNTU_URL = 'https://ubuntu.com/download/desktop';
+const UBUNTU_URL = 'https://ubuntu.com/download/server';
 
 function SectionHeader({ badge, title, body }: { badge: string; title: string; body?: string }) {
   return (

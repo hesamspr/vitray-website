@@ -1,9 +1,9 @@
 'use client'
 
 import { m } from 'motion/react'
-import { FileText, BarChart3, Trophy, Rocket, ArrowUpLeft } from 'lucide-react'
+import { FileText, BarChart3, Trophy, Rocket, Download, ArrowUpLeft } from 'lucide-react'
 
-const ICONS = { file: FileText, chart: BarChart3, trophy: Trophy, demo: Rocket } as const
+const ICONS = { file: FileText, chart: BarChart3, trophy: Trophy, demo: Rocket, download: Download } as const
 
 export type PrIconKey = keyof typeof ICONS
 

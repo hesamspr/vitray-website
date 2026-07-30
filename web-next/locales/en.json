@@ -1076,7 +1076,7 @@
       ]
     ],
     "ubuntu_cta": "Download Ubuntu",
-    "ubuntu_caption": "Ubuntu desktop edition",
+    "ubuntu_caption": "Ubuntu Server edition",
     "docker_badge": "Docker Hosting",
     "docker_title": "Software Required for Docker Hosting",
     "docker_head": [

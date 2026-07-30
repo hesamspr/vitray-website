@@ -7,8 +7,9 @@ const description =
 
 const titleEn = 'Vitray Company Profile & Resources'
 
-export function generateMetadata(): Promise<Metadata> {
-  return routeMetadata({ fa: title, en: titleEn, description, canonical: '/pr' })
+export async function generateMetadata(): Promise<Metadata> {
+  const metadata = await routeMetadata({ fa: title, en: titleEn, description, canonical: '/pr' })
+  return { ...metadata, robots: { index: false, follow: false } }
 }
 
 const jsonLd = {
