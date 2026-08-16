@@ -84,6 +84,26 @@ export function getPostCategories(post: WPPost): Array<{ id: number; name: strin
   return post._embedded?.['wp:term']?.[0] ?? []
 }
 
+// WordPress image filenames carry a size suffix (`-1024x684`) or `-scaled`
+// before the extension — strip both so different renditions of the same
+// upload compare equal.
+function getImageBaseName(url: string): string {
+  const filename = url.split('/').pop() ?? ''
+  return filename.replace(/\.[a-z0-9]+$/i, '').replace(/-\d+x\d+$/, '').replace(/-scaled$/, '')
+}
+
+// Several posts have their featured image manually inserted as the first
+// element of the body too, so it renders twice — once as the page's featured
+// image, once again at the top of the article. Drop the body's copy when the
+// very first <img> in the content is that same upload.
+export function stripLeadingDuplicateImage(html: string, featuredImageSrc: string): string {
+  const featuredBase = getImageBaseName(featuredImageSrc)
+  return html.replace(/<img\b[^>]*>/i, (match) => {
+    const srcMatch = match.match(/src="([^"]+)"/)
+    return srcMatch && getImageBaseName(srcMatch[1]) === featuredBase ? '' : match
+  })
+}
+
 const NAMED_ENTITIES: Record<string, string> = {
   amp: '&',
   lt: '<',

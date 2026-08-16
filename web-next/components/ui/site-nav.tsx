@@ -5,8 +5,8 @@ import { getNavItems } from '@/lib/navItems'
 import { useTranslation } from '@/hooks/useTranslation'
 
 export function SiteNav({ variant }: { variant?: 'home' }) {
-  const { t } = useTranslation()
-  let items = getNavItems(t)
+  const { t, lang } = useTranslation()
+  let items = getNavItems(t, lang)
 
   if (variant === 'home') {
     items = items.map((item) => {

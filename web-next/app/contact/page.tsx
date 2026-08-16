@@ -13,7 +13,7 @@ import { ShineBorder } from '@/components/ui/shine-border';
 
 export function ContactPage() {
   const { t, lang } = useTranslation();
-  const navItems = getNavItems(t);
+  const navItems = getNavItems(t, lang);
 
   const [form, setForm] = useState({ name: '', email: '', mobile: '', company: '', details: '' });
   const [honeypot, setHoneypot] = useState('');

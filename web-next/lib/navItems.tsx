@@ -1,4 +1,5 @@
 import { Home, Info, Mail, Package, BookOpen, LayoutDashboard, Building2, Trophy, Download, Sparkles } from 'lucide-react'
+import type { Lang } from '@/lib/i18n'
 
 const BiNavIcon = ({ className }: { className?: string }) => (
   <img src="/fav.png" alt="BI" className={className} />
@@ -16,7 +17,10 @@ const DaanaNavIcon = ({ className }: { className?: string }) => (
   <Sparkles className={className} />
 )
 
-export function getNavItems(t: (key: string) => string) {
+export function getNavItems(t: (key: string) => string, lang?: Lang) {
+  // Blog is Persian-only content — omit it for the English UI.
+  const includeBlog = lang !== 'en'
+
   return [
     { name: t('nav.home'), url: '/', icon: Home },
     {
@@ -36,11 +40,13 @@ export function getNavItems(t: (key: string) => string) {
       name: t('nav.company'),
       url: '/about',
       icon: Building2,
-      matchPrefixes: ['/about', '/success-stories', '/blog', '/pbi-download'],
+      matchPrefixes: includeBlog
+        ? ['/about', '/success-stories', '/blog', '/pbi-download']
+        : ['/about', '/success-stories', '/pbi-download'],
       subItems: [
         { name: t('nav.about'), url: '/about', icon: Info },
         { name: t('nav.stories'), url: '/success-stories', icon: Trophy },
-        { name: t('nav.blog'), url: '/blog', icon: BookOpen },
+        ...(includeBlog ? [{ name: t('nav.blog'), url: '/blog', icon: BookOpen }] : []),
         { name: t('nav.downloads'), url: '/pbi-download', icon: Download },
       ],
     },

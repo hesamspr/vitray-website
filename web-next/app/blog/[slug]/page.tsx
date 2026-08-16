@@ -2,11 +2,12 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getPost, getFeaturedImage, getPostCategories, formatDate, stripHtml, decodeHtmlEntities } from '@/lib/wordpress'
+import { getPost, getFeaturedImage, getPostCategories, formatDate, decodeHtmlEntities, stripHtml, stripLeadingDuplicateImage } from '@/lib/wordpress'
 import { BlogNavBar } from '@/components/ui/blog-navbar'
 import { BlogPostShell } from '@/components/blog/BlogPostShell'
 import { CallToAction } from '@/components/ui/cta-3'
 import { Footer } from '@/components/ui/footer-section'
+import { getLang } from '@/lib/i18n.server'
 import { CalendarDays, Clock, ArrowLeft, Tag } from 'lucide-react'
 
 type Props = {
@@ -78,6 +79,10 @@ function estimateReadTime(html: string): number {
 }
 
 export default async function BlogPostPage({ params }: Props) {
+  // Blog content is Persian-only — there is nothing to show English readers.
+  const lang = await getLang()
+  if (lang === 'en') notFound()
+
   const { slug } = await params
   const post = await getPost(slug)
   if (!post) notFound()
@@ -86,6 +91,7 @@ export default async function BlogPostPage({ params }: Props) {
   const categories = getPostCategories(post)
   const readTime = estimateReadTime(post.content.rendered)
   const title = decodeHtmlEntities(post.title.rendered)
+  const content = image ? stripLeadingDuplicateImage(post.content.rendered, image.src) : post.content.rendered
 
   // JSON-LD structured data (Article schema)
   const jsonLd = {
@@ -210,7 +216,7 @@ export default async function BlogPostPage({ params }: Props) {
             prose-img:rounded-xl prose-img:border prose-img:border-border/40
             prose-pre:bg-muted prose-pre:border prose-pre:border-border/40
             prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground"
-          dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+          dangerouslySetInnerHTML={{ __html: content }}
         />
 
         {/* Back link */}

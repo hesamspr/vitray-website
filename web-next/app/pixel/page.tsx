@@ -26,6 +26,52 @@ import {
 import { getTranslations } from '@/lib/i18n.server';
 import { cn } from '@/lib/utils';
 
+type ComparisonRowData = {
+  id: string;
+  label: string;
+  enterprise: string;
+  pixel: string;
+  winner: 'pixel' | 'enterprise';
+};
+
+function ComparisonRow({ row, striped, isLast }: { row: ComparisonRowData; striped: boolean; isLast: boolean }) {
+  return (
+    <div
+      className={cn(
+        'grid grid-cols-3 text-sm',
+        striped && 'bg-muted/20',
+        !isLast && 'border-b border-border/60',
+      )}
+    >
+      <div className="p-4 font-medium text-foreground/80">{row.label}</div>
+      <div className="p-4 border-r border-border/60 text-center text-muted-foreground">
+        {row.winner === 'enterprise' ? (
+          <span className="inline-flex items-center justify-center gap-1.5 text-foreground/80">
+            <CheckCircle2 size={14} className="text-green-500 shrink-0" />
+            {row.enterprise}
+          </span>
+        ) : (
+          <>
+            <span className="text-destructive/70">✗</span>{' '}{row.enterprise}
+          </>
+        )}
+      </div>
+      <div className="p-4 text-center bg-primary/5">
+        {row.winner === 'pixel' ? (
+          <span className="inline-flex items-center justify-center gap-1.5 text-foreground/80">
+            <CheckCircle2 size={14} className="text-green-500 shrink-0" />
+            {row.pixel}
+          </span>
+        ) : (
+          <span className="text-muted-foreground">
+            <span className="text-destructive/70">✗</span>{' '}{row.pixel}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export async function PixelPage() {
   const { t } = await getTranslations();
 
@@ -77,13 +123,21 @@ export async function PixelPage() {
     { icon: Bell, label: t('pixel.dashfeat4') },
   ];
 
-  const comparisonRows = [
-    { id: 'setup', label: t('pixel.cmp_setup_label'), traditional: t('pixel.cmp_setup_traditional'), pixel: t('pixel.cmp_setup_pixel') },
-    { id: 'server', label: t('pixel.cmp_server_label'), traditional: t('pixel.cmp_server_traditional'), pixel: t('pixel.cmp_server_pixel') },
-    { id: 'cost', label: t('pixel.cmp_cost_label'), traditional: t('pixel.cmp_cost_traditional'), pixel: t('pixel.cmp_cost_pixel') },
-    { id: 'payment', label: t('pixel.cmp_payment_label'), traditional: t('pixel.cmp_payment_traditional'), pixel: t('pixel.cmp_payment_pixel') },
-    { id: 'it', label: t('pixel.cmp_it_label'), traditional: t('pixel.cmp_it_traditional'), pixel: t('pixel.cmp_it_pixel') },
-    { id: 'scale', label: t('pixel.cmp_scale_label'), traditional: t('pixel.cmp_scale_traditional'), pixel: t('pixel.cmp_scale_pixel') },
+  const comparisonRowsCore: ComparisonRowData[] = [
+    { id: 'setup', label: t('pixel.cmp_setup_label'), enterprise: t('pixel.cmp_setup_enterprise'), pixel: t('pixel.cmp_setup_pixel'), winner: 'pixel' },
+    { id: 'server', label: t('pixel.cmp_server_label'), enterprise: t('pixel.cmp_server_enterprise'), pixel: t('pixel.cmp_server_pixel'), winner: 'pixel' },
+    { id: 'cost', label: t('pixel.cmp_cost_label'), enterprise: t('pixel.cmp_cost_enterprise'), pixel: t('pixel.cmp_cost_pixel'), winner: 'pixel' },
+    { id: 'payment', label: t('pixel.cmp_payment_label'), enterprise: t('pixel.cmp_payment_enterprise'), pixel: t('pixel.cmp_payment_pixel'), winner: 'pixel' },
+    { id: 'it', label: t('pixel.cmp_it_label'), enterprise: t('pixel.cmp_it_enterprise'), pixel: t('pixel.cmp_it_pixel'), winner: 'pixel' },
+    { id: 'scale', label: t('pixel.cmp_scale_label'), enterprise: t('pixel.cmp_scale_enterprise'), pixel: t('pixel.cmp_scale_pixel'), winner: 'pixel' },
+  ];
+
+  const comparisonRowsEnterprise: ComparisonRowData[] = [
+    { id: 'datamodel', label: t('pixel.cmp_datamodel_label'), enterprise: t('pixel.cmp_datamodel_enterprise'), pixel: t('pixel.cmp_datamodel_pixel'), winner: 'enterprise' },
+    { id: 'etl', label: t('pixel.cmp_etl_label'), enterprise: t('pixel.cmp_etl_enterprise'), pixel: t('pixel.cmp_etl_pixel'), winner: 'enterprise' },
+    { id: 'reporting', label: t('pixel.cmp_reporting_label'), enterprise: t('pixel.cmp_reporting_enterprise'), pixel: t('pixel.cmp_reporting_pixel'), winner: 'enterprise' },
+    { id: 'analytics', label: t('pixel.cmp_analytics_label'), enterprise: t('pixel.cmp_analytics_enterprise'), pixel: t('pixel.cmp_analytics_pixel'), winner: 'enterprise' },
+    { id: 'implementation', label: t('pixel.cmp_implementation_label'), enterprise: t('pixel.cmp_implementation_enterprise'), pixel: t('pixel.cmp_implementation_pixel'), winner: 'enterprise' },
   ];
 
   const dashboards = [
@@ -300,35 +354,46 @@ export async function PixelPage() {
             <div className="grid grid-cols-3 text-sm font-semibold">
               <div className="p-4 border-b border-border/60 text-muted-foreground" />
               <div className="p-4 border-b border-r border-border/60 text-center text-muted-foreground">
-                {t('pixel.cmp_traditional_col')}
+                {t('pixel.cmp_enterprise_col')}
               </div>
               <div className="p-4 border-b border-border/60 text-center bg-primary/5 text-foreground">
                 {t('pixel.cmp_pixel_col')}
               </div>
             </div>
 
-            {/* Table rows */}
-            {comparisonRows.map((row, index) => (
-              <div
-                key={row.id}
-                className={cn(
-                  "grid grid-cols-3 text-sm",
-                  index % 2 === 1 && "bg-muted/20",
-                  index < comparisonRows.length - 1 && "border-b border-border/60",
-                )}
-              >
-                <div className="p-4 font-medium text-foreground/80">{row.label}</div>
-                <div className="p-4 border-r border-border/60 text-center text-muted-foreground">
-                  <span className="text-destructive/70">✗</span>{' '}{row.traditional}
-                </div>
-                <div className="p-4 text-center bg-primary/5">
-                  <span className="inline-flex items-center justify-center gap-1.5 text-foreground/80">
-                    <CheckCircle2 size={14} className="text-green-500 shrink-0" />
-                    {row.pixel}
-                  </span>
-                </div>
-              </div>
+            {/* Core rows — Pixel wins */}
+            {comparisonRowsCore.map((row, index) => (
+              <ComparisonRow key={row.id} row={row} striped={index % 2 === 1} isLast={false} />
             ))}
+
+            {/* Group divider */}
+            <div className="p-3 border-b border-border/60 bg-muted/40 text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              {t('pixel.cmp_group_enterprise')}
+            </div>
+
+            {/* Enterprise-only rows */}
+            {comparisonRowsEnterprise.map((row, index) => (
+              <ComparisonRow
+                key={row.id}
+                row={row}
+                striped={index % 2 === 1}
+                isLast={index === comparisonRowsEnterprise.length - 1}
+              />
+            ))}
+          </div>
+
+          {/* CTA to the full enterprise solution */}
+          <div className="rounded-2xl border border-border/60 bg-primary/5 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-start">
+            <div>
+              <h3 className="text-base font-semibold text-foreground">{t('pixel.cmp_cta_title')}</h3>
+              <p className="text-sm text-muted-foreground mt-1">{t('pixel.cmp_cta_body')}</p>
+            </div>
+            <Link
+              href="/bi-solution"
+              className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-border/60 bg-background px-5 py-2.5 text-sm font-semibold text-foreground hover:border-primary/50 hover:text-primary transition-colors"
+            >
+              {t('pixel.cmp_cta_button')}
+            </Link>
           </div>
         </Reveal>
       </div>
@@ -415,9 +480,12 @@ export async function PixelPage() {
 
       <div className="h-16" />
 
-      <div className="mx-auto max-w-5xl px-6 text-center">
+      <div className="mx-auto max-w-5xl px-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-center">
         <Link href="/business-intelligence" className="text-sm text-muted-foreground hover:text-primary transition-colors">
           {t('common.bi_pillar_link')}
+        </Link>
+        <Link href="/bi-software" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+          {t('common.bi_software_link')}
         </Link>
       </div>
 

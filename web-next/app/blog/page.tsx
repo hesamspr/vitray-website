@@ -1,11 +1,13 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { BlogNavBar } from '@/components/ui/blog-navbar'
 import { BlogPostShell } from '@/components/blog/BlogPostShell'
 import { BlogPageHeader } from '@/components/blog/BlogPageHeader'
 import { PostsGrid } from '@/components/blog/PostsGrid'
 import { PostsSkeleton } from '@/components/blog/PostsSkeleton'
 import { Footer } from '@/components/ui/footer-section'
+import { getLang } from '@/lib/i18n.server'
 
 export const metadata: Metadata = {
   title: 'بلاگ',
@@ -36,7 +38,11 @@ const blogJsonLd = {
   inLanguage: 'fa',
 }
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  // Blog content is Persian-only — there is nothing to show English readers.
+  const lang = await getLang()
+  if (lang === 'en') notFound()
+
   return (
     <BlogPostShell>
       <script

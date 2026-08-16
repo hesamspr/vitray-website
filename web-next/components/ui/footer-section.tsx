@@ -44,7 +44,7 @@ function AparatIcon({ className }: { className?: string }) {
 interface FooterLink { title: string; href: string; icon?: React.ComponentType<{ className?: string }> }
 interface FooterSection { label: string; links: FooterLink[] }
 
-function getFooterLinks(t: (k: string) => string): FooterSection[] {
+function getFooterLinks(t: (k: string) => string, lang: string): FooterSection[] {
   return [
     {
       label: t('footer.solutions'),
@@ -62,7 +62,8 @@ function getFooterLinks(t: (k: string) => string): FooterSection[] {
         { title: t('footer.about'), href: '/about' },
         { title: t('footer.contact'), href: '/contact' },
         { title: t('footer.stories'), href: '/success-stories' },
-        { title: t('footer.blog'), href: '/blog' },
+        // Blog is Persian-only content — omit it for the English UI.
+        ...(lang === 'en' ? [] : [{ title: t('footer.blog'), href: '/blog' }]),
         { title: t('footer.downloads'), href: '/pbi-download' },
       ],
     },
@@ -95,8 +96,8 @@ function BrandLogo() {
 }
 
 export function Footer() {
-  const { t } = useTranslation()
-  const footerLinks = getFooterLinks(t)
+  const { t, lang } = useTranslation()
+  const footerLinks = getFooterLinks(t, lang)
 
   return (
     <footer className="relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center rounded-t-3xl border-t border-border bg-[radial-gradient(35%_128px_at_50%_0%,rgba(255,255,255,0.08),transparent)] px-6 py-12 lg:py-16">
@@ -157,6 +158,12 @@ export function Footer() {
         <p className="text-muted-foreground text-sm">
           © {new Date().getFullYear()} {t('footer.copyright')}
         </p>
+        <a
+          href="/?lite=1"
+          className="mt-2 inline-block text-[11px] text-muted-foreground/40 hover:text-muted-foreground transition-colors"
+        >
+          {t('footer.lite_version')}
+        </a>
       </div>
     </footer>
   )

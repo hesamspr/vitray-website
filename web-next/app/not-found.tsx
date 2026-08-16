@@ -20,7 +20,8 @@ export default async function NotFound() {
     { label: t('nav.home'), href: '/' },
     { label: t('nav.bi'), href: '/bi-solution' },
     { label: t('nav.stories'), href: '/success-stories' },
-    { label: t('nav.blog'), href: '/blog' },
+    // Blog is Persian-only content — omit it for the English UI.
+    ...(lang === 'en' ? [] : [{ label: t('nav.blog'), href: '/blog' }]),
     { label: t('nav.contact'), href: '/contact' },
   ]
 
