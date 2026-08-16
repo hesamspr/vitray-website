@@ -136,10 +136,15 @@ export function stripHtml(html: string): string {
   return decodeHtmlEntities(html.replace(/<[^>]+>/g, '')).trim()
 }
 
+// Blog is Persian-only (English visitors 404 before reaching a post), so the
+// Jalali calendar is always correct here — no need to branch on lang. WordPress
+// stores post dates as Iran-local time with no timezone marker, so it's pinned
+// explicitly rather than trusting the server's OS timezone (which runs UTC).
 export function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString('en-US', {
+  return new Date(dateStr).toLocaleDateString('fa-IR', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'Asia/Tehran',
   })
 }
