@@ -7,8 +7,9 @@ const description =
 
 const titleEn = 'Plex Server & Infrastructure Requirements'
 
-export function generateMetadata(): Promise<Metadata> {
-  return routeMetadata({ fa: title, en: titleEn, description, canonical: '/plexserver' })
+export async function generateMetadata(): Promise<Metadata> {
+  const metadata = await routeMetadata({ fa: title, en: titleEn, description, canonical: '/plexserver' })
+  return { ...metadata, robots: { index: false, follow: false } }
 }
 
 const jsonLd = {

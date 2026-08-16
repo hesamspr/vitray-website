@@ -24,6 +24,7 @@ import {
   Workflow,
   Zap,
   Layers3,
+  Scale,
 } from 'lucide-react';
 import RadialOrbitalTimeline from '@/components/ui/radial-orbital-timeline';
 import { BiConsultationButton } from '@/components/ui/bi-consultation-button';
@@ -114,13 +115,22 @@ export async function BiSolutionPage() {
             <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-md">
               {t('bi.hero_body')}
             </p>
-            <Link
-              href="/business-intelligence"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-5 py-2.5 text-sm text-white/60 hover:text-white hover:border-white/25 hover:bg-white/10 transition-colors"
-            >
-              <BookOpen size={13} />
-              هوش تجاری چیست؟
-            </Link>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/business-intelligence"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-5 py-2.5 text-sm text-white/60 hover:text-white hover:border-white/25 hover:bg-white/10 transition-colors"
+              >
+                <BookOpen size={13} />
+                هوش تجاری چیست؟
+              </Link>
+              <Link
+                href="/bi-software"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-5 py-2.5 text-sm text-white/60 hover:text-white hover:border-white/25 hover:bg-white/10 transition-colors"
+              >
+                <Scale size={13} />
+                کدام نرم‌افزار مناسب شماست؟
+              </Link>
+            </div>
           </Reveal>
         </div>
       </div>

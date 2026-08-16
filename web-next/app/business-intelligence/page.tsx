@@ -20,6 +20,7 @@ import {
   Lightbulb,
   Package,
   Rocket,
+  Scale,
   Search,
   Target,
   TrendingUp,
@@ -646,7 +647,26 @@ export default function BusinessIntelligencePage() {
         </Reveal>
 
         <Reveal y={16} delay={0.1} duration={0.9}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <Link
+              href="/bi-software"
+              className="group flex flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-indigo-950/30 via-background to-background p-8 hover:border-indigo-500/40 transition-colors"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/60 bg-muted/30 mb-5">
+                <Scale size={18} className="text-indigo-400" />
+              </div>
+              <span className="text-xs font-mono text-muted-foreground mb-2">راهنمای انتخاب</span>
+              <h3 className="text-xl font-bold tracking-tight text-foreground mb-3 group-hover:text-indigo-300 transition-colors">
+                کدام نرم‌افزار هوش تجاری؟
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                مقایسه گزینه‌های واقعی هوش تجاری برای کسب‌وکار ایرانی — آن‌پریمیس، ابری یا اکسل.
+              </p>
+              <span className="mt-6 text-sm text-indigo-400 group-hover:text-indigo-300 transition-colors">
+                مشاهده راهنما ←
+              </span>
+            </Link>
+
             <Link
               href="/bi-solution"
               className="group flex flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-indigo-950/30 via-background to-background p-8 hover:border-indigo-500/40 transition-colors"

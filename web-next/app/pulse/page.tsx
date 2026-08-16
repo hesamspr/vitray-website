@@ -418,9 +418,12 @@ export async function PulsePage() {
 
       <div className="h-16" />
 
-      <div className="mx-auto max-w-5xl px-6 text-center">
+      <div className="mx-auto max-w-5xl px-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-center">
         <Link href="/business-intelligence" className="text-sm text-muted-foreground hover:text-primary transition-colors">
           {t('common.bi_pillar_link')}
+        </Link>
+        <Link href="/bi-software" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+          {t('common.bi_software_link')}
         </Link>
       </div>
 
