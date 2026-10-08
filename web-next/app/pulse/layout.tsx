@@ -3,7 +3,7 @@ import { routeMetadata } from '@/lib/i18n.server'
 
 const title = 'پالس — پرتال فارسی Power BI Report Server'
 const description =
-  'پالس رابط کاربری فارسی برای Power BI Report Server است — نصب On-Premise، احراز هویت Active Directory با MFA، مدیریت SSAS Row-Level Security، کاوش خودسرویس داده با pivot table و صدور Excel، و لاگ کامل فعالیت کاربران.'
+  'پالس رابط کاربری فارسی Power BI Report Server است؛ نصب On-Premise، احراز هویت Active Directory با MFA، مدیریت Row-Level Security و لاگ فعالیت کاربران.'
 
 const titleEn = 'Pulse — Persian Portal for Power BI Report Server'
 

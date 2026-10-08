@@ -3,7 +3,7 @@ import { routeMetadata } from '@/lib/i18n.server'
 
 const title = 'داشبورد نگهداری و تعمیرات (نت) با Power BI — ویترای'
 const description =
-  'داشبورد BI نت ویترای: MTTR، MTBF، نرخ تکمیل PM، هزینه تعمیرات به تفکیک دارایی، و نقشه بحرانیت تجهیزات. یکپارچه با CMMS و ERP — از نگهداری واکنشی به نگهداری پیش‌بینانه.'
+  'داشبورد BI نت ویترای: MTTR، MTBF، نرخ تکمیل PM، هزینه تعمیرات و نقشه بحرانیت تجهیزات. یکپارچه با CMMS و ERP؛ از نگهداری واکنشی به پیش‌بینانه.'
 
 const titleEn = 'Maintenance BI Dashboard (CMMS + Power BI)'
 

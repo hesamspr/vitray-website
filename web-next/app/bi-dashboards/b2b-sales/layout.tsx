@@ -3,7 +3,7 @@ import { routeMetadata } from '@/lib/i18n.server'
 
 const title = 'داشبورد فروش B2B با Power BI — ویترای'
 const description =
-  'داشبورد هوش تجاری فروش B2B ویترای: پایش لحظه‌ای pipeline فروش، عملکرد کارشناسان، نرخ تبدیل، ارزش چرخه فروش و رفتار مشتریان کلیدی. یکپارچه با ERP و CRM، قابل سفارشی‌سازی برای هر مدل فروش سازمانی.'
+  'داشبورد BI فروش B2B ویترای: پایش لحظه‌ای pipeline، عملکرد کارشناسان، نرخ تبدیل و ارزش چرخه فروش. یکپارچه با ERP و CRM و قابل سفارشی‌سازی.'
 
 const titleEn = 'B2B Sales BI Dashboard'
 

@@ -3,7 +3,7 @@ import { routeMetadata } from '@/lib/i18n.server'
 
 const title = 'دانلود Power BI و نرم‌افزارهای هوش تجاری مایکروسافت'
 const description =
-  'دانلود مستقیم Power BI Desktop و Power BI Report Server نسخه May 2026، Visual Studio، SQL Server 2022، SSMS، SSAS Tabular و SSIS — همه ابزارهای موردنیاز برای پیاده‌سازی هوش تجاری سازمانی.'
+  'دانلود مستقیم Power BI Desktop و Report Server نسخه May 2026، Visual Studio، SQL Server 2022، SSMS، SSAS Tabular و SSIS برای پیاده‌سازی هوش تجاری.'
 
 const titleEn = 'Power BI & Microsoft BI Tools Download'
 

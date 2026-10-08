@@ -160,6 +160,7 @@ export function Footer() {
         </p>
         <a
           href="/?lite=1"
+          rel="nofollow"
           className="mt-2 inline-block text-[11px] text-muted-foreground/40 hover:text-muted-foreground transition-colors"
         >
           {t('footer.lite_version')}

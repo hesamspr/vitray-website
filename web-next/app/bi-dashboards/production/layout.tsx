@@ -3,7 +3,7 @@ import { routeMetadata } from '@/lib/i18n.server'
 
 const title = 'داشبورد تولید با Power BI — ویترای'
 const description =
-  'داشبورد BI تولید ویترای: OEE (اثربخشی کلی تجهیزات)، نرخ ضایعات، تولید در برابر هدف، تحلیل توقفات برنامه‌ریزی‌نشده، و بهره‌وری اپراتور. یکپارچه با MES، ERP و SCADA.'
+  'داشبورد BI تولید ویترای: OEE، نرخ ضایعات، تولید در برابر هدف، تحلیل توقفات برنامه‌ریزی‌نشده و بهره‌وری اپراتور. یکپارچه با MES، ERP و SCADA.'
 
 const titleEn = 'Production BI Dashboard (OEE + Power BI)'
 

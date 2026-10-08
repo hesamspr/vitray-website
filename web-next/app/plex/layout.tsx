@@ -3,7 +3,7 @@ import { routeMetadata } from '@/lib/i18n.server'
 
 const title = 'پلکس — پلتفرم نو-کد سازمانی'
 const description =
-  'پلکس پلتفرم Low-Code ویترای برای ساخت اپلیکیشن‌های سازمانی است — پورتال مالی، پرسنلی، حقوقی و مشتریان بدون کدنویسی. اتصال به ERP، CRM، SQL و API، و گردش‌کارهای هوشمند با تریگر و اکشن.'
+  'پلکس پلتفرم Low-Code ویترای برای ساخت اپلیکیشن‌های سازمانی بدون کدنویسی؛ اتصال به ERP، CRM، SQL و API و گردش‌کارهای هوشمند با تریگر و اکشن.'
 
 const titleEn = 'Plex — No-Code Enterprise App Builder'
 

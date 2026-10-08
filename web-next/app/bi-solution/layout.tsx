@@ -3,7 +3,7 @@ import { routeMetadata } from '@/lib/i18n.server'
 
 const title = 'راهکار هوش تجاری سازمانی'
 const description =
-  'پیاده‌سازی کامل هوش تجاری با Power BI و SSAS Tabular — از ETL و مدل‌سازی داده تا داشبوردهای مدیریتی C-Level و گزارش‌های عملیاتی روزانه. بیش از ۱۵۰ پروژه موفق در صنایع تولیدی، پخش و هلدینگ.'
+  'پیاده‌سازی کامل هوش تجاری با Power BI و SSAS Tabular؛ از ETL و مدل‌سازی داده تا داشبوردهای مدیریتی. بیش از ۱۵۰ پروژه موفق در صنایع تولیدی و پخش.'
 
 const titleEn = 'Enterprise BI Solution'
 

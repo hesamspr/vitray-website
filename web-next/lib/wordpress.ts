@@ -1,4 +1,19 @@
+import {
+  CONSOLIDATED_POSTS,
+  DATE_ARCHIVE_PATTERN,
+  LEGACY_PAGE_REDIRECTS,
+  SUCCESS_STORY_REDIRECTS,
+  SUCCESS_STORY_SLUGS,
+} from '@/lib/legacy-redirects'
+
 const WP_API = 'https://vitrayco.com/wp-json/wp/v2'
+
+// WordPress responses are cached in Next's data cache (shared across requests)
+// instead of hitting the WP origin on every page view — an uncached WP round
+// trip took 1.5–6s and made every blog URL slow for crawlers.
+const WP_FETCH_OPTIONS: RequestInit = { next: { revalidate: 300, tags: ['wordpress'] } }
+
+const POST_LIST_FIELDS = 'id,slug,date,title,excerpt,featured_media,categories,yoast_head_json,_links'
 
 export interface WPCategory {
   id: number
@@ -45,8 +60,8 @@ export interface WPPostsResponse {
 
 export async function getPosts(page = 1, perPage = 12): Promise<WPPostsResponse> {
   const res = await fetch(
-    `${WP_API}/posts?_embed&per_page=${perPage}&page=${page}&_fields=id,slug,date,title,excerpt,featured_media,categories,yoast_head_json,_links`,
-    { cache: 'no-store' }
+    `${WP_API}/posts?_embed&per_page=${perPage}&page=${page}&_fields=${POST_LIST_FIELDS}`,
+    WP_FETCH_OPTIONS
   )
   if (!res.ok) return { posts: [], totalPages: 0, total: 0 }
   const posts: WPPost[] = await res.json()
@@ -58,7 +73,7 @@ export async function getPosts(page = 1, perPage = 12): Promise<WPPostsResponse>
 export async function getPost(slug: string): Promise<WPPost | null> {
   const res = await fetch(
     `${WP_API}/posts?slug=${encodeURIComponent(slug)}&_embed&_fields=id,slug,date,modified,title,excerpt,content,featured_media,categories,yoast_head_json,_links`,
-    { cache: 'no-store' }
+    WP_FETCH_OPTIONS
   )
   if (!res.ok) return null
   const posts: WPPost[] = await res.json()
@@ -68,10 +83,56 @@ export async function getPost(slug: string): Promise<WPPost | null> {
 export async function getCategories(): Promise<WPCategory[]> {
   const res = await fetch(
     `${WP_API}/categories?per_page=20&_fields=id,name,slug`,
-    { cache: 'no-store' }
+    WP_FETCH_OPTIONS
   )
   if (!res.ok) return []
   return res.json()
+}
+
+// Slugs of every published post, decoded. Used to turn legacy root-level links
+// (`/some-post`) inside post bodies into their canonical `/blog/some-post` URL.
+export async function getPostSlugs(): Promise<Set<string>> {
+  const slugs = new Set<string>()
+  try {
+    for (let page = 1; ; page++) {
+      const res = await fetch(
+        `${WP_API}/posts?per_page=100&page=${page}&_fields=slug`,
+        { next: { revalidate: 3600, tags: ['wordpress'] } }
+      )
+      if (!res.ok) break
+      const posts: Array<{ slug: string }> = await res.json()
+      for (const post of posts) slugs.add(safeDecode(post.slug))
+      if (posts.length < 100) break
+    }
+  } catch {
+    // WordPress unreachable — links just won't be rewritten this time round
+  }
+  return slugs
+}
+
+// Same-category posts first, topped up with the latest posts. Gives every post
+// a handful of contextual incoming links so none is reachable only via the sitemap.
+export async function getRelatedPosts(post: WPPost, limit = 4): Promise<WPPost[]> {
+  const fetchList = async (query: string): Promise<WPPost[]> => {
+    const res = await fetch(
+      `${WP_API}/posts?_embed&per_page=${limit + 1}&exclude=${post.id}&_fields=${POST_LIST_FIELDS}${query}`,
+      WP_FETCH_OPTIONS
+    )
+    return res.ok ? res.json() : []
+  }
+
+  const related = post.categories.length > 0
+    ? await fetchList(`&categories=${post.categories.join(',')}`)
+    : []
+  const picked = related.slice(0, limit)
+  if (picked.length < limit) {
+    const latest = await fetchList('')
+    for (const candidate of latest) {
+      if (picked.length >= limit) break
+      if (!picked.some((p) => p.id === candidate.id)) picked.push(candidate)
+    }
+  }
+  return picked
 }
 
 export function getFeaturedImage(post: WPPost): { src: string; alt: string } | null {
@@ -148,3 +209,125 @@ export function formatDate(dateStr: string): string {
     timeZone: 'Asia/Tehran',
   })
 }
+
+function safeDecode(value: string): string {
+  try {
+    return decodeURIComponent(value)
+  } catch {
+    return value
+  }
+}
+
+const SITE_HOSTS = new Set(['vitrayco.com', 'www.vitrayco.com'])
+
+const consolidatedByPath = new Map<string, string>(
+  CONSOLIDATED_POSTS.flatMap(({ slug, destination }) => [
+    [`/${slug}`, destination] as [string, string],
+    [`/blog/${slug}`, destination] as [string, string],
+  ])
+)
+const legacyByPath = new Map<string, string>(
+  [...SUCCESS_STORY_REDIRECTS, ...LEGACY_PAGE_REDIRECTS].map(({ source, destination }) => [source, destination])
+)
+
+// Resolve an internal path found in post HTML to the URL that actually serves
+// it, so the link doesn't go through next.config.ts redirects (trailing slash,
+// legacy root slug, consolidated post, removed WP page).
+function resolveInternalPath(rawPath: string, postSlugs: Set<string>): string {
+  const decoded = safeDecode(rawPath)
+  const path = decoded.length > 1 ? decoded.replace(/\/+$/, '') : decoded
+
+  if (DATE_ARCHIVE_PATTERN.test(path)) return '/blog'
+  if (path.startsWith('/blog/') && postSlugs.has(path.slice('/blog/'.length))) return path
+
+  const target = consolidatedByPath.get(path) ?? legacyByPath.get(path)
+  if (target) return target
+
+  const rootSlug = path.slice(1)
+  if (rootSlug && !rootSlug.includes('/') && postSlugs.has(rootSlug) && !SUCCESS_STORY_SLUGS.has(rootSlug)) {
+    return `/blog/${rootSlug}`
+  }
+  return path
+}
+
+// Post bodies are authored in WordPress and carry its URL conventions: absolute
+// vitrayco.com links with trailing slashes, root-level post slugs, links to WP
+// pages that were since removed, and `http://` external links. Point all of
+// them at their final URL — redirects waste crawl budget and `http://` links
+// are flagged as mixed content on an HTTPS page.
+export function rewriteContentLinks(html: string, postSlugs: Set<string>): string {
+  return html.replace(/\bhref="([^"]*)"/gi, (match, href: string) => {
+    let url: URL
+    try {
+      url = new URL(href, 'https://vitrayco.com')
+    } catch {
+      return match
+    }
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return match
+
+    if (!SITE_HOSTS.has(url.hostname)) {
+      return url.protocol === 'http:' ? `href="${href.replace(/^http:/i, 'https:')}"` : match
+    }
+    if (/^\/(wp-content|wp-json|wp-admin)\//.test(url.pathname)) return match
+
+    const path = resolveInternalPath(url.pathname, postSlugs)
+    const encodedPath = path.split('/').map(encodeURIComponent).join('/')
+    return `href="${encodedPath}${url.search}${url.hash}"`
+  })
+}
+
+// Images from the old WordPress library that were never migrated and now
+// return 404. Dropping the <img> beats shipping a broken-image box, and stops
+// crawlers hitting dead URLs.
+const MISSING_WP_UPLOADS = new Set([
+  '2021/08/clarizen.jpg',
+  '2021/08/proofhub.png',
+  '2021/08/wrike-1.png',
+  '2021/08/kiss-flow.jpg',
+  '2021/08/photo1630300816.jpeg',
+  '2021/08/trello-o.jpg',
+  '2021/08/monday.com_.jpg',
+  '2021/08/kanban-tools.jpg',
+  '2021/08/asana.png',
+  '2021/08/zoho-project.png',
+  '2021/08/target.jpg',
+  '2021/08/data.jpg',
+  '2021/08/dfgh.jpg',
+  '2021/08/show.jpg',
+  '2021/08/dataa.jpg',
+  '2021/08/holding-to-charts.jpg',
+  '2021/09/luke-chesser-JKUTrJ4vK00-unsplash.jpg',
+  '2021/09/top-shot-three-unrecognizable-business-people-sitting-meeting-looking-charts.jpg',
+  '2021/09/isaac-smith-6EnTPvPPL6I-unsplash.jpg',
+])
+
+export function stripMissingImages(html: string): string {
+  return html.replace(/<img\b[^>]*>/gi, (match) => {
+    const src = match.match(/\ssrc="([^"]+)"/)?.[1]
+    const upload = src?.match(/\/wp-content\/uploads\/(.+)$/)?.[1]
+    return upload && MISSING_WP_UPLOADS.has(upload) ? '' : match
+  })
+}
+
+// The post title already renders the page's single <h1>; WordPress bodies that
+// carry their own <h1> would give crawlers several, so demote them.
+export function demoteContentH1(html: string): string {
+  return html.replace(/<(\/?)h1\b/gi, '<$1h2')
+}
+
+// Search-result snippets are cut off around this length.
+const META_DESCRIPTION_MAX = 155
+// The root title template appends " | ویترای" (9 chars), so keep the page part short
+// enough for ≤60 total.
+const META_TITLE_MAX = 51
+
+export function truncateAtWord(text: string, max: number): string {
+  const clean = text.replace(/\s+/g, ' ').trim()
+  if (clean.length <= max) return clean
+  const cut = clean.slice(0, max - 1)
+  const lastSpace = cut.lastIndexOf(' ')
+  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[\s,;:،؛.\-–—]+$/, '')}…`
+}
+
+export const toMetaDescription = (text: string) => truncateAtWord(stripHtml(text), META_DESCRIPTION_MAX)
+export const toMetaTitle = (text: string) => truncateAtWord(stripHtml(text), META_TITLE_MAX)

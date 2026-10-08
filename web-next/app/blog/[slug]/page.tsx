@@ -2,9 +2,24 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getPost, getFeaturedImage, getPostCategories, formatDate, decodeHtmlEntities, stripHtml, stripLeadingDuplicateImage } from '@/lib/wordpress'
+import {
+  getPost,
+  getPostSlugs,
+  getRelatedPosts,
+  getFeaturedImage,
+  getPostCategories,
+  formatDate,
+  stripHtml,
+  stripLeadingDuplicateImage,
+  stripMissingImages,
+  demoteContentH1,
+  rewriteContentLinks,
+  toMetaTitle,
+  toMetaDescription,
+} from '@/lib/wordpress'
 import { BlogNavBar } from '@/components/ui/blog-navbar'
 import { BlogPostShell } from '@/components/blog/BlogPostShell'
+import { RelatedPosts } from '@/components/blog/RelatedPosts'
 import { CallToAction } from '@/components/ui/cta-3'
 import { Footer } from '@/components/ui/footer-section'
 import { getLang } from '@/lib/i18n.server'
@@ -42,11 +57,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const yoast = post.yoast_head_json
   const image = getFeaturedImage(post) ?? yoast?.og_image?.[0]
-  const title = decodeHtmlEntities(post.title.rendered)
-  const description = yoast?.og_description || stripHtml(post.excerpt.rendered)
+  // Some WP titles carry markup (<strong>) — strip it, then keep the title and
+  // description inside the length search results display.
+  const title = stripHtml(post.title.rendered)
+  const description = toMetaDescription(yoast?.og_description || post.excerpt.rendered)
 
   return {
-    title: yoast?.title || title,
+    title: toMetaTitle(yoast?.title || title),
     description,
     alternates: {
       canonical: `/blog/${slug}`,
@@ -90,8 +107,14 @@ export default async function BlogPostPage({ params }: Props) {
   const image = getFeaturedImage(post)
   const categories = getPostCategories(post)
   const readTime = estimateReadTime(post.content.rendered)
-  const title = decodeHtmlEntities(post.title.rendered)
-  const content = image ? stripLeadingDuplicateImage(post.content.rendered, image.src) : post.content.rendered
+  const title = stripHtml(post.title.rendered)
+  const [postSlugs, relatedPosts] = await Promise.all([getPostSlugs(), getRelatedPosts(post)])
+  const content = rewriteContentLinks(
+    demoteContentH1(
+      stripMissingImages(image ? stripLeadingDuplicateImage(post.content.rendered, image.src) : post.content.rendered)
+    ),
+    postSlugs
+  )
 
   // JSON-LD structured data (Article schema)
   const jsonLd = {
@@ -218,6 +241,8 @@ export default async function BlogPostPage({ params }: Props) {
             prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground"
           dangerouslySetInnerHTML={{ __html: content }}
         />
+
+        <RelatedPosts posts={relatedPosts} />
 
         {/* Back link */}
         <div className="mt-16 pt-8 border-t border-border/40">

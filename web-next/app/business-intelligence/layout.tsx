@@ -6,7 +6,7 @@ export function generateMetadata(): Promise<Metadata> {
     fa: 'هوش تجاری چیست؟ + ۸ نمونه داشبورد مدیریتی',
     en: 'What is Business Intelligence? + 8 Management Dashboard Examples',
     description:
-      'هوش تجاری (BI) فرآیندی مبتنی بر فناوری برای تحلیل داده و ارائه بینش‌های عملی است. تعریف BI، مراحل پیاده‌سازی، مزایا و ۸ نمونه داشبورد مدیریتی اجرا‌شده توسط تیم ویترای را بشناسید.',
+      'هوش تجاری (BI) فرآیندی مبتنی بر فناوری برای تحلیل داده و ارائه بینش عملی است. تعریف BI، مراحل پیاده‌سازی، مزایا و ۸ نمونه داشبورد مدیریتی ویترای.',
     canonical: '/business-intelligence',
   })
 }
