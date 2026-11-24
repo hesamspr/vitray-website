@@ -40,7 +40,7 @@ function Callout({ title, body, className, lineSide }: { title: string; body: st
         aria-hidden="true"
         className={cn('absolute top-3 hidden h-px w-10 bg-violet-400/70 lg:block', lineSide === 'end' ? '-end-12' : '-start-12')}
       />
-      <b className="mb-0.5 block font-[Anjoman] text-[15px] font-bold text-white">{title}</b>
+      <b className="mb-0.5 block font-display text-[15px] font-bold text-white">{title}</b>
       {body}
     </div>
   );
@@ -51,7 +51,7 @@ function Chapter({ num, title, body, flip, children, id }: { num: string; title:
     <section id={id} className="border-t border-white/[0.07] py-28 md:py-36">
       <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] items-center gap-14 px-6 md:grid-cols-[5fr_6fr] md:gap-24 md:px-8">
         <Reveal className={cn(flip && 'md:order-2')}>
-          <div className="mb-5 flex items-center gap-3.5 font-[Anjoman] text-xl text-violet-400">
+          <div className="mb-5 flex items-center gap-3.5 font-display text-xl text-violet-400">
             {num}
             <span className="h-px w-12 bg-violet-400/60" />
           </div>
@@ -87,7 +87,7 @@ export async function DaanaPage() {
       {/* 2 — The problem, in one sentence */}
       <section className="py-36 md:py-52">
         <Reveal className="mx-auto max-w-6xl px-6 md:px-8">
-          <p className="max-w-4xl font-[Anjoman] text-3xl font-bold !leading-[1.45] text-slate-600 sm:text-4xl md:text-[54px]">
+          <p className="max-w-4xl font-display text-3xl font-bold !leading-[1.45] text-slate-600 sm:text-4xl md:text-[54px]">
             {t('daana.statement_dim')} <span className="text-white">{t('daana.statement_em')}</span>
           </p>
         </Reveal>
@@ -181,7 +181,7 @@ export async function DaanaPage() {
 
       <Chapter num={t('daana.ch3_num')} title={t('daana.ch3_title')} body={t('daana.ch3_body')}>
         <div className="w-full max-w-md">
-          <p className="font-[Anjoman] text-5xl font-bold leading-none text-white md:text-6xl">{t('daana.ch3_when')}</p>
+          <p className="font-display text-5xl font-bold leading-none text-white md:text-6xl">{t('daana.ch3_when')}</p>
           <p className="mt-3 text-base text-muted-foreground">{t('daana.ch3_ready')}</p>
           <div className="mt-10 rounded-2xl border border-[#FFBE7B]/35 px-5 py-4 text-[13.5px] text-white/80">
             <p className="mb-1.5 text-xs text-[#FFBE7B]">{t('daana.ch3_pending')}</p>

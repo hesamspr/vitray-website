@@ -12,10 +12,11 @@ const staticRoutes: Array<{ path: string; priority: number; changeFrequency: Met
   { path: '/business-intelligence', priority: 1.0, changeFrequency: 'monthly' },
   { path: '/bi-software', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/bi-solution', priority: 0.9, changeFrequency: 'monthly' },
-  // { path: '/daana', priority: 0.9, changeFrequency: 'monthly' },
+  { path: '/daana', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/pbi-download', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/plex', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/pixel', priority: 0.8, changeFrequency: 'monthly' },
+  // Pixel is hidden for now (route and code kept) — restore this entry when it returns.
+  // { path: '/pixel', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/pulse', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/blog', priority: 0.7, changeFrequency: 'daily' },
   { path: '/bi-dashboards', priority: 0.8, changeFrequency: 'monthly' },

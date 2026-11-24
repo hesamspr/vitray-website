@@ -14,8 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
       : 'ویترای | راهکارهای هوش تجاری و داشبوردهای مدیریتی'
   const description =
     lang === 'en'
-      ? 'Vitray delivers business intelligence solutions, management dashboards, and the Plex, Pixel, and Pulse products — turning data into decisions, from data modeling to operational dashboards.'
-      : 'ویترای ارائه‌دهنده راهکارهای هوش تجاری، داشبوردهای مدیریتی و محصولات پلکس، پیکسل و پالس؛ از مدل‌سازی داده تا داشبوردهای عملیاتی، داده را به تصمیم تبدیل می‌کنیم.'
+      ? 'Vitray delivers business intelligence solutions, management dashboards, and the Plex, Pulse, and Daana products — turning data into decisions, from data modeling to operational dashboards.'
+      : 'ویترای ارائه‌دهنده راهکارهای هوش تجاری، داشبوردهای مدیریتی و محصولات پلکس، پالس و دانا؛ از مدل‌سازی داده تا داشبوردهای عملیاتی، داده را به تصمیم تبدیل می‌کنیم.'
   const ogDescription =
     lang === 'en'
       ? 'Vitray business intelligence solutions and management dashboards that turn data into decisions.'
@@ -97,7 +97,7 @@ const siteJsonLd = {
     },
     image: 'https://vitrayco.com/Vitray.png',
     description:
-      'ویترای ارائه‌دهنده راهکارهای هوش تجاری سازمانی — داشبوردهای مدیریتی Power BI، مدل SSAS Tabular، پلتفرم‌های Plex، Pixel و Pulse، و فضای کاری هوش مصنوعی Daana.',
+      'ویترای ارائه‌دهنده راهکارهای هوش تجاری سازمانی — داشبوردهای مدیریتی Power BI، مدل SSAS Tabular، پلتفرم‌های Plex و Pulse، و فضای کاری هوش مصنوعی Daana.',
     foundingDate: '2019',
     telephone: '+98-21-2286-5619',
     email: 'hello@vitrayco.com',
@@ -124,7 +124,7 @@ const siteJsonLd = {
       itemListElement: [
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'راهکار هوش تجاری', url: 'https://vitrayco.com/bi-solution' } },
         { '@type': 'Offer', itemOffered: { '@type': 'SoftwareApplication', name: 'Plex', url: 'https://vitrayco.com/plex' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'SoftwareApplication', name: 'Pixel', url: 'https://vitrayco.com/pixel' } },
+        // Pixel hidden for now: { '@type': 'Offer', itemOffered: { '@type': 'SoftwareApplication', name: 'Pixel', url: 'https://vitrayco.com/pixel' } },
         { '@type': 'Offer', itemOffered: { '@type': 'SoftwareApplication', name: 'Pulse', url: 'https://vitrayco.com/pulse' } },
         { '@type': 'Offer', itemOffered: { '@type': 'SoftwareApplication', name: 'Daana', url: 'https://vitrayco.com/daana' } },
       ],

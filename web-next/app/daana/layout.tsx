@@ -7,11 +7,8 @@ const description =
 
 const titleEn = 'Daana — Enterprise AI Workspace'
 
-// Pre-launch: reachable at /daana but kept out of search results, nav and sitemap
-// until the public launch is confirmed. Remove `robots` and add the sitemap entry at launch.
 export async function generateMetadata(): Promise<Metadata> {
-  const meta = await routeMetadata({ fa: title, en: titleEn, description, canonical: '/daana' })
-  return { ...meta, robots: { index: false, follow: false } }
+  return routeMetadata({ fa: title, en: titleEn, description, canonical: '/daana' })
 }
 
 const faq = [

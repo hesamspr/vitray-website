@@ -3,7 +3,7 @@
 import type { ComponentProps, ReactNode } from 'react'
 import { m, useReducedMotion } from 'motion/react'
 import Link from 'next/link'
-import { Phone, MapPin, Mail, Sparkles } from 'lucide-react'
+import { Phone, MapPin, Mail } from 'lucide-react'
 
 const LinkedinIcon = ({ className }: { className?: string }) => (
   <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -26,12 +26,15 @@ const YoutubeIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 import { useTranslation } from '@/hooks/useTranslation'
+import { DaanaMark } from '@/components/ui/daana-mark'
 
 const BiFooterIcon = ({ className }: { className?: string }) => <img src="/fav.png" alt="BI" className={className} />
 const PlexFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/plex%20fav%20white.png" alt="Plex" className={className} />
+// Pixel is hidden for now; kept for when it returns.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PixelFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pixel%20Fav%20W.png" alt="Pixel" className={className} />
 const PulseFooterIcon = ({ className }: { className?: string }) => <img src="/product%20logos/Pulse%20Fav%20W.png" alt="Pulse" className={className} />
-const DaanaFooterIcon = ({ className }: { className?: string }) => <Sparkles className={className} />
+const DaanaFooterIcon = ({ className }: { className?: string }) => <DaanaMark className={className} />
 
 function AparatIcon({ className }: { className?: string }) {
   return (
@@ -49,11 +52,12 @@ function getFooterLinks(t: (k: string) => string, lang: string): FooterSection[]
     {
       label: t('footer.solutions'),
       links: [
-        // { title: t('footer.daana'), href: '/daana', icon: DaanaFooterIcon },
         { title: t('footer.bi'), href: '/bi-solution', icon: BiFooterIcon },
         { title: t('footer.plex'), href: '/plex', icon: PlexFooterIcon },
         { title: t('footer.pulse'), href: '/pulse', icon: PulseFooterIcon },
-        { title: t('footer.pixel'), href: '/pixel', icon: PixelFooterIcon },
+        { title: t('footer.daana'), href: '/daana', icon: DaanaFooterIcon },
+        // Pixel is hidden for now; restore to list it again.
+        // { title: t('footer.pixel'), href: '/pixel', icon: PixelFooterIcon },
       ],
     },
     {

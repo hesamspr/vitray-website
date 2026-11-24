@@ -1,9 +1,5 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import { PremiumHero } from '@/components/ui/hero'
-import { Button } from '@/components/ui/button'
-import { GlowCard } from '@/components/ui/spotlight-card'
-import { BarChart2, Briefcase, Database, Lightbulb, Sparkles, Target, TrendingUp } from 'lucide-react'
+import { BarChart2, Briefcase, Database, Lightbulb, Target, TrendingUp } from 'lucide-react'
 import { LogoCarousel } from '@/components/ui/logo-carousel'
 import { SiteNav } from '@/components/ui/site-nav'
 import { CallToAction } from '@/components/ui/cta-3'
@@ -14,6 +10,7 @@ import { CategoryList, type Category } from '@/components/ui/category-list'
 import { cn } from '@/lib/utils'
 import { getTranslations } from '@/lib/i18n.server'
 import { DataWorlds } from '@/components/ui/data-worlds'
+import { SolutionsPuzzle } from '@/components/ui/solutions-puzzle'
 
 // Brand names are intentionally kept in Persian — proper nouns, not translated
 const customerSuccessCards = [
@@ -160,6 +157,13 @@ export default async function HomePage() {
 
         <div className="h-24" />
 
+        <section id="products" className="scroll-mt-0">
+          <SolutionsPuzzle />
+        </section>
+
+        {/* Previous product cards (BI, Plex, Pulse, Pixel) — replaced by the puzzle above.
+            Pixel is hidden site-wide for now; this block is kept for when it returns
+            (restore the Image, Link, Button and GlowCard imports with it).
         <section id="products" className="space-y-8">
           <Reveal className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center space-y-4">
             <div className="border border-border/60 py-1 px-4 rounded-lg text-sm text-muted-foreground w-fit">
@@ -174,31 +178,6 @@ export default async function HomePage() {
           </Reveal>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-            {/* DAANA — temporarily hidden until product is ready
-            <GlowCard customSize glowColor="cyan" className="h-[360px] w-full">
-              <div className="flex items-start justify-between">
-                <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-200">
-                  <Sparkles size={12} />
-                  {t('home.daana_badge')}
-                </div>
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 text-black">
-                  <Sparkles size={16} />
-                </span>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-xl">{t('home.daana_title')}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {t('home.daana_body')}
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href="/daana">{t('home.learn_more')}</Link>
-                  </Button>
-                </div>
-              </div>
-            </GlowCard>
-            */}
-
             <GlowCard customSize glowColor="purple" className="h-[360px] w-full md:col-span-2">
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-3 py-1 text-xs text-muted-foreground">
@@ -281,6 +260,7 @@ export default async function HomePage() {
 
           </div>
         </section>
+        */}
 
         <div className="h-24" />
 

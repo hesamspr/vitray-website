@@ -23,6 +23,10 @@ export default {
           "15%, 85%": { opacity: "1" },
           "100%": { insetInlineStart: "100%", opacity: "0" },
         },
+        "puzzle-pulse": {
+          "0%, 40%, 100%": { opacity: "0" },
+          "12%": { opacity: "0.75" },
+        },
         "daana-packet-y": {
           "0%": { top: "0%", opacity: "0" },
           "15%, 85%": { opacity: "1" },
@@ -32,6 +36,7 @@ export default {
       animation: {
         shine: "shine var(--duration) infinite linear",
         "daana-flow": "daana-flow 1s linear infinite",
+        "puzzle-pulse": "puzzle-pulse 3.6s ease-in-out infinite",
         "daana-packet-x": "daana-packet-x 2.4s cubic-bezier(0.4,0,0.2,1) infinite",
         "daana-packet-y": "daana-packet-y 2.4s cubic-bezier(0.4,0,0.2,1) infinite",
       },
