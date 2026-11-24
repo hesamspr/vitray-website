@@ -9,6 +9,7 @@ import {
   ChevronDown,
   Cloud,
   FileSpreadsheet,
+  MessageSquareText,
   MonitorSmartphone,
   Server,
   ShieldCheck,
@@ -23,7 +24,7 @@ const articleJsonLd = {
     'بهترین نرم‌افزار و پلتفرم هوش تجاری برای کسب‌وکار شما کدام است؟ راهنمای عملی انتخاب بین پیاده‌سازی آن‌پریمیس، هوش تجاری ابری و ابزارهای سلف‌سرویس — مخصوص واقعیت بازار ایران.',
   inLanguage: 'fa',
   datePublished: '2026-07-29',
-  dateModified: '2026-07-29',
+  dateModified: '2026-11-24',
   image: {
     '@type': 'ImageObject',
     url: 'https://vitrayco.com/opengraph-image.png',
@@ -73,8 +74,9 @@ const paths = [
     title: 'هوش تجاری ابری (بدون سرور و تیم IT)',
     body: 'چون سرویس‌های ابری بین‌المللی مثل Power BI Service، Tableau Cloud یا Qlik Cloud به دلیل محدودیت‌های پرداخت و صورتحساب برای کسب‌وکارهای ایرانی عملاً در دسترس نیستند، تنها گزینه واقعی «ابری» یک پلتفرم هوش تجاری است که به‌صورت داخلی میزبانی و پشتیبانی می‌شود.',
     fit: 'مناسب برای: کسب‌وکارهای کوچک و متوسط بدون زیرساخت یا تیم فنی',
-    href: '/pixel',
-    cta: 'پیکسل — BI ابری ویترای',
+    // Pixel (Vitray's cloud BI) is hidden for now: href: '/pixel', cta: 'پیکسل — BI ابری ویترای'
+    href: null,
+    cta: null,
   },
   {
     icon: FileSpreadsheet,
@@ -88,12 +90,12 @@ const paths = [
 ]
 
 const comparisonRows = [
-  { label: 'مدل استقرار', prs: 'آن‌پریمیس (سرور خودتان)', pixel: 'ابری (میزبانی داخلی)', excel: 'محلی، بدون سرور' },
-  { label: 'نیاز به تیم IT', prs: 'بله، برای نصب و نگهداری', pixel: 'خیر', excel: 'خیر' },
-  { label: 'زمان راه‌اندازی', prs: 'چند هفته', pixel: 'چند ساعت تا چند روز', excel: '—' },
-  { label: 'محل داده', prs: 'کاملاً داخل سازمان', pixel: 'سرور داخلی ویترای', excel: 'فایل‌های محلی پراکنده' },
-  { label: 'مقیاس‌پذیری', prs: 'بالا — چند منبع داده، حجم زیاد', pixel: 'متوسط — داشبوردهای آماده', excel: 'پایین' },
-  { label: 'مناسب برای', prs: 'سازمان بزرگ، داده حساس', pixel: 'SMB، شروع سریع', excel: 'تیم‌های خیلی کوچک' },
+  { label: 'مدل استقرار', prs: 'آن‌پریمیس (سرور خودتان)', cloud: 'ابری (میزبانی داخلی)', excel: 'محلی، بدون سرور' },
+  { label: 'نیاز به تیم IT', prs: 'بله، برای نصب و نگهداری', cloud: 'خیر', excel: 'خیر' },
+  { label: 'زمان راه‌اندازی', prs: 'چند هفته', cloud: 'چند ساعت تا چند روز', excel: '—' },
+  { label: 'محل داده', prs: 'کاملاً داخل سازمان', cloud: 'سرور ارائه‌دهندهٔ داخلی', excel: 'فایل‌های محلی پراکنده' },
+  { label: 'مقیاس‌پذیری', prs: 'بالا — چند منبع داده، حجم زیاد', cloud: 'متوسط — داشبوردهای آماده', excel: 'پایین' },
+  { label: 'مناسب برای', prs: 'سازمان بزرگ، داده حساس', cloud: 'SMB، شروع سریع', excel: 'تیم‌های خیلی کوچک' },
 ]
 
 const faqs = [
@@ -103,7 +105,7 @@ const faqs = [
   },
   {
     q: 'بهترین نرم‌افزار هوش تجاری برای کسب‌وکارهای کوچک در ایران چیست؟',
-    a: 'برای کسب‌وکارهای کوچک و متوسط بدون تیم فنی یا زیرساخت سرور، یک پلتفرم هوش تجاری ابری با داشبوردهای آماده (مثل پیکسل ویترای) معمولاً سریع‌تر و مقرون‌به‌صرفه‌تر از پیاده‌سازی کامل آن‌پریمیس است.',
+    a: 'برای کسب‌وکارهای کوچک و متوسط بدون تیم فنی یا زیرساخت سرور، یک پلتفرم هوش تجاری ابری با داشبوردهای آماده معمولاً سریع‌تر و مقرون‌به‌صرفه‌تر از پیاده‌سازی کامل آن‌پریمیس است.',
   },
   {
     q: 'تفاوت هوش تجاری آن‌پریمیس و ابری چیست؟',
@@ -260,7 +262,7 @@ export default function BiSoftwarePage() {
               <tr className="border-b border-border/60 bg-muted/20">
                 <th className="px-5 py-4 text-right font-bold text-muted-foreground">معیار</th>
                 <th className="px-5 py-4 text-right font-bold text-foreground">آن‌پریمیس (BI Solution)</th>
-                <th className="px-5 py-4 text-right font-bold text-foreground">ابری (Pixel)</th>
+                <th className="px-5 py-4 text-right font-bold text-foreground">ابری (میزبانی داخلی)</th>
                 <th className="px-5 py-4 text-right font-bold text-muted-foreground">اکسل</th>
               </tr>
             </thead>
@@ -269,7 +271,7 @@ export default function BiSoftwarePage() {
                 <tr key={row.label} className={i % 2 === 0 ? 'bg-transparent' : 'bg-muted/10'}>
                   <td className="px-5 py-4 font-medium text-muted-foreground whitespace-nowrap">{row.label}</td>
                   <td className="px-5 py-4 text-foreground">{row.prs}</td>
-                  <td className="px-5 py-4 text-foreground">{row.pixel}</td>
+                  <td className="px-5 py-4 text-foreground">{row.cloud}</td>
                   <td className="px-5 py-4 text-muted-foreground">{row.excel}</td>
                 </tr>
               ))}
@@ -377,23 +379,6 @@ export default function BiSoftwarePage() {
             </Link>
 
             <Link
-              href="/pixel"
-              className="group flex flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-indigo-950/30 via-background to-background p-7 hover:border-indigo-500/40 transition-colors"
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/60 bg-muted/30 mb-5">
-                <Cloud size={18} className="text-indigo-400" />
-              </div>
-              <span className="text-xs font-mono text-muted-foreground mb-2">ابری</span>
-              <h3 className="text-lg font-bold tracking-tight text-foreground mb-2 group-hover:text-indigo-300 transition-colors">
-                Pixel
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed flex-1">
-                هوش تجاری ابری، بدون سرور و تیم IT — برای کسب‌وکارهای کوچک و متوسط.
-              </p>
-              <span className="mt-5 text-sm text-indigo-400 group-hover:text-indigo-300 transition-colors">مشاهده پیکسل ←</span>
-            </Link>
-
-            <Link
               href="/pulse"
               className="group flex flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-indigo-950/30 via-background to-background p-7 hover:border-indigo-500/40 transition-colors"
             >
@@ -409,6 +394,42 @@ export default function BiSoftwarePage() {
               </p>
               <span className="mt-5 text-sm text-indigo-400 group-hover:text-indigo-300 transition-colors">مشاهده پالس ←</span>
             </Link>
+
+            <Link
+              href="/daana"
+              className="group flex flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-indigo-950/30 via-background to-background p-7 hover:border-indigo-500/40 transition-colors"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/60 bg-muted/30 mb-5">
+                <MessageSquareText size={18} className="text-indigo-400" />
+              </div>
+              <span className="text-xs font-mono text-muted-foreground mb-2">هوش مصنوعی</span>
+              <h3 className="text-lg font-bold tracking-tight text-foreground mb-2 group-hover:text-indigo-300 transition-colors">
+                Daana
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                پرسش فارسی از مدل‌های دادهٔ SSAS، بدون SQL؛ پاسخ با نمودار و استناد به منبع.
+              </p>
+              <span className="mt-5 text-sm text-indigo-400 group-hover:text-indigo-300 transition-colors">مشاهده دانا ←</span>
+            </Link>
+
+            {/* Pixel is hidden for now; restore this card when it returns.
+            <Link
+              href="/pixel"
+              className="group flex flex-col rounded-2xl border border-border/60 bg-gradient-to-br from-indigo-950/30 via-background to-background p-7 hover:border-indigo-500/40 transition-colors"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/60 bg-muted/30 mb-5">
+                <Cloud size={18} className="text-indigo-400" />
+              </div>
+              <span className="text-xs font-mono text-muted-foreground mb-2">ابری</span>
+              <h3 className="text-lg font-bold tracking-tight text-foreground mb-2 group-hover:text-indigo-300 transition-colors">
+                Pixel
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                هوش تجاری ابری، بدون سرور و تیم IT — برای کسب‌وکارهای کوچک و متوسط.
+              </p>
+              <span className="mt-5 text-sm text-indigo-400 group-hover:text-indigo-300 transition-colors">مشاهده پیکسل ←</span>
+            </Link>
+            */}
           </div>
         </Reveal>
       </div>

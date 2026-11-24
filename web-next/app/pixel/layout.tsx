@@ -7,8 +7,11 @@ const description =
 
 const titleEn = 'Pixel — Cloud BI for Small and Mid-Sized Businesses'
 
-export function generateMetadata(): Promise<Metadata> {
-  return routeMetadata({ fa: title, en: titleEn, description, canonical: '/pixel' })
+// Pixel is hidden site-wide for now: the page still works for direct links but stays out of
+// search results. Remove `robots` (and restore nav/footer/sitemap entries) when it returns.
+export async function generateMetadata(): Promise<Metadata> {
+  const meta = await routeMetadata({ fa: title, en: titleEn, description, canonical: '/pixel' })
+  return { ...meta, robots: { index: false, follow: true } }
 }
 
 const jsonLd = {
