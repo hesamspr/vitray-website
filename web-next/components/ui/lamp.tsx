@@ -26,6 +26,13 @@ const colorMap = {
     inner: 'bg-purple-700',
     line: 'bg-purple-700',
   },
+  violet: {
+    conic: 'from-violet-700 via-transparent to-transparent',
+    conicRight: 'from-transparent via-transparent to-violet-700',
+    glow: 'bg-violet-700',
+    inner: 'bg-violet-600',
+    line: 'bg-violet-600',
+  },
   cyan: {
     conic: 'from-cyan-700 via-transparent to-transparent',
     conicRight: 'from-transparent via-transparent to-cyan-700',

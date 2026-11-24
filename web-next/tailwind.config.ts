@@ -15,9 +15,25 @@ export default {
           "50%": { backgroundPosition: "100% 100%" },
           "100%": { backgroundPosition: "0% 0%" },
         },
+        "daana-flow": {
+          to: { strokeDashoffset: "-16" },
+        },
+        "daana-packet-x": {
+          "0%": { insetInlineStart: "0%", opacity: "0" },
+          "15%, 85%": { opacity: "1" },
+          "100%": { insetInlineStart: "100%", opacity: "0" },
+        },
+        "daana-packet-y": {
+          "0%": { top: "0%", opacity: "0" },
+          "15%, 85%": { opacity: "1" },
+          "100%": { top: "100%", opacity: "0" },
+        },
       },
       animation: {
         shine: "shine var(--duration) infinite linear",
+        "daana-flow": "daana-flow 1s linear infinite",
+        "daana-packet-x": "daana-packet-x 2.4s cubic-bezier(0.4,0,0.2,1) infinite",
+        "daana-packet-y": "daana-packet-y 2.4s cubic-bezier(0.4,0,0.2,1) infinite",
       },
       colors: {
         border: "hsl(var(--border))",

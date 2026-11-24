@@ -2,81 +2,77 @@
 
 import { useEffect, useState } from 'react'
 import { m, AnimatePresence } from 'motion/react'
-import { Sparkles, ArrowUp } from 'lucide-react'
+import { ArrowUp, ArrowDown } from 'lucide-react'
 import { LazyMeshGradient as MeshGradient, ShaderVisibilityGate } from '@/components/ui/lazy-shaders'
+import { DaanaMark } from '@/components/ui/daana-mark'
 import { useTranslation } from '@/hooks/useTranslation'
 
 const PROMPT_KEYS = ['daana_hero.prompt1', 'daana_hero.prompt2', 'daana_hero.prompt3', 'daana_hero.prompt4']
+const EASE = [0.16, 1, 0.3, 1] as const
 
 export function DaanaHero() {
   const { t } = useTranslation()
   const [promptIndex, setPromptIndex] = useState(0)
 
   useEffect(() => {
-    const id = setInterval(() => setPromptIndex((i) => (i + 1) % PROMPT_KEYS.length), 3200)
+    const id = setInterval(() => setPromptIndex((i) => (i + 1) % PROMPT_KEYS.length), 3600)
     return () => clearInterval(id)
   }, [])
 
   return (
-    <div
-      className="relative w-full overflow-hidden"
-      style={{ height: '100vh', minHeight: 560 }}
-    >
+    <div className="relative w-full overflow-hidden" style={{ height: '100vh', minHeight: 640 }}>
       <ShaderVisibilityGate
         fallback={
           <div
-            className="absolute inset-0 w-full h-full"
-            style={{ background: 'linear-gradient(135deg, #000000, #164e63, #0f172a, #0e7490)' }}
+            className="absolute inset-0 h-full w-full"
+            style={{ background: 'linear-gradient(160deg, #000000, #2e1065 45%, #0a0618)' }}
           />
         }
       >
         <MeshGradient
-          className="absolute inset-0 w-full h-full"
-          colors={['#000000', '#0e7490', '#164e63', '#0f172a', '#06b6d4']}
+          className="absolute inset-0 h-full w-full"
+          colors={['#000000', '#4c1d95', '#2e1065', '#0f0a1f', '#7c3aed']}
           speed={0.3}
         />
         <MeshGradient
-          className="absolute inset-0 w-full h-full opacity-40"
-          colors={['#000000', '#ffffff', '#22d3ee', '#0891b2']}
+          className="absolute inset-0 h-full w-full opacity-30"
+          colors={['#000000', '#ffffff', '#a78bfa', '#6d28d9']}
           speed={0.2}
         />
       </ShaderVisibilityGate>
 
-
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-0 right-0 h-48 z-10"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-56"
         style={{ background: 'linear-gradient(to bottom, transparent, hsl(var(--background)))' }}
       />
 
-      <div className="absolute inset-0 flex items-center justify-center z-20 px-6">
+      <div className="absolute inset-0 z-20 flex items-center justify-center px-6">
         <m.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center max-w-[680px] text-center space-y-5"
+          transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
+          className="flex w-full max-w-xl flex-col items-center text-center"
         >
-          <div className="inline-flex items-center gap-2 border border-white/20 bg-white/5 backdrop-blur-sm py-1 px-4 rounded-lg text-sm text-white/70 w-fit">
-            <Sparkles size={14} className="text-cyan-300" />
-            {t('daana_hero.badge')}
+          <div className="mb-8 inline-flex w-fit items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-4 py-1 text-sm text-white/70 backdrop-blur-sm">
+            <DaanaMark className="h-3.5 w-3.5" />
+            {t('daana_hero.by')}
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-white leading-tight">
+          <h1 className="text-7xl font-bold leading-none tracking-tighter text-white md:text-8xl">
             {t('daana_hero.title')}
           </h1>
-          <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-md">
-            {t('daana_hero.body')}
-          </p>
+          <p className="mt-5 text-xl text-white/85 md:text-2xl">{t('daana_hero.tagline')}</p>
 
-          {/* Mock prompt bar cycling through example questions */}
+          {/* Prompt bar cycling through sample questions */}
           <m.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-md"
+            transition={{ duration: 0.9, delay: 0.6, ease: EASE }}
+            className="mt-14 w-full"
+            aria-hidden="true"
           >
-            <div className="flex items-center gap-3 rounded-2xl border border-white/15 bg-black/30 backdrop-blur-md px-4 py-3 shadow-[0_0_40px_-12px_rgba(34,211,238,0.45)]">
-              <Sparkles size={16} className="text-cyan-300/80 shrink-0" />
-              <div className="relative flex-1 h-5 overflow-hidden text-start">
+            <div className="flex items-center gap-3 rounded-2xl border border-white/15 bg-black/40 px-5 py-4 shadow-[0_0_80px_-20px_rgba(139,92,246,0.8)] backdrop-blur-md">
+              <div className="relative h-6 flex-1 overflow-hidden text-start">
                 <AnimatePresence mode="wait">
                   <m.span
                     key={promptIndex}
@@ -84,17 +80,27 @@ export function DaanaHero() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.35, ease: 'easeOut' }}
-                    className="absolute inset-0 text-sm text-white/55 truncate"
+                    className="absolute inset-0 truncate text-[15px] text-white/70"
                   >
                     {t(PROMPT_KEYS[promptIndex])}
                   </m.span>
                 </AnimatePresence>
               </div>
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-cyan-400/90 text-black shrink-0">
-                <ArrowUp size={14} />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-black">
+                <ArrowUp size={15} />
               </span>
             </div>
           </m.div>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-7">
+            <a
+              href="#how"
+              className="inline-flex items-center gap-1.5 border-b border-white/25 pb-0.5 text-sm text-white/70 transition-colors hover:text-white"
+            >
+              {t('daana_hero.how')}
+              <ArrowDown size={14} />
+            </a>
+          </div>
         </m.div>
       </div>
     </div>
